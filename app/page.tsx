@@ -1174,15 +1174,18 @@ export default function HomePage() {
             </div>
             {/* Timeline rows */}
             {TIMELINE.map((row, i) => (
-              <div
+              <Link
                 key={row.year}
+                href={`/studieplan?nivå=${row.nivå}`}
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '1fr 1fr 1fr',
+                  gridTemplateColumns: '1fr 1fr 1fr auto',
                   padding: '20px 32px',
                   borderBottom: i < TIMELINE.length - 1 ? '1px solid rgba(201,168,76,0.08)' : 'none',
                   alignItems: 'center',
                   transition: 'background 0.2s ease',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
                 }}
                 onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = 'rgba(201,168,76,0.04)')}
                 onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = 'transparent')}
@@ -1225,7 +1228,32 @@ export default function HomePage() {
                 }}>
                   {row.semesters}
                 </div>
-              </div>
+                <span
+                  className="hidden sm:block"
+                  style={{
+                    fontFamily: 'var(--font-cinzel)',
+                    fontSize: '0.55rem',
+                    letterSpacing: '0.16em',
+                    textTransform: 'uppercase',
+                    color: '#C9A84C',
+                    border: '1px solid rgba(201,168,76,0.3)',
+                    padding: '6px 14px',
+                    borderRadius: '4px',
+                    whiteSpace: 'nowrap',
+                    transition: 'border-color 0.2s, background 0.2s',
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor = '#C9A84C'
+                    ;(e.currentTarget as HTMLElement).style.background = 'rgba(201,168,76,0.08)'
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(201,168,76,0.3)'
+                    ;(e.currentTarget as HTMLElement).style.background = 'transparent'
+                  }}
+                >
+                  Se studieplan →
+                </span>
+              </Link>
             ))}
           </div>
 
