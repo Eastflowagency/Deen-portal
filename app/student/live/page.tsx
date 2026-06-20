@@ -19,7 +19,6 @@ const MOCK_SESSION: LiveSession = {
   startTime: '19:00',
   date: 'Mandag 22. juni 2026',
   description: 'I denne leksjonen fortsetter vi studiet av de guddommelige attributtene slik de er beskrevet i Koranen og Sunnah, med fokus på sifat dhatiyya og fi\'liyya.',
-  isLive: true,
 }
 
 // ── Portal shell ─────────────────────────────────────────────────────────────
@@ -41,7 +40,7 @@ function PortalLiveUI({ firstName, onSignOut }: { firstName: string; onSignOut: 
     }
   }
 
-  // Poll live status every 15s to get current meeting URL from admin
+  // Poll live status every 5s
   useEffect(() => {
     async function checkStatus() {
       try {
