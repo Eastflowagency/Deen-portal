@@ -141,7 +141,7 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
     <div className="text-center mb-16">
       <h2 style={{
-        fontFamily: 'var(--font-cinzel)',
+        fontFamily: 'var(--font-montserrat)',
         fontSize: 'clamp(1.6rem, 3.5vw, 2.5rem)',
         fontWeight: 700,
         letterSpacing: '0.08em',
@@ -168,6 +168,7 @@ export default function HomePage() {
   const [loadingPercent, setLoadingPercent] = useState(0)
   const [loadingDone, setLoadingDone] = useState(false)
   const [loadingHidden, setLoadingHidden] = useState(false)
+  const [navOpacity, setNavOpacity] = useState(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   // Section reveal hooks
@@ -177,11 +178,13 @@ export default function HomePage() {
   const { ref: faqRef, revealed: faqRevealed } = useReveal()
   const { ref: footerRef, revealed: footerRevealed } = useReveal()
 
-  // Scroll detector + top-section reset
+  // Scroll detector — continuous 0→1 over first 80px, boolean for pill styling
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 40)
-      if (window.scrollY < 80) setActiveSection('top')
+      const y = window.scrollY
+      setNavOpacity(Math.min(y / 80, 1))
+      setScrolled(y > 40)
+      if (y < 80) setActiveSection('top')
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -294,7 +297,6 @@ export default function HomePage() {
     {
       label: 'Pensum', href: '#curriculum',
       dropdown: [
-        { label: 'Kurs', href: '/kurs' },
         { label: 'Studieplan', href: '/studieplan' },
       ],
     },
@@ -332,11 +334,16 @@ export default function HomePage() {
               />
             </div>
           </div>
-          <div className="loading-percent">{loadingPercent}%</div>
+          <div className="loading-percent" aria-live="polite" aria-label={`Laster inn ${loadingPercent} prosent`}>{loadingPercent}%</div>
           <div className="loading-bar-track">
             <div className="loading-bar-fill" style={{ width: `${loadingPercent}%` }} />
           </div>
-          <div className="loading-tagline">Laster din opplevelse…</div>
+          <div className="loading-tagline">Laster din opplevelse</div>
+
+          {/* Full-width gold line at the very bottom edge */}
+          <div className="loading-bar-bottom">
+            <div className="loading-bar-bottom-fill" style={{ width: `${loadingPercent}%` }} />
+          </div>
         </div>
       )}
 
@@ -344,21 +351,32 @@ export default function HomePage() {
       <header
         className="fixed z-50"
         style={{
-          top: 0,
-          left: 0,
-          right: 0,
+          top: 0, left: 0, right: 0,
           pointerEvents: 'none',
           opacity: loadingHidden ? 1 : 0,
           transition: 'opacity 0.7s ease',
         }}
       >
-        {/* Max-width wrapper prevents overflow at any zoom level */}
+        {/* Blur overlay — always blurred, opacity drives the transition (GPU-composited) */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute', inset: 0,
+            background: 'rgba(6,11,20,0.82)',
+            backdropFilter: 'blur(12px) saturate(140%)',
+            WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+            borderBottom: '1px solid rgba(201,168,76,0.08)',
+            opacity: navOpacity,
+            transition: 'opacity 180ms linear',
+            willChange: 'opacity',
+          }}
+        />
         <div
           className="flex items-center justify-between"
           style={{
-            maxWidth: '1440px',
-            margin: '0 auto',
-            padding: '8px 20px',
+            position: 'relative',
+            width: '100%',
+            padding: '8px 24px',
             gap: '16px',
           }}
         >
@@ -372,7 +390,7 @@ export default function HomePage() {
               alt="Al Rawdah Institutt"
               width={1287}
               height={461}
-              style={{ width: 'clamp(140px, 20vw, 310px)', height: 'auto', objectFit: 'contain' }}
+              style={{ width: 'clamp(130px, 16vw, 220px)', height: 'auto', objectFit: 'contain' }}
               priority
             />
           </a>
@@ -412,7 +430,7 @@ export default function HomePage() {
                         style={{
                           color: active || isOpen ? '#C9A84C' : '#e2e8f0',
                           fontSize: '0.8rem',
-                          fontFamily: 'var(--font-cinzel)',
+                          fontFamily: 'var(--font-montserrat)',
                           letterSpacing: '0.1em',
                           textTransform: 'uppercase',
                           textDecoration: 'none',
@@ -462,7 +480,7 @@ export default function HomePage() {
                                 color: '#cbd5e1',
                                 textDecoration: 'none',
                                 fontSize: '0.8rem',
-                                fontFamily: 'var(--font-cinzel)',
+                                fontFamily: 'var(--font-montserrat)',
                                 letterSpacing: '0.1em',
                                 textTransform: 'uppercase',
                                 padding: '12px 18px',
@@ -498,7 +516,7 @@ export default function HomePage() {
                     style={{
                       color: active ? '#C9A84C' : '#e2e8f0',
                       fontSize: '0.8rem',
-                      fontFamily: 'var(--font-cinzel)',
+                      fontFamily: 'var(--font-montserrat)',
                       letterSpacing: '0.1em',
                       textTransform: 'uppercase',
                       textDecoration: 'none',
@@ -529,6 +547,7 @@ export default function HomePage() {
               })}
               <Link
                 href="/login"
+                className="btn-press"
                 style={{
                   background: '#C9A84C',
                   color: '#0F1829',
@@ -536,7 +555,7 @@ export default function HomePage() {
                   borderRadius: '999px',
                   textDecoration: 'none',
                   fontSize: '0.8rem',
-                  fontFamily: 'var(--font-cinzel)',
+                  fontFamily: 'var(--font-montserrat)',
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
                   fontWeight: 700,
@@ -545,7 +564,7 @@ export default function HomePage() {
                   alignItems: 'center',
                   gap: '8px',
                   border: '1px solid #C9A84C',
-                  transition: 'background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease',
+                  transition: 'background 0.2s cubic-bezier(0.23,1,0.32,1), transform 0.14s cubic-bezier(0.23,1,0.32,1), box-shadow 0.2s cubic-bezier(0.23,1,0.32,1)',
                   lineHeight: 1,
                   boxShadow: '0 2px 12px rgba(201,168,76,0.3)',
                 }}
@@ -566,7 +585,7 @@ export default function HomePage() {
 
             {/* Mobile hamburger — 44×44 touch target */}
             <button
-              className="md:hidden flex items-center justify-center"
+              className="md:hidden flex items-center justify-center btn-press"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={menuOpen}
@@ -580,7 +599,7 @@ export default function HomePage() {
                 width: '48px',
                 height: '48px',
                 cursor: 'pointer',
-                transition: 'background 0.2s ease',
+                transition: 'background 0.2s cubic-bezier(0.23,1,0.32,1)',
               }}
             >
               {menuOpen ? <IconClose /> : <IconMenu />}
@@ -620,7 +639,7 @@ export default function HomePage() {
                         background: isExpanded ? 'rgba(201,168,76,0.08)' : 'transparent',
                         border: 'none',
                         fontSize: '0.88rem',
-                        fontFamily: 'var(--font-cinzel)',
+                        fontFamily: 'var(--font-montserrat)',
                         letterSpacing: '0.1em',
                         textTransform: 'uppercase',
                         padding: '14px 20px',
@@ -646,7 +665,7 @@ export default function HomePage() {
                               color: '#C9A84C',
                               textDecoration: 'none',
                               fontSize: '0.78rem',
-                              fontFamily: 'var(--font-cinzel)',
+                              fontFamily: 'var(--font-montserrat)',
                               letterSpacing: '0.12em',
                               textTransform: 'uppercase',
                               padding: '11px 20px',
@@ -677,7 +696,7 @@ export default function HomePage() {
                     color: '#cbd5e1',
                     textDecoration: 'none',
                     fontSize: '0.88rem',
-                    fontFamily: 'var(--font-cinzel)',
+                    fontFamily: 'var(--font-montserrat)',
                     letterSpacing: '0.1em',
                     textTransform: 'uppercase',
                     padding: '14px 20px',
@@ -703,6 +722,7 @@ export default function HomePage() {
               <Link
                 href="/login"
                 onClick={() => setMenuOpen(false)}
+                className="btn-press"
                 style={{
                   display: 'block',
                   textAlign: 'center',
@@ -713,7 +733,7 @@ export default function HomePage() {
                   textDecoration: 'none',
                   fontWeight: 700,
                   fontSize: '0.88rem',
-                  fontFamily: 'var(--font-cinzel)',
+                  fontFamily: 'var(--font-montserrat)',
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
                   cursor: 'pointer',
@@ -777,9 +797,9 @@ export default function HomePage() {
             position: 'relative', zIndex: 1,
             height: '100%',
             display: 'flex', flexDirection: 'column',
-            alignItems: 'center', justifyContent: 'center',
+            alignItems: 'center', justifyContent: 'space-between',
             textAlign: 'center',
-            padding: 'clamp(80px, 12vh, 120px) clamp(20px, 5vw, 48px) clamp(60px, 10vh, 100px)',
+            padding: 'clamp(80px, 13vh, 140px) 24px clamp(60px, 10vh, 100px)',
           }}
         >
           {/* Overline — bilingual, desktop only */}
@@ -788,7 +808,7 @@ export default function HomePage() {
             style={{
               animationDelay: '80ms',
               opacity: 0,
-              fontFamily: 'var(--font-cinzel)',
+              fontFamily: 'var(--font-montserrat)',
               fontSize: '0.65rem',
               letterSpacing: '0.45em',
               color: '#C9A84C',
@@ -801,18 +821,18 @@ export default function HomePage() {
           {/* Main heading */}
           <h1
             style={{
-              fontFamily: 'var(--font-cinzel)',
+              fontFamily: 'var(--font-montserrat)',
               fontSize: 'clamp(1.2rem, 4.9vw, 5.2rem)',
               fontWeight: 700,
               letterSpacing: '0.05em',
               lineHeight: 1.0,
               color: '#ffffff',
               textTransform: 'uppercase',
-              margin: 'clamp(16px, 3vh, 28px) 0 clamp(20px, 4vh, 36px)',
+              margin: '0',
             }}
           >
-            <AnimatedHeading text="DIN DEEN." delay={180} />
-            <AnimatedHeading text="DINE RØTTER." delay={420} color="#C9A84C" />
+            <AnimatedHeading text="ISLAMSKE VITENSKAPER" delay={180} />
+            <AnimatedHeading text="OG ARABISK" delay={420} color="#C9A84C" />
           </h1>
 
           {/* Gold separator */}
@@ -823,7 +843,7 @@ export default function HomePage() {
               width: 64,
               height: 1,
               background: 'linear-gradient(to right, transparent, #C9A84C 40%, #C9A84C 60%, transparent)',
-              margin: '0 auto clamp(20px, 3vh, 32px)',
+              margin: '0 auto',
               animationDelay: '1440ms',
               opacity: 0,
             }}
@@ -833,10 +853,10 @@ export default function HomePage() {
           <p
             className="hero-fade-item"
             style={{
-              fontFamily: 'var(--font-cormorant)',
+              fontFamily: 'var(--font-montserrat)',
               fontSize: 'clamp(1.15rem, 2.2vw, 1.5rem)',
               color: 'rgba(241,245,249,0.95)',
-              fontStyle: 'italic',
+              fontWeight: 400,
               maxWidth: '42ch',
               lineHeight: 1.7,
               animationDelay: '1540ms',
@@ -844,16 +864,15 @@ export default function HomePage() {
               letterSpacing: '0.02em',
             }}
           >
-            30 plasser for ungdom mellom 10–15 år.
-            <br />Arabisk og islamske vitenskaper — lær islam direkte fra kildene.
+            Et treårig program for ungdom mellom 10–15 år — lær Islam direkte fra de klassiske kildene.
           </p>
 
           {/* CTA button */}
           <a
             href="#pricing"
-            className="hero-fade-item"
+            className="hero-fade-item btn-press"
             style={{
-              fontFamily: 'var(--font-cinzel)',
+              fontFamily: 'var(--font-montserrat)',
               fontSize: '0.82rem',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -864,8 +883,8 @@ export default function HomePage() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 10,
-              marginTop: 'clamp(28px, 4vh, 40px)',
-              transition: 'background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease',
+              marginTop: 0,
+              transition: 'background 0.22s cubic-bezier(0.23,1,0.32,1), transform 0.14s cubic-bezier(0.23,1,0.32,1), box-shadow 0.22s cubic-bezier(0.23,1,0.32,1)',
               animationDelay: '1760ms',
               opacity: 0,
               cursor: 'pointer',
@@ -892,11 +911,11 @@ export default function HomePage() {
             style={{
               display: 'flex',
               gap: 'clamp(20px, 4vw, 36px)',
-              marginTop: 'clamp(32px, 5vh, 52px)',
-              fontFamily: 'var(--font-cinzel)',
+              marginTop: 0,
+              fontFamily: 'var(--font-montserrat)',
               fontSize: 'clamp(0.7rem, 1.2vw, 0.82rem)',
               letterSpacing: '0.2em',
-              color: 'rgba(201,168,76,0.9)',
+              color: 'rgba(255,255,255,0.85)',
               textTransform: 'uppercase',
               animationDelay: '1960ms',
               opacity: 0,
@@ -934,6 +953,82 @@ export default function HomePage() {
           zIndex: 1,
         }} />
 
+      {/* ── MISSION & VISION ──────────────────────────────────────────────────── */}
+      <section style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          <SectionHeading>Misjon &amp; Visjon</SectionHeading>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '24px',
+            marginTop: '48px',
+          }}>
+            {/* Mission card */}
+            <div style={{
+              backgroundColor: 'rgba(15,24,41,0.6)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1px solid rgba(201,168,76,0.22)',
+              borderRadius: '16px',
+              padding: '40px 36px',
+            }}>
+              <div style={{ width: 32, height: 2, background: '#C9A84C', marginBottom: 24 }} aria-hidden="true" />
+              <h3 style={{
+                fontFamily: 'var(--font-montserrat)',
+                fontSize: '0.75rem',
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                color: '#C9A84C',
+                marginBottom: 16,
+                fontWeight: 700,
+              }}>
+                Misjon
+              </h3>
+              <p style={{
+                fontFamily: 'var(--font-montserrat)',
+                fontSize: '1.1rem',
+                lineHeight: 1.7,
+                color: '#e2e8f0',
+                fontWeight: 400,
+              }}>
+                Forme kunnskapsrike muslimer med trygg rotfesting i den islamske tradisjon, med arabisk som nøkkel til kildene.
+              </p>
+            </div>
+            {/* Vision card */}
+            <div style={{
+              backgroundColor: 'rgba(15,24,41,0.6)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1px solid rgba(201,168,76,0.22)',
+              borderRadius: '16px',
+              padding: '40px 36px',
+            }}>
+              <div style={{ width: 32, height: 2, background: '#C9A84C', marginBottom: 24 }} aria-hidden="true" />
+              <h3 style={{
+                fontFamily: 'var(--font-montserrat)',
+                fontSize: '0.75rem',
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                color: '#C9A84C',
+                marginBottom: 16,
+                fontWeight: 700,
+              }}>
+                Visjon
+              </h3>
+              <p style={{
+                fontFamily: 'var(--font-montserrat)',
+                fontSize: '1.1rem',
+                lineHeight: 1.7,
+                color: '#e2e8f0',
+                fontWeight: 400,
+              }}>
+                Gjøre autentisk islamsk kunnskap tilgjengelig for norsk ungdom gjennom strukturert og levende undervisning.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── CURRICULUM ─────────────────────────────────────────── */}
       <section
         ref={currRef}
@@ -945,10 +1040,11 @@ export default function HomePage() {
           <SectionHeading>Hva du vil lære</SectionHeading>
           <p style={{
             textAlign: 'center',
-            color: '#cbd5e1',
-            fontFamily: 'var(--font-cormorant)',
-            fontStyle: 'italic',
+            color: '#94a3b8',
+            fontFamily: 'var(--font-montserrat)',
+            fontWeight: 400,
             fontSize: '1.15rem',
+            lineHeight: 1.65,
             marginBottom: '64px',
             marginTop: '20px',
           }}>
@@ -959,7 +1055,7 @@ export default function HomePage() {
           <div style={{ marginBottom: '56px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '28px' }}>
               <span style={{
-                fontFamily: 'var(--font-cinzel)',
+                fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.65rem',
                 letterSpacing: '0.28em',
                 textTransform: 'uppercase',
@@ -971,7 +1067,7 @@ export default function HomePage() {
               }}>
                 Program 1
               </span>
-              <div style={{ fontFamily: 'var(--font-cinzel)', fontSize: '1rem', fontWeight: 700, letterSpacing: '0.08em', color: '#f1f5f9' }}>
+              <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '1rem', fontWeight: 700, letterSpacing: '0.08em', color: '#f1f5f9' }}>
                 Islamske vitenskaper
               </div>
               <div style={{ flex: 1, height: 1, background: 'rgba(201,168,76,0.15)' }} aria-hidden="true" />
@@ -984,7 +1080,7 @@ export default function HomePage() {
               {ISLAMIC_SUBJECTS.map((s, i) => (
                 <Link
                   key={s.name}
-                  href="/kurs"
+                  href="/studieplan"
                   style={{ textDecoration: 'none' }}
                 >
                   <article
@@ -996,7 +1092,7 @@ export default function HomePage() {
                       border: '1px solid rgba(201,168,76,0.18)',
                       borderRadius: '14px',
                       padding: '32px 28px',
-                      transition: 'border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease',
+                      transition: 'border-color 0.25s cubic-bezier(0.23,1,0.32,1), box-shadow 0.25s cubic-bezier(0.23,1,0.32,1), transform 0.25s cubic-bezier(0.23,1,0.32,1)',
                       cursor: 'pointer',
                       animationDelay: `${i * 75}ms`,
                       display: 'flex',
@@ -1019,7 +1115,7 @@ export default function HomePage() {
                     <h3 style={{
                       color: '#C9A84C',
                       fontSize: '0.78rem',
-                      fontFamily: 'var(--font-cinzel)',
+                      fontFamily: 'var(--font-montserrat)',
                       letterSpacing: '0.14em',
                       fontWeight: 700,
                       marginBottom: 10,
@@ -1028,19 +1124,18 @@ export default function HomePage() {
                       {s.name}
                     </h3>
                     <p style={{
-                      color: '#f1f5f9',
-                      fontFamily: 'var(--font-cormorant)',
-                      fontSize: '1.1rem',
-                      lineHeight: 1.7,
-                      fontStyle: 'italic',
-                      fontWeight: 500,
+                      color: '#cbd5e1',
+                      fontFamily: 'var(--font-montserrat)',
+                      fontSize: '1rem',
+                      lineHeight: 1.65,
+                      fontWeight: 400,
                       flex: 1,
                     }}>
                       {s.desc}
                     </p>
                     <span style={{
-                      fontFamily: 'var(--font-cinzel)',
-                      fontSize: '0.58rem',
+                      fontFamily: 'var(--font-montserrat)',
+                      fontSize: '0.72rem',
                       letterSpacing: '0.18em',
                       textTransform: 'uppercase',
                       color: '#C9A84C',
@@ -1059,7 +1154,7 @@ export default function HomePage() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '28px' }}>
               <span style={{
-                fontFamily: 'var(--font-cinzel)',
+                fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.65rem',
                 letterSpacing: '0.28em',
                 textTransform: 'uppercase',
@@ -1071,7 +1166,7 @@ export default function HomePage() {
               }}>
                 Program 2
               </span>
-              <div style={{ fontFamily: 'var(--font-cinzel)', fontSize: '1rem', fontWeight: 700, letterSpacing: '0.08em', color: '#f1f5f9' }}>
+              <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '1rem', fontWeight: 700, letterSpacing: '0.08em', color: '#f1f5f9' }}>
                 Arabisk
               </div>
               <div style={{ flex: 1, height: 1, background: 'rgba(201,168,76,0.15)' }} aria-hidden="true" />
@@ -1113,7 +1208,7 @@ export default function HomePage() {
                   <h3 style={{
                     color: '#C9A84C',
                     fontSize: '0.78rem',
-                    fontFamily: 'var(--font-cinzel)',
+                    fontFamily: 'var(--font-montserrat)',
                     letterSpacing: '0.14em',
                     fontWeight: 700,
                     marginBottom: 10,
@@ -1122,12 +1217,11 @@ export default function HomePage() {
                     {s.name}
                   </h3>
                   <p style={{
-                    color: '#f1f5f9',
-                    fontFamily: 'var(--font-cormorant)',
-                    fontSize: '1.1rem',
-                    lineHeight: 1.7,
-                    fontStyle: 'italic',
-                    fontWeight: 500,
+                    color: '#cbd5e1',
+                    fontFamily: 'var(--font-montserrat)',
+                    fontSize: '1rem',
+                    lineHeight: 1.65,
+                    fontWeight: 400,
                   }}>
                     {s.desc}
                   </p>
@@ -1148,8 +1242,8 @@ export default function HomePage() {
           <SectionHeading>Slik fungerer det</SectionHeading>
           <p style={{
             color: '#cbd5e1',
-            fontFamily: 'var(--font-cormorant)',
-            fontStyle: 'italic',
+            fontFamily: 'var(--font-montserrat)',
+            fontWeight: 400,
             fontSize: '1.15rem',
             marginBottom: '48px',
             marginTop: '20px',
@@ -1180,7 +1274,7 @@ export default function HomePage() {
             }}>
               {['År', 'Nivå', 'Semester'].map((h) => (
                 <div key={h} style={{
-                  fontFamily: 'var(--font-cinzel)',
+                  fontFamily: 'var(--font-montserrat)',
                   fontSize: '0.6rem',
                   letterSpacing: '0.25em',
                   textTransform: 'uppercase',
@@ -1210,17 +1304,17 @@ export default function HomePage() {
                 onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = 'transparent')}
               >
                 <div style={{
-                  fontFamily: 'var(--font-cormorant)',
+                  fontFamily: 'var(--font-montserrat)',
                   fontSize: '1.05rem',
                   color: '#cbd5e1',
-                  fontStyle: 'italic',
+                  fontWeight: 400,
                   textAlign: 'left',
                 }}>
                   {row.year}
                 </div>
                 <div style={{ textAlign: 'left' }}>
                   <span style={{
-                    fontFamily: 'var(--font-cinzel)',
+                    fontFamily: 'var(--font-montserrat)',
                     fontSize: '0.78rem',
                     fontWeight: 700,
                     letterSpacing: '0.1em',
@@ -1231,16 +1325,16 @@ export default function HomePage() {
                     {row.level}
                   </span>
                   <span style={{
-                    fontFamily: 'var(--font-cormorant)',
+                    fontFamily: 'var(--font-montserrat)',
                     fontSize: '0.95rem',
                     color: '#94a3b8',
-                    fontStyle: 'italic',
+                    fontWeight: 400,
                   }}>
                     {row.sub}
                   </span>
                 </div>
                 <div style={{
-                  fontFamily: 'var(--font-cormorant)',
+                  fontFamily: 'var(--font-montserrat)',
                   fontSize: '1rem',
                   color: '#cbd5e1',
                   textAlign: 'left',
@@ -1250,8 +1344,8 @@ export default function HomePage() {
                 <span
                   className="hidden sm:block"
                   style={{
-                    fontFamily: 'var(--font-cinzel)',
-                    fontSize: '0.55rem',
+                    fontFamily: 'var(--font-montserrat)',
+                    fontSize: '0.72rem',
                     letterSpacing: '0.16em',
                     textTransform: 'uppercase',
                     color: '#C9A84C',
@@ -1286,7 +1380,7 @@ export default function HomePage() {
           }}>
             <div style={{ flex: 1, height: 1, background: 'rgba(201,168,76,0.12)' }} aria-hidden="true" />
             <span style={{
-              fontFamily: 'var(--font-cinzel)',
+              fontFamily: 'var(--font-montserrat)',
               fontSize: '0.6rem',
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
@@ -1322,7 +1416,7 @@ export default function HomePage() {
                 }}
               >
                 <div style={{
-                  fontFamily: 'var(--font-cinzel)',
+                  fontFamily: 'var(--font-montserrat)',
                   fontSize: 'clamp(3.5rem, 7vw, 5.5rem)',
                   fontWeight: 300,
                   color: 'rgba(201,168,76,0.22)',
@@ -1338,14 +1432,14 @@ export default function HomePage() {
                   letterSpacing: '0.2em',
                   fontSize: '0.72rem',
                   marginBottom: 10,
-                  fontFamily: 'var(--font-cinzel)',
+                  fontFamily: 'var(--font-montserrat)',
                   textTransform: 'uppercase',
                 }}>
                   Steg {s.num}
                 </div>
                 <h3 style={{
                   fontSize: '1.05rem',
-                  fontFamily: 'var(--font-cinzel)',
+                  fontFamily: 'var(--font-montserrat)',
                   letterSpacing: '0.06em',
                   fontWeight: 700,
                   marginBottom: 14,
@@ -1355,10 +1449,10 @@ export default function HomePage() {
                 </h3>
                 <p style={{
                   color: '#e2e8f0',
-                  fontFamily: 'var(--font-cormorant)',
+                  fontFamily: 'var(--font-montserrat)',
                   fontSize: '1.15rem',
                   lineHeight: 1.75,
-                  fontStyle: 'italic',
+                  fontWeight: 400,
                 }}>
                   {s.desc}
                 </p>
@@ -1393,7 +1487,7 @@ export default function HomePage() {
               display: 'inline-block',
               color: '#C9A84C',
               border: '1px solid rgba(201,168,76,0.35)',
-              fontFamily: 'var(--font-cinzel)',
+              fontFamily: 'var(--font-montserrat)',
               fontSize: '0.65rem',
               letterSpacing: '0.24em',
               textTransform: 'uppercase',
@@ -1405,7 +1499,7 @@ export default function HomePage() {
             </span>
 
             <h3 style={{
-              fontFamily: 'var(--font-cinzel)',
+              fontFamily: 'var(--font-montserrat)',
               fontSize: 'clamp(1.4rem, 3vw, 2rem)',
               fontWeight: 700,
               letterSpacing: '0.04em',
@@ -1416,8 +1510,8 @@ export default function HomePage() {
             </h3>
             <p style={{
               color: '#cbd5e1',
-              fontFamily: 'var(--font-cormorant)',
-              fontStyle: 'italic',
+              fontFamily: 'var(--font-montserrat)',
+              fontWeight: 400,
               fontSize: '1.1rem',
               marginBottom: 40,
               lineHeight: 1.6,
@@ -1429,7 +1523,7 @@ export default function HomePage() {
               {FEATURES.map((f) => (
                 <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                   <span style={{ flexShrink: 0, display: 'flex' }}><IconCheck /></span>
-                  <span style={{ color: '#e2e8f0', fontFamily: 'var(--font-cormorant)', fontSize: '1.1rem', lineHeight: 1.4 }}>
+                  <span style={{ color: '#e2e8f0', fontFamily: 'var(--font-montserrat)', fontSize: '1.1rem', lineHeight: 1.4 }}>
                     {f}
                   </span>
                 </li>
@@ -1439,7 +1533,7 @@ export default function HomePage() {
             <a
               href="mailto:info@alrawdah.no"
               style={{
-                fontFamily: 'var(--font-cinzel)',
+                fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.8rem',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
@@ -1521,7 +1615,7 @@ export default function HomePage() {
                     fontSize: '0.88rem',
                     fontWeight: 700,
                     gap: '16px',
-                    fontFamily: 'var(--font-cinzel)',
+                    fontFamily: 'var(--font-montserrat)',
                     letterSpacing: '0.05em',
                     lineHeight: 1.4,
                     transition: 'color 0.3s ease',
@@ -1554,8 +1648,8 @@ export default function HomePage() {
                     <div style={{
                       padding: '0 26px 22px',
                       color: '#e2e8f0',
-                      fontFamily: 'var(--font-cormorant)',
-                      fontStyle: 'italic',
+                      fontFamily: 'var(--font-montserrat)',
+                      fontWeight: 400,
                       fontSize: '1.15rem',
                       lineHeight: 1.75,
                     }}>
@@ -1584,7 +1678,7 @@ export default function HomePage() {
               color: '#C9A84C',
               fontSize: '1.05rem',
               letterSpacing: '0.14em',
-              fontFamily: 'var(--font-cinzel)',
+              fontFamily: 'var(--font-montserrat)',
               fontWeight: 600,
               textTransform: 'uppercase',
             }}>
@@ -1603,8 +1697,8 @@ export default function HomePage() {
           </div>
           <p style={{
             color: '#94a3b8',
-            fontFamily: 'var(--font-cormorant)',
-            fontStyle: 'italic',
+            fontFamily: 'var(--font-montserrat)',
+            fontWeight: 400,
             fontSize: '1.05rem',
             marginBottom: 40,
             lineHeight: 1.6,
@@ -1627,7 +1721,7 @@ export default function HomePage() {
                   color: '#94a3b8',
                   textDecoration: 'none',
                   fontSize: '0.72rem',
-                  fontFamily: 'var(--font-cinzel)',
+                  fontFamily: 'var(--font-montserrat)',
                   letterSpacing: '0.15em',
                   textTransform: 'uppercase',
                   transition: 'color 0.2s ease',
@@ -1642,7 +1736,7 @@ export default function HomePage() {
             ))}
           </nav>
 
-          <p style={{ color: '#64748b', fontSize: '0.9rem', fontFamily: 'var(--font-cormorant)' }}>
+          <p style={{ color: '#64748b', fontSize: '0.9rem', fontFamily: 'var(--font-montserrat)' }}>
             &copy; {new Date().getFullYear()} Al Rawdah Institutt. Alle rettigheter forbeholdt.
           </p>
         </div>

@@ -200,9 +200,14 @@ export default function StudentLivePage() {
     const supabase = createClient()
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session) { router.replace('/login'); return }
-      const email = session.user.email ?? ''
-      const name = email.split('@')[0] ?? 'Student'
-      setFirstName(name.charAt(0).toUpperCase() + name.slice(1))
+      const { email, user_metadata } = session.user
+      const fullName = (user_metadata?.full_name as string | undefined)?.trim()
+      if (fullName) {
+        setFirstName(fullName)
+      } else {
+        const prefix = (email ?? '').split('@')[0] || 'Student'
+        setFirstName(prefix.charAt(0).toUpperCase() + prefix.slice(1))
+      }
       setChecking(false)
     })
   }, [router])
@@ -215,10 +220,20 @@ export default function StudentLivePage() {
 
   if (checking) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#060b14' }}>
-        <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', letterSpacing: '0.2em', color: 'rgba(201,168,76,0.6)', textTransform: 'uppercase' }}>
-          Laster inn…
+      <div className="loading-overlay">
+        <div className="loading-logo">
+          <div className="loading-logo-wrapper">
+            <Image
+              src="/logo-cropped.png"
+              alt="Al Rawdah Institutt"
+              width={1287}
+              height={461}
+              className="loading-logo-img"
+              priority
+            />
+          </div>
         </div>
+        <div className="loading-tagline">Laster din opplevelse…</div>
       </div>
     )
   }

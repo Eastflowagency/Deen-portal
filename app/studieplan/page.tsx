@@ -89,14 +89,14 @@ export default function StudieplanPage() {
 
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '56px' }}>
-          <p style={{ fontFamily: 'var(--font-cinzel)', fontSize: '0.65rem', letterSpacing: '0.3em', color: '#C9A84C', marginBottom: '16px', textTransform: 'uppercase' }}>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.75rem', letterSpacing: '0.3em', color: '#C9A84C', marginBottom: '16px', textTransform: 'uppercase' }}>
             — AL RAWDAH INSTITUTT —
           </p>
-          <h1 style={{ fontFamily: 'var(--font-cinzel)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 700, color: '#fff', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '16px' }}>
+          <h1 style={{ fontFamily: 'var(--font-montserrat)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 700, color: '#fff', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '16px' }}>
             Studieplan
           </h1>
           <div style={{ width: '56px', height: '1px', background: 'linear-gradient(to right, transparent, #C9A84C, transparent)', margin: '0 auto 20px' }} />
-          <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(1rem, 2vw, 1.2rem)', color: 'rgba(255,255,255,0.6)', fontStyle: 'italic', maxWidth: '520px', margin: '0 auto' }}>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '1.05rem', color: '#94a3b8', fontWeight: 400, maxWidth: '520px', margin: '0 auto', lineHeight: 1.65 }}>
             Tre år med islamske vitenskaper og arabisk — fra grunnivå til viderenivå.
           </p>
         </div>
@@ -107,8 +107,9 @@ export default function StudieplanPage() {
             <button
               key={l.id}
               onClick={() => setActiveLevel(l.id)}
+              className="btn-press"
               style={{
-                fontFamily: 'var(--font-cinzel)',
+                fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.7rem',
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
@@ -118,7 +119,7 @@ export default function StudieplanPage() {
                 color: activeLevel === l.id ? '#C9A84C' : '#94a3b8',
                 cursor: 'pointer',
                 borderRadius: '4px',
-                transition: 'all 0.2s ease',
+                transition: 'border-color 0.2s cubic-bezier(0.23,1,0.32,1), background 0.2s cubic-bezier(0.23,1,0.32,1)',
               }}
               onMouseEnter={(e) => {
                 if (activeLevel !== l.id) {
@@ -148,15 +149,15 @@ export default function StudieplanPage() {
           borderRadius: '6px',
           flexWrap: 'wrap',
         }}>
-          <span style={{ fontFamily: 'var(--font-cinzel)', fontSize: '0.65rem', letterSpacing: '0.2em', color: '#C9A84C', textTransform: 'uppercase' }}>
+          <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.8rem', letterSpacing: '0.2em', color: '#C9A84C', textTransform: 'uppercase' }}>
             {current.year}
           </span>
           <span style={{ color: 'rgba(201,168,76,0.3)', fontSize: '0.7rem' }}>·</span>
-          <span style={{ fontFamily: 'var(--font-cinzel)', fontSize: '0.65rem', letterSpacing: '0.2em', color: '#94a3b8', textTransform: 'uppercase' }}>
+          <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.8rem', letterSpacing: '0.2em', color: '#94a3b8', textTransform: 'uppercase' }}>
             Høst + Vår semester
           </span>
           <span style={{ color: 'rgba(201,168,76,0.3)', fontSize: '0.7rem' }}>·</span>
-          <span style={{ fontFamily: 'var(--font-cinzel)', fontSize: '0.65rem', letterSpacing: '0.2em', color: '#94a3b8', textTransform: 'uppercase' }}>
+          <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.8rem', letterSpacing: '0.2em', color: '#94a3b8', textTransform: 'uppercase' }}>
             30 plasser
           </span>
         </div>
@@ -165,7 +166,7 @@ export default function StudieplanPage() {
         <div style={{ marginBottom: '48px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
             <div style={{ flex: 1, height: '1px', background: 'rgba(201,168,76,0.12)' }} />
-            <p style={{ fontFamily: 'var(--font-cinzel)', fontSize: '0.6rem', letterSpacing: '0.25em', color: '#C9A84C', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+            <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.75rem', letterSpacing: '0.25em', color: '#C9A84C', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
               Program 1 — Islamske vitenskaper
             </p>
             <div style={{ flex: 1, height: '1px', background: 'rgba(201,168,76,0.12)' }} />
@@ -175,7 +176,7 @@ export default function StudieplanPage() {
             {current.islamic.map((course) => (
               <Link
                 key={course.slug}
-                href={`/kurs/${course.slug}`}
+                href={`/studieplan/${course.slug}`}
                 style={{ textDecoration: 'none' }}
               >
                 <div
@@ -185,7 +186,7 @@ export default function StudieplanPage() {
                     border: '1px solid rgba(201,168,76,0.15)',
                     borderRadius: '8px',
                     backdropFilter: 'blur(12px)',
-                    transition: 'all 0.2s ease',
+                    transition: 'border-color 0.2s cubic-bezier(0.23,1,0.32,1), background 0.2s cubic-bezier(0.23,1,0.32,1)',
                     cursor: 'pointer',
                   }}
                   onMouseEnter={(e) => {
@@ -199,13 +200,13 @@ export default function StudieplanPage() {
                     el.style.background = 'rgba(15,24,41,0.6)'
                   }}
                 >
-                  <h3 style={{ fontFamily: 'var(--font-cinzel)', fontSize: '0.82rem', letterSpacing: '0.1em', color: '#e2e8f0', marginBottom: '8px' }}>
+                  <h3 style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.9rem', letterSpacing: '0.1em', color: '#e2e8f0', marginBottom: '8px' }}>
                     {course.name}
                   </h3>
-                  <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: '1rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.5, fontStyle: 'italic' }}>
+                  <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '1rem', color: '#cbd5e1', lineHeight: 1.65, fontWeight: 400 }}>
                     {course.desc}
                   </p>
-                  <p style={{ fontFamily: 'var(--font-cinzel)', fontSize: '0.58rem', letterSpacing: '0.18em', color: '#C9A84C', marginTop: '12px', textTransform: 'uppercase' }}>
+                  <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.78rem', letterSpacing: '0.18em', color: '#C9A84C', marginTop: '12px', textTransform: 'uppercase' }}>
                     Se kurs →
                   </p>
                 </div>
@@ -218,7 +219,7 @@ export default function StudieplanPage() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
             <div style={{ flex: 1, height: '1px', background: 'rgba(201,168,76,0.12)' }} />
-            <p style={{ fontFamily: 'var(--font-cinzel)', fontSize: '0.6rem', letterSpacing: '0.25em', color: '#C9A84C', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+            <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.75rem', letterSpacing: '0.25em', color: '#C9A84C', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
               Program 2 — Arabisk
             </p>
             <div style={{ flex: 1, height: '1px', background: 'rgba(201,168,76,0.12)' }} />
@@ -228,7 +229,7 @@ export default function StudieplanPage() {
             {current.arabic.map((course) => (
               <Link
                 key={course.slug}
-                href={`/kurs/${course.slug}`}
+                href={`/studieplan/${course.slug}`}
                 style={{ textDecoration: 'none' }}
               >
                 <div
@@ -238,7 +239,7 @@ export default function StudieplanPage() {
                     border: '1px solid rgba(201,168,76,0.15)',
                     borderRadius: '8px',
                     backdropFilter: 'blur(12px)',
-                    transition: 'all 0.2s ease',
+                    transition: 'border-color 0.2s cubic-bezier(0.23,1,0.32,1), background 0.2s cubic-bezier(0.23,1,0.32,1)',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
@@ -256,14 +257,14 @@ export default function StudieplanPage() {
                   }}
                 >
                   <div>
-                    <h3 style={{ fontFamily: 'var(--font-cinzel)', fontSize: '0.82rem', letterSpacing: '0.1em', color: '#e2e8f0', marginBottom: '4px' }}>
+                    <h3 style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.9rem', letterSpacing: '0.1em', color: '#e2e8f0', marginBottom: '4px' }}>
                       {course.name}
                     </h3>
-                    <p style={{ fontFamily: 'var(--font-cinzel)', fontSize: '0.58rem', letterSpacing: '0.18em', color: '#94a3b8', textTransform: 'uppercase' }}>
+                    <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.78rem', letterSpacing: '0.18em', color: '#94a3b8', textTransform: 'uppercase' }}>
                       {course.semester} semester
                     </p>
                   </div>
-                  <p style={{ fontFamily: 'var(--font-cinzel)', fontSize: '0.58rem', letterSpacing: '0.18em', color: '#C9A84C', textTransform: 'uppercase' }}>
+                  <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.78rem', letterSpacing: '0.18em', color: '#C9A84C', textTransform: 'uppercase' }}>
                     Se kurs →
                   </p>
                 </div>
@@ -275,10 +276,10 @@ export default function StudieplanPage() {
         {/* Back to courses */}
         <div style={{ textAlign: 'center', marginTop: '56px' }}>
           <Link
-            href="/kurs"
+            href="/studieplan"
             style={{
-              fontFamily: 'var(--font-cinzel)',
-              fontSize: '0.65rem',
+              fontFamily: 'var(--font-montserrat)',
+              fontSize: '0.78rem',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
               color: '#0F1829',
