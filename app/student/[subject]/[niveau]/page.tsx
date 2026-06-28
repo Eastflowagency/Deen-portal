@@ -9,7 +9,7 @@ import 'plyr/dist/plyr.css'
 const F = "var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, sans-serif"
 
 const LESSONS = [
-  { id: 1, title: 'Introduksjon av Aqeedah', duration: '21min', src: '', overview: 'En innledning til islamsk trosoverbevisning (aqeedah) — hva det betyr, hvorfor det er viktig, og hva dette kurset dekker.' },
+  { id: 1, title: 'Introduksjon av Aqeedah', duration: '21min', src: 'https://mkqxsppoxcuyklrxpjox.supabase.co/storage/v1/object/public/Videos/WIN_20260625_00_48_34_Pro.mp4', overview: 'En innledning til islamsk trosoverbevisning (aqeedah) — hva det betyr, hvorfor det er viktig, og hva dette kurset dekker.' },
   { id: 2, title: 'Hvem er din Herre?', duration: '18min', src: '', overview: 'Vi utforsker det grunnleggende spørsmålet om å kjenne Allah, Hans egenskaper og vår plikt overfor Ham.' },
   { id: 3, title: 'De seks pilarene i troen', duration: '24min', src: '', overview: 'En gjennomgang av de seks pilarene i iman: Allah, englene, skriftene, profetene, den siste dag og al-qadr.' },
   { id: 4, title: 'Å tro på Allah og Hans navn og egenskaper', duration: '29min', src: '', overview: 'Detaljert studie av Allahs vakre navn og den rette metoden for å forstå Hans egenskaper uten forvrenging.' },
