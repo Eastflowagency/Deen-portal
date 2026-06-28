@@ -943,7 +943,7 @@ export default function StudentPage() {
         }
         const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? '')
           .split(',').map(e => e.trim().toLowerCase()).filter(Boolean)
-        setIsAdmin(adminEmails.includes(email.toLowerCase()))
+        setIsAdmin(adminEmails.includes((email ?? '').toLowerCase()))
         setChecking(false)
       }
     })

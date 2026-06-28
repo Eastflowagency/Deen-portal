@@ -149,8 +149,6 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
         controls: ['play', 'rewind', 'fast-forward', 'mute', 'progress', 'current-time', 'duration', 'settings', 'fullscreen'],
         settings: ['quality', 'speed'],
         speed: { selected: 1, options: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75] },
-        rewind: 10,
-        fastForward: 10,
         tooltips: { controls: false, seek: true },
         invertTime: false,
         i18n: {
@@ -158,7 +156,7 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
           normal: 'Normal',
           quality: 'Quality',
         },
-      })
+      } as any)
     })
 
     return () => {
