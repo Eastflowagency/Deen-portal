@@ -793,6 +793,7 @@ export default function HomePage() {
 
         {/* Content */}
         <div
+          className="hero-content-flex"
           style={{
             position: 'relative', zIndex: 1,
             height: '100%',

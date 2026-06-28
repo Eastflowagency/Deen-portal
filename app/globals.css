@@ -368,3 +368,13 @@ body {
   background: linear-gradient(to right, transparent, var(--gold), transparent);
   margin: 0 auto;
 }
+
+/* ── Hero mobile fix ─────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .hero-content-flex {
+    justify-content: center !important;
+    gap: 20px !important;
+    padding-top: 90px !important;
+    padding-bottom: 44px !important;
+  }
+}

@@ -44,7 +44,9 @@ const PLYR_STYLES = `
     --plyr-menu-border-color: rgba(255,255,255,0.07);
     --plyr-menu-border-shadow-color: transparent;
   }
-  .plyr--video { height: 100%; background: #111; }
+  .plyr--video { height: 100%; background: #000; width: 100%; }
+  .plyr--video .plyr__video-wrapper { height: 100%; width: 100%; }
+  .plyr--fullscreen .plyr__video-wrapper video { object-fit: cover !important; }
   .plyr--video .plyr__controls { padding: 28px 14px 10px; }
   .plyr__progress__buffer { background: rgba(255,255,255,0.18) !important; }
   .plyr--video .plyr__control:hover { background: rgba(255,255,255,0.1); }
@@ -108,11 +110,16 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
     })
   }, [router])
 
+  // Initialise Plyr ONCE when ready. Lesson switching done via selectLesson().
   useEffect(() => {
-    if (!ready || !videoRef.current) return
+    if (!ready || !videoRef.current || playerRef.current) return
+    const video = videoRef.current
+    const src = LESSONS[0].src
+    if (src) { video.src = src; video.load() }
+
     import('plyr').then(({ default: Plyr }) => {
-      if (playerRef.current) { playerRef.current.destroy(); playerRef.current = null }
-      playerRef.current = new Plyr(videoRef.current!, {
+      if (playerRef.current) return
+      playerRef.current = new Plyr(video, {
         controls: ['play', 'rewind', 'fast-forward', 'mute', 'progress', 'current-time', 'duration', 'settings', 'fullscreen'],
         settings: ['quality', 'speed'],
         speed: { selected: 1, options: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75] },
@@ -122,23 +129,37 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
       } as any)
     })
     return () => { if (playerRef.current) { playerRef.current.destroy(); playerRef.current = null } }
-  }, [ready, active])
+  }, [ready])
 
   if (!ready) return null
+
+  // Called from click handlers — manipulates native video directly so iOS autoplay
+  // gesture context is preserved. Plyr updates automatically via its video event listeners.
+  function selectLesson(i: number) {
+    const video = videoRef.current
+    if (!video) return
+    const src = LESSONS[i].src
+    video.pause()
+    video.src = src || ''
+    video.load()
+    if (src) video.play().catch(() => {})
+    setActive(i)
+    setActiveTab('overview')
+  }
 
   function toggle() {
     setDone(prev => {
       const n = new Set(prev)
       if (n.has(active)) { n.delete(active) } else {
         n.add(active)
-        if (active < LESSONS.length - 1) setTimeout(() => setActive(active + 1), 350)
+        if (active < LESSONS.length - 1) setTimeout(() => selectLesson(active + 1), 350)
       }
       return n
     })
   }
 
-  function goNext() { if (active < LESSONS.length - 1) setActive(active + 1) }
-  function goPrev() { if (active > 0) setActive(active - 1) }
+  function goNext() { if (active < LESSONS.length - 1) selectLesson(active + 1) }
+  function goPrev() { if (active > 0) selectLesson(active - 1) }
 
   const TABS = ['Overview', 'Lessons', 'Notes', 'Resources'] as const
 
@@ -214,9 +235,7 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
 
           {/* Video */}
           <div style={{ background: '#000', width: '100%', aspectRatio: '16/9', flexShrink: 0, position: 'relative', overflow: 'hidden' }}>
-            <video ref={videoRef} style={{ width: '100%', height: '100%', display: 'block' }} playsInline>
-              {lesson.src && <source src={lesson.src} type="video/mp4" />}
-            </video>
+            <video ref={videoRef} style={{ width: '100%', height: '100%', display: 'block' }} playsInline />
           </div>
 
           {/* Info */}
@@ -286,7 +305,7 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
                   const isDone = done.has(i)
                   const isAct = i === active
                   return (
-                    <div key={l.id} onClick={() => { setActive(i); setActiveTab('overview') }} style={{
+                    <div key={l.id} onClick={() => selectLesson(i)} style={{
                       display: 'flex', gap: 12, padding: '12px 0',
                       borderBottom: '1px solid rgba(255,255,255,0.06)',
                       borderLeft: `3px solid ${isAct ? '#fff' : 'transparent'}`,
@@ -359,7 +378,7 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
               const isDone = done.has(i)
               const isAct = i === active
               return (
-                <div key={l.id} onClick={() => setActive(i)} style={{
+                <div key={l.id} onClick={() => selectLesson(i)} style={{
                   display: 'flex', gap: 12, padding: '11px 14px',
                   borderBottom: '1px solid rgba(255,255,255,0.045)',
                   borderLeft: `3px solid ${isAct ? '#fff' : 'transparent'}`,
