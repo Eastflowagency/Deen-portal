@@ -468,6 +468,21 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
 
   return (
     <div style={{ height: '100vh', overflow: 'hidden', position: 'relative', background: '#060b14' }}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+        @media (max-width: 767px) {
+          .student-nav { height: 64px !important; padding: 0 16px !important; gap: 0 !important; }
+          .student-nav-logo { height: 52px !important; }
+          .student-nav-tabs { display: none !important; }
+          .student-nav-icons button { width: 32px !important; height: 32px !important; }
+          .student-content { padding: 16px !important; }
+          .subject-row { gap: 12px !important; padding-bottom: 12px !important; }
+          .subject-card { width: 160px !important; flex-shrink: 0; }
+          .subject-card-thumb { height: 120px !important; }
+          .level-cards { flex-direction: column !important; gap: 10px !important; }
+          .level-card { width: 100% !important; min-width: unset !important; }
+        }
+      ` }} />
       {/* Background */}
       <div style={{
         position: 'absolute', inset: 0, zIndex: 0,
@@ -477,7 +492,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
       <div style={{ position: 'absolute', inset: 0, zIndex: 0, background: 'rgba(6,11,20,0.92)' }} />
 
       {/* Top navigation — sits in normal flow, never scrolls */}
-      <nav style={{
+      <nav className="student-nav" style={{
         position: 'relative', zIndex: 10,
         height: '112px',
         display: 'flex', alignItems: 'center',
@@ -495,13 +510,14 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
             alt="Al Rawdah Institutt"
             width={640}
             height={230}
+            className="student-nav-logo"
             style={{ height: '108px', width: 'auto', objectFit: 'contain' }}
             priority
           />
         </div>
 
         {/* Center tabs */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flex: 1, marginTop: '-16px' }}>
+        <div className="student-nav-tabs" style={{ display: 'flex', alignItems: 'center', gap: '4px', flex: 1, marginTop: '-16px' }}>
           {/* Active tab */}
           <div style={{
             padding: '6px 16px',
@@ -590,7 +606,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
         </div>
 
         {/* Right: placeholder icons + sign out */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, marginTop: '-16px' }}>
+        <div className="student-nav-icons" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, marginTop: '-16px' }}>
           {/* Bell — notifications */}
           <div style={{ position: 'relative' }}>
             <button
