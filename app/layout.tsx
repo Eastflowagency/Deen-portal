@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Cinzel, Cormorant_Garamond, Noto_Naskh_Arabic, Montserrat } from 'next/font/google'
+import { Cinzel, Cormorant_Garamond, Noto_Naskh_Arabic, Montserrat, Inter } from 'next/font/google'
 import { Suspense } from 'react'
 import './globals.css'
 
@@ -32,6 +32,13 @@ const montserrat = Montserrat({
   display: 'swap',
 })
 
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
   title: 'Al Rawdah Institutt',
   description: 'Authentic Islamic Education — Learn Arabic, study Islamic sciences, transform your understanding.',
@@ -43,7 +50,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="nb" className={`${cinzel.variable} ${cormorant.variable} ${notoArabic.variable} ${montserrat.variable}`}>
+    <html lang="nb" className={`${cinzel.variable} ${cormorant.variable} ${notoArabic.variable} ${montserrat.variable} ${inter.variable}`}>
       <body><Suspense>{children}</Suspense></body>
     </html>
   )

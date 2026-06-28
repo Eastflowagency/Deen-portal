@@ -23,16 +23,6 @@ function useReveal<T extends HTMLElement = HTMLElement>(threshold = 0.1) {
 
 const SUBJECTS = [
   {
-    name: 'Koranvitenskaper',
-    arabic: 'علوم القرآن',
-    desc: 'Tafseer, tajweed og koranvitenskapene — fra grunnivå til avansert lesning av primærkilder.',
-    courses: [
-      { name: 'Koranvitenskaper 1', slug: 'koranvitenskaper-1', level: 'Grunnivå', nivå: 1, year: '2026–2027' },
-      { name: 'Koranvitenskaper 2', slug: 'koranvitenskaper-2', level: 'Mellomnivå', nivå: 2, year: '2027–2028' },
-      { name: 'Koranvitenskaper 3', slug: 'koranvitenskaper-3', level: 'Viderenivå', nivå: 3, year: '2028–2029' },
-    ],
-  },
-  {
     name: 'Aqidah',
     arabic: 'العقيدة',
     desc: 'Islamsk monoteisme, grunnlag og pilarer — fra introduksjon til selvstendige studier på arabisk.',
@@ -60,6 +50,16 @@ const SUBJECTS = [
       { name: 'Seerah 1', slug: 'seerah-1', level: 'Grunnivå', nivå: 1, year: '2026–2027' },
       { name: 'Seerah 2', slug: 'seerah-2', level: 'Mellomnivå', nivå: 2, year: '2027–2028' },
       { name: 'Seerah 3', slug: 'seerah-3', level: 'Viderenivå', nivå: 3, year: '2028–2029' },
+    ],
+  },
+  {
+    name: 'Koranvitenskaper',
+    arabic: 'علوم القرآن',
+    desc: 'Tafseer, tajweed og koranvitenskapene — fra grunnivå til avansert lesning av primærkilder.',
+    courses: [
+      { name: 'Koranvitenskaper 1', slug: 'koranvitenskaper-1', level: 'Grunnivå', nivå: 1, year: '2026–2027' },
+      { name: 'Koranvitenskaper 2', slug: 'koranvitenskaper-2', level: 'Mellomnivå', nivå: 2, year: '2027–2028' },
+      { name: 'Koranvitenskaper 3', slug: 'koranvitenskaper-3', level: 'Viderenivå', nivå: 3, year: '2028–2029' },
     ],
   },
   {

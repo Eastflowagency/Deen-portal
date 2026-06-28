@@ -1,0 +1,83 @@
+<style>
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .subj-card {
+    background:rgba(10,18,34,0.55);
+    border:1px solid rgba(201,168,76,0.18);
+    border-radius:14px;
+    padding:28px 24px;
+    transition:border-color 0.2s, transform 0.2s;
+    position:relative;
+  }
+  .subj-card:hover { border-color:rgba(201,168,76,0.45); transform:translateY(-2px); }
+  .gold-bar { width:28px; height:1px; background:#C9A84C; opacity:0.7; margin-bottom:16px; }
+  .subj-name { color:#C9A84C; font-size:0.75rem; letter-spacing:0.14em; text-transform:uppercase; font-weight:700; margin-bottom:8px; }
+  .subj-desc { color:#f1f5f9; font-style:italic; font-size:1rem; line-height:1.6; }
+  .subj-link { font-size:0.58rem; letter-spacing:0.18em; text-transform:uppercase; color:#C9A84C; margin-top:14px; display:block; }
+  .subj-btn { display:inline-block; margin-top:14px; font-size:0.55rem; letter-spacing:0.16em; text-transform:uppercase; color:#C9A84C; border:1px solid rgba(201,168,76,0.3); padding:5px 12px; border-radius:3px; }
+  .corner-arrow { position:absolute; top:18px; right:18px; color:rgba(201,168,76,0.35); font-size:1rem; transition:color 0.2s; }
+  .subj-card:hover .corner-arrow { color:#C9A84C; }
+</style>
+
+<h2>How should the subject cards connect to /kurs?</h2>
+<p class="subtitle">Currently the cards in "Hva du vil lære" are static. They'll now link to /kurs. Pick the treatment.</p>
+
+<div class="cards" style="flex-direction:column;gap:32px;">
+
+  <!-- Option A: Full card is a link, "Se kurs →" text at bottom -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)" style="flex-direction:column;align-items:stretch;gap:12px;">
+    <div class="card-body" style="padding-bottom:0;">
+      <h3>A — Full card clickable + "Se kurs →" footer on each</h3>
+      <p>Each card wraps in a Link. A small "Se kurs →" label appears at the bottom of every card. Whole card is the tap target — good for mobile.</p>
+    </div>
+    <div class="mockup" style="pointer-events:none;">
+      <div class="mockup-header">Preview</div>
+      <div class="mockup-body">
+        <div class="grid">
+          <div class="subj-card"><div class="gold-bar"></div><div class="subj-name">Koranvitenskaper</div><div class="subj-desc">Tafseer, tajweed og koranvitenskapene.</div><span class="subj-link">Se kurs →</span></div>
+          <div class="subj-card"><div class="gold-bar"></div><div class="subj-name">Aqidah</div><div class="subj-desc">Islamsk monoteisme, grunnlag og pilarer.</div><span class="subj-link">Se kurs →</span></div>
+          <div class="subj-card"><div class="gold-bar"></div><div class="subj-name">Fiqh</div><div class="subj-desc">Islamsk rettsvitenskap med regler og bevis.</div><span class="subj-link">Se kurs →</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option B: Full card + corner arrow icon -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)" style="flex-direction:column;align-items:stretch;gap:12px;">
+    <div class="card-body" style="padding-bottom:0;">
+      <h3>B — Full card clickable + corner arrow icon (appears on hover)</h3>
+      <p>Whole card is a link. A subtle arrow "↗" sits in the top-right corner, fading in on hover. No text added — minimal and elegant.</p>
+    </div>
+    <div class="mockup" style="pointer-events:none;">
+      <div class="mockup-header">Preview</div>
+      <div class="mockup-body">
+        <div class="grid">
+          <div class="subj-card"><span class="corner-arrow">↗</span><div class="gold-bar"></div><div class="subj-name">Koranvitenskaper</div><div class="subj-desc">Tafseer, tajweed og koranvitenskapene.</div></div>
+          <div class="subj-card"><span class="corner-arrow">↗</span><div class="gold-bar"></div><div class="subj-name">Aqidah</div><div class="subj-desc">Islamsk monoteisme, grunnlag og pilarer.</div></div>
+          <div class="subj-card"><span class="corner-arrow">↗</span><div class="gold-bar"></div><div class="subj-name">Fiqh</div><div class="subj-desc">Islamsk rettsvitenskap med regler og bevis.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option C: Cards stay static, one CTA button below the grid -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)" style="flex-direction:column;align-items:stretch;gap:12px;">
+    <div class="card-body" style="padding-bottom:0;">
+      <h3>C — Cards stay static, one "Se alle kurs" button below the grid</h3>
+      <p>Don't make individual cards clickable. Instead, add a single gold "Se alle kurs →" button below the subject grid. Simpler, but loses per-card interactivity.</p>
+    </div>
+    <div class="mockup" style="pointer-events:none;">
+      <div class="mockup-header">Preview</div>
+      <div class="mockup-body">
+        <div class="grid">
+          <div class="subj-card"><div class="gold-bar"></div><div class="subj-name">Koranvitenskaper</div><div class="subj-desc">Tafseer, tajweed og koranvitenskapene.</div></div>
+          <div class="subj-card"><div class="gold-bar"></div><div class="subj-name">Aqidah</div><div class="subj-desc">Islamsk monoteisme, grunnlag og pilarer.</div></div>
+          <div class="subj-card"><div class="gold-bar"></div><div class="subj-name">Fiqh</div><div class="subj-desc">Islamsk rettsvitenskap med regler og bevis.</div></div>
+        </div>
+        <div style="text-align:center;margin-top:24px;">
+          <span style="display:inline-block;background:#C9A84C;color:#0F1829;padding:12px 36px;border-radius:4px;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:700;">Se alle kurs →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

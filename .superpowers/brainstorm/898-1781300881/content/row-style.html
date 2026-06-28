@@ -1,0 +1,87 @@
+<style>
+  .timeline { width:100%; border-radius:14px; overflow:hidden; border:1px solid rgba(201,168,76,0.2); background:rgba(10,18,34,0.6); backdrop-filter:blur(16px); }
+  .timeline-head { display:grid; grid-template-columns:1fr 1fr 1fr auto; padding:12px 28px; border-bottom:1px solid rgba(201,168,76,0.15); }
+  .timeline-head span { font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; color:rgba(201,168,76,0.55); font-family:Georgia,serif; }
+  .t-row { display:grid; grid-template-columns:1fr 1fr 1fr auto; padding:18px 28px; border-bottom:1px solid rgba(201,168,76,0.08); align-items:center; }
+  .t-row:last-child { border-bottom:none; }
+  .t-year { font-style:italic; color:#cbd5e1; }
+  .t-level { font-size:0.78rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#C9A84C; display:block; }
+  .t-sub { font-style:italic; color:#64748b; font-size:0.9rem; }
+  .t-sem { color:#94a3b8; }
+
+  /* Option A — full row link with right arrow label */
+  .opt-a .t-row { cursor:pointer; transition:background 0.2s; }
+  .opt-a .t-row:hover { background:rgba(201,168,76,0.06); }
+  .opt-a .t-cta { opacity:0; font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase; color:#C9A84C; white-space:nowrap; transition:opacity 0.2s; }
+  .opt-a .t-row:hover .t-cta { opacity:1; }
+
+  /* Option B — gold tag on the Nivå cell */
+  .opt-b .t-row { cursor:pointer; transition:background 0.2s; }
+  .opt-b .t-row:hover { background:rgba(201,168,76,0.06); }
+  .opt-b .t-badge { display:inline-block; margin-left:8px; font-size:0.5rem; letter-spacing:0.14em; text-transform:uppercase; color:#0F1829; background:#C9A84C; padding:2px 7px; border-radius:3px; vertical-align:middle; }
+
+  /* Option C — dedicated button on right */
+  .opt-c .t-cta-btn { font-size:0.58rem; letter-spacing:0.16em; text-transform:uppercase; color:#C9A84C; border:1px solid rgba(201,168,76,0.3); padding:6px 14px; border-radius:4px; background:transparent; cursor:pointer; white-space:nowrap; transition:all 0.2s; }
+  .opt-c .t-cta-btn:hover { background:rgba(201,168,76,0.1); border-color:#C9A84C; }
+</style>
+
+<h2>How should the clickable rows look?</h2>
+<p class="subtitle">Each Nivå row will link to Studieplan. Pick the interaction style that feels most natural.</p>
+
+<div class="cards" style="flex-direction:column;gap:28px;">
+
+  <!-- Option A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)" style="flex-direction:column;align-items:stretch;gap:12px;">
+    <div class="card-body" style="padding-bottom:0;">
+      <h3>A — Full row is clickable, arrow appears on hover</h3>
+      <p>Whole row becomes a link. A "Se studieplan →" label fades in on the right when you hover. Clean, no extra elements.</p>
+    </div>
+    <div class="mockup opt-a" style="pointer-events:none;">
+      <div class="mockup-body" style="padding:0;">
+        <div class="timeline">
+          <div class="timeline-head"><span>År</span><span>Nivå</span><span>Semester</span><span></span></div>
+          <div class="t-row"><span class="t-year">2026–2027</span><div><span class="t-level">Nivå 1</span><span class="t-sub">Grunnivå</span></div><span class="t-sem">Høst + Vår</span><span class="t-cta">Se studieplan →</span></div>
+          <div class="t-row"><span class="t-year">2027–2028</span><div><span class="t-level">Nivå 2</span><span class="t-sub">Mellomnivå</span></div><span class="t-sem">Høst + Vår</span><span class="t-cta">Se studieplan →</span></div>
+          <div class="t-row"><span class="t-year">2028–2029</span><div><span class="t-level">Nivå 3</span><span class="t-sub">Viderenivå</span></div><span class="t-sem">Høst + Vår</span><span class="t-cta">Se studieplan →</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)" style="flex-direction:column;align-items:stretch;gap:12px;">
+    <div class="card-body" style="padding-bottom:0;">
+      <h3>B — Gold pill badge next to the level name</h3>
+      <p>A "Se kurs" gold badge sits next to "Nivå 1" text permanently, making it obvious the row is interactive without needing hover.</p>
+    </div>
+    <div class="mockup opt-b" style="pointer-events:none;">
+      <div class="mockup-body" style="padding:0;">
+        <div class="timeline">
+          <div class="timeline-head"><span>År</span><span>Nivå</span><span>Semester</span><span></span></div>
+          <div class="t-row"><span class="t-year">2026–2027</span><div><span class="t-level">Nivå 1 <span class="t-badge">Åpne</span></span><span class="t-sub">Grunnivå</span></div><span class="t-sem">Høst + Vår</span><span></span></div>
+          <div class="t-row"><span class="t-year">2027–2028</span><div><span class="t-level">Nivå 2 <span class="t-badge">Åpne</span></span><span class="t-sub">Mellomnivå</span></div><span class="t-sem">Høst + Vår</span><span></span></div>
+          <div class="t-row"><span class="t-year">2028–2029</span><div><span class="t-level">Nivå 3 <span class="t-badge">Åpne</span></span><span class="t-sub">Viderenivå</span></div><span class="t-sem">Høst + Vår</span><span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)" style="flex-direction:column;align-items:stretch;gap:12px;">
+    <div class="card-body" style="padding-bottom:0;">
+      <h3>C — Dedicated "Se studieplan" button on each row</h3>
+      <p>Each row has a small outlined button on the right. Very clear call-to-action, works well for users who are scanning.</p>
+    </div>
+    <div class="mockup opt-c" style="pointer-events:none;">
+      <div class="mockup-body" style="padding:0;">
+        <div class="timeline">
+          <div class="timeline-head"><span>År</span><span>Nivå</span><span>Semester</span><span></span></div>
+          <div class="t-row"><span class="t-year">2026–2027</span><div><span class="t-level">Nivå 1</span><span class="t-sub">Grunnivå</span></div><span class="t-sem">Høst + Vår</span><button class="t-cta-btn">Se studieplan →</button></div>
+          <div class="t-row"><span class="t-year">2027–2028</span><div><span class="t-level">Nivå 2</span><span class="t-sub">Mellomnivå</span></div><span class="t-sem">Høst + Vår</span><button class="t-cta-btn">Se studieplan →</button></div>
+          <div class="t-row"><span class="t-year">2028–2029</span><div><span class="t-level">Nivå 3</span><span class="t-sub">Viderenivå</span></div><span class="t-sem">Høst + Vår</span><button class="t-cta-btn">Se studieplan →</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

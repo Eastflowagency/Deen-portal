@@ -45,14 +45,20 @@ export async function GET() {
       return NextResponse.json(memState)
     }
 
-    return NextResponse.json({
+    const dbState = {
       isLive:     data.is_live,
       title:      data.title,
       teacher:    data.teacher,
       subject:    data.subject,
       meetingUrl: data.meeting_url,
       startedAt:  data.started_at,
-    })
+    }
+    // If in-memory says live but DB says not, the DB upsert likely failed (RLS/permissions).
+    // Trust memState — it was set by the admin's POST in this server process.
+    if (memState.isLive && !dbState.isLive) {
+      return NextResponse.json(memState)
+    }
+    return NextResponse.json(dbState)
   } catch {
     return NextResponse.json(memState)
   }

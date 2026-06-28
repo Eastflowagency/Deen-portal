@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase'
 
 interface Notification {
   id: string
+  title: string
   message: string
   created_at: string
   is_active: boolean
@@ -16,6 +17,7 @@ export default function AdminNotificationsPage() {
   const router = useRouter()
   const [checking, setChecking] = useState(true)
   const [notifications, setNotifications] = useState<Notification[]>([])
+  const [title, setTitle] = useState('')
   const [message, setMessage] = useState('')
   const [saving, setSaving] = useState(false)
   const [statusMsg, setStatusMsg] = useState('')
@@ -34,18 +36,19 @@ export default function AdminNotificationsPage() {
     const supabase = createClient()
     const { data } = await supabase
       .from('notifications')
-      .select('id, message, created_at, is_active')
+      .select('id, title, message, created_at, is_active')
       .order('created_at', { ascending: false })
     if (data) setNotifications(data)
   }
 
   async function publish() {
-    if (!message.trim()) return
+    if (!title.trim() || !message.trim()) return
     setSaving(true); setStatusMsg('')
     const supabase = createClient()
-    const { error } = await supabase.from('notifications').insert({ message: message.trim(), is_active: true })
+    const { error } = await supabase.from('notifications').insert({ title: title.trim(), message: message.trim(), is_active: true })
     setSaving(false)
     if (!error) {
+      setTitle('')
       setMessage('')
       setStatusMsg('✓ Varsel publisert!')
       await load()
@@ -99,6 +102,21 @@ export default function AdminNotificationsPage() {
           borderRadius: '12px', padding: '24px',
         }}>
           <div style={{ fontSize: '0.6rem', letterSpacing: '0.22em', color: '#C9A84C', marginBottom: '14px', textTransform: 'uppercase' }}>Nytt varsel</div>
+          <input
+            type="text"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            placeholder="Tittel…"
+            style={{
+              width: '100%', boxSizing: 'border-box',
+              background: 'rgba(6,11,20,0.7)', border: '1px solid rgba(201,168,76,0.15)',
+              borderRadius: '8px', padding: '10px 14px',
+              color: '#e2e8f0', fontFamily: 'var(--font-montserrat)', fontSize: '0.84rem',
+              outline: 'none', marginBottom: '10px', fontWeight: 600,
+            }}
+            onFocus={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)' }}
+            onBlur={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.15)' }}
+          />
           <textarea
             value={message}
             onChange={e => setMessage(e.target.value)}
@@ -120,14 +138,14 @@ export default function AdminNotificationsPage() {
             ) : <span />}
             <button
               onClick={publish}
-              disabled={saving || !message.trim()}
+              disabled={saving || !title.trim() || !message.trim()}
               style={{
                 padding: '10px 24px', borderRadius: '8px',
-                background: saving || !message.trim() ? 'rgba(201,168,76,0.2)' : '#C9A84C',
-                border: 'none', color: saving || !message.trim() ? '#475569' : '#0F1829',
+                background: saving || !title.trim() || !message.trim() ? 'rgba(201,168,76,0.2)' : '#C9A84C',
+                border: 'none', color: saving || !title.trim() || !message.trim() ? '#475569' : '#0F1829',
                 fontFamily: 'var(--font-montserrat)', fontSize: '0.62rem',
                 letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase',
-                cursor: saving || !message.trim() ? 'not-allowed' : 'pointer',
+                cursor: saving || !title.trim() || !message.trim() ? 'not-allowed' : 'pointer',
                 transition: 'all 0.2s',
               }}
             >
@@ -154,6 +172,7 @@ export default function AdminNotificationsPage() {
                   opacity: n.is_active ? 1 : 0.45,
                 }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ margin: '0 0 4px', fontSize: '0.78rem', fontWeight: 700, color: n.is_active ? '#C9A84C' : '#475569', lineHeight: 1.4 }}>{n.title}</p>
                     <p style={{ margin: '0 0 6px', fontSize: '0.82rem', color: n.is_active ? '#e2e8f0' : '#475569', lineHeight: 1.5 }}>{n.message}</p>
                     <span style={{ fontSize: '0.6rem', color: '#1e2d42' }}>
                       {new Date(n.created_at).toLocaleDateString('no-NO', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}

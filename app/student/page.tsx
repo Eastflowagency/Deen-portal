@@ -10,16 +10,6 @@ import { createClient } from '@/lib/supabase'
 
 const SUBJECTS = [
   {
-    id: 'koranvitenskaper',
-    name: 'Koranvitenskaper',
-    arabic: 'علوم القرآن',
-    desc: 'Tajweed, Tafseer og Koranvitenskapene',
-    gradient: 'linear-gradient(150deg, #071a0e 0%, #0e2d18 50%, #0a2010 100%)',
-    accentRgb: '74,197,120',
-    symbol: 'آ',
-    slugPrefix: 'koranvitenskaper',
-  },
-  {
     id: 'aqidah',
     name: 'Aqidah',
     arabic: 'العقيدة',
@@ -48,6 +38,16 @@ const SUBJECTS = [
     accentRgb: '251,191,36',
     symbol: 'س',
     slugPrefix: 'seerah',
+  },
+  {
+    id: 'koranvitenskaper',
+    name: 'Koranvitenskaper',
+    arabic: 'علوم القرآن',
+    desc: 'Tajweed, Tafseer og Koranvitenskapene',
+    gradient: 'linear-gradient(150deg, #071a0e 0%, #0e2d18 50%, #0a2010 100%)',
+    accentRgb: '74,197,120',
+    symbol: 'آ',
+    slugPrefix: 'koranvitenskaper',
   },
   {
     id: 'hadith',
@@ -317,12 +317,17 @@ function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typ
           </div>
         ) : (
           <span style={{
+            display: 'inline-flex', alignItems: 'center', gap: '6px',
             fontFamily: 'var(--font-montserrat)',
             fontSize: '0.62rem',
-            letterSpacing: '0.18em',
-            color: `rgba(${subject.accentRgb},0.75)`,
+            letterSpacing: '0.16em',
+            color: `rgba(${subject.accentRgb},0.85)`,
             textTransform: 'uppercase',
-          }}>Se kurs →</span>
+            fontWeight: 600,
+          }}>
+            Åpne kurset
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
         )}
       </div>
     </div>
@@ -332,7 +337,7 @@ function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typ
 
   return (
     <Link
-      href={`/studieplan/${slug}`}
+      href={`/student/${subject.id}/nivå${level.num}`}
       style={{ textDecoration: 'none' }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -349,8 +354,9 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
   const [showAccount, setShowAccount] = useState(false)
   const [accountTab, setAccountTab] = useState<'profil' | 'passord'>('profil')
   const [showNotifications, setShowNotifications] = useState(false)
-  const [notifications, setNotifications] = useState<Array<{ id: string; message: string; created_at: string }>>([])
+  const [notifications, setNotifications] = useState<Array<{ id: string; title: string; message: string; created_at: string }>>([])
   const [notifLoading, setNotifLoading] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(0)
 
   // Profile form
   const [editFirst, setEditFirst] = useState(firstName.split(' ')[0] || '')
@@ -414,12 +420,40 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
     const supabase = createClient()
     const { data } = await supabase
       .from('notifications')
-      .select('id, message, created_at')
+      .select('id, title, message, created_at')
       .eq('is_active', true)
       .order('created_at', { ascending: false })
       .limit(20)
     if (data) setNotifications(data)
     setNotifLoading(false)
+  }
+
+  // Compute unread count on mount by comparing against last-seen timestamp
+  useEffect(() => {
+    async function fetchUnread() {
+      const supabase = createClient()
+      const { data } = await supabase
+        .from('notifications')
+        .select('created_at')
+        .eq('is_active', true)
+        .limit(100)
+      if (!data) return
+      const lastSeen = localStorage.getItem('notif_last_seen')
+      const cutoff = lastSeen ? new Date(lastSeen) : new Date(0)
+      const count = data.filter(n => new Date(n.created_at) > cutoff).length
+      setUnreadCount(count)
+    }
+    fetchUnread()
+  }, [])
+
+  function openNotifications() {
+    setShowNotifications(v => !v)
+    setShowMenu(false)
+    if (!showNotifications) {
+      // Mark all as read
+      localStorage.setItem('notif_last_seen', new Date().toISOString())
+      setUnreadCount(0)
+    }
   }
 
   useEffect(() => {
@@ -560,7 +594,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
           {/* Bell — notifications */}
           <div style={{ position: 'relative' }}>
             <button
-              onClick={() => { setShowNotifications(v => !v); setShowMenu(false) }}
+              onClick={openNotifications}
               title="Varsler"
               style={{
                 width: '36px', height: '36px', borderRadius: '8px',
@@ -572,8 +606,17 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               }}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              {notifications.length > 0 && (
-                <span style={{ position: 'absolute', top: '6px', right: '6px', width: '7px', height: '7px', borderRadius: '50%', background: '#ef4444', border: '1.5px solid #060b14' }} />
+              {unreadCount > 0 && (
+                <span style={{
+                  position: 'absolute', top: '-5px', right: '-5px',
+                  minWidth: '17px', height: '17px', borderRadius: '9px',
+                  background: '#ef4444', border: '1.5px solid #060b14',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', fontWeight: 700,
+                  color: '#fff', lineHeight: 1, padding: '0 3px',
+                }}>
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
               )}
             </button>
 
@@ -588,8 +631,8 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
                 }}>
                   <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.72rem', fontWeight: 700, color: '#e2e8f0', letterSpacing: '0.06em' }}>VARSLER</span>
-                    {notifications.length > 0 && (
-                      <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', color: '#C9A84C', letterSpacing: '0.1em' }}>{notifications.length} ny</span>
+                    {unreadCount > 0 && (
+                      <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', color: '#C9A84C', letterSpacing: '0.1em' }}>{unreadCount} ny</span>
                     )}
                   </div>
                   <div style={{ maxHeight: '340px', overflowY: 'auto' }}>
@@ -599,11 +642,12 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
                       <div style={{ padding: '32px 16px', textAlign: 'center', fontFamily: 'var(--font-montserrat)', fontSize: '0.72rem', color: '#334155' }}>Ingen varsler ennå</div>
                     ) : (
                       notifications.map((n, idx) => (
-                        <div key={n.id} style={{ padding: '12px 16px', borderBottom: idx < notifications.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.8rem', color: '#e2e8f0', margin: '0 0 5px', lineHeight: 1.55 }}>{n.message}</p>
-                          <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', color: '#334155' }}>
-                            {new Date(n.created_at).toLocaleDateString('no-NO', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                        <div key={n.id} style={{ padding: '14px 16px', borderBottom: idx < notifications.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                          <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', color: 'rgba(201,168,76,0.6)', letterSpacing: '0.08em', display: 'block', marginBottom: '5px' }}>
+                            {new Date(n.created_at).toLocaleDateString('no-NO', { day: 'numeric', month: 'long', year: 'numeric' })}
                           </span>
+                          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.8rem', fontWeight: 700, color: '#f1f5f9', margin: '0 0 5px', lineHeight: 1.4 }}>{n.title}</p>
+                          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.78rem', color: '#94a3b8', margin: 0, lineHeight: 1.55 }}>{n.message}</p>
                         </div>
                       ))
                     )}
