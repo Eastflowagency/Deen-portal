@@ -751,7 +751,7 @@ export default function HomePage() {
 
       {/* ── HERO ───────────────────────────────────────────────── */}
       <section
-        className={loadingHidden ? 'hero-active' : ''}
+        className={`hero-bg${loadingHidden ? ' hero-active' : ''}`}
         aria-label="Hero"
         style={{
           height: '100vh',
@@ -937,7 +937,7 @@ export default function HomePage() {
       </main>
 
       {/* ── SECTIONS BACKGROUND ─────────────────────────────────── */}
-      <div style={{
+      <div className="sections-bg" style={{
         backgroundImage: "url('/Background.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',

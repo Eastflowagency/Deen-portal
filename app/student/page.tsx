@@ -472,11 +472,11 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
         @keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
         @media (max-width: 767px) {
           .student-nav { height: auto !important; flex-wrap: wrap !important; padding: 0 16px !important; gap: 0 !important; align-items: center !important; }
-          .student-nav-brand { flex: 1 !important; height: 64px !important; display: flex !important; align-items: center !important; }
+          .student-nav-brand { order: 1 !important; flex: 1 !important; height: 64px !important; display: flex !important; align-items: center !important; }
           .student-nav-logo { height: 52px !important; }
-          .student-nav-tabs { display: flex !important; flex: 0 0 100% !important; overflow-x: auto !important; scrollbar-width: none !important; padding: 0 0 10px !important; gap: 6px !important; margin-top: 0 !important; }
+          .student-nav-icons { order: 2 !important; display: flex !important; align-items: center !important; margin-top: 0 !important; height: 64px !important; flex-shrink: 0 !important; }
+          .student-nav-tabs { order: 3 !important; display: flex !important; flex: 0 0 100% !important; overflow-x: auto !important; scrollbar-width: none !important; padding: 0 0 10px !important; gap: 6px !important; margin-top: 0 !important; }
           .student-nav-tabs::-webkit-scrollbar { display: none; }
-          .student-nav-icons { display: flex !important; align-items: center !important; margin-top: 0 !important; height: 64px !important; flex-shrink: 0 !important; }
           .student-nav-icons button { width: 32px !important; height: 32px !important; }
           .student-content { padding: 16px !important; }
           .subject-row { gap: 12px !important; padding-bottom: 12px !important; }

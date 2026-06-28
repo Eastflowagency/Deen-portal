@@ -377,4 +377,16 @@ body {
     padding-top: 90px !important;
     padding-bottom: 44px !important;
   }
+  /* iOS Safari does not support background-attachment: fixed inside scroll containers */
+  .hero-bg, .sections-bg {
+    background-attachment: scroll !important;
+  }
+  /* Scale up hero heading and subtitle for readability on phone */
+  .hero-content-flex h1 {
+    font-size: clamp(1.6rem, 7.5vw, 3rem) !important;
+  }
+  .hero-content-flex p {
+    font-size: 1rem !important;
+    max-width: 32ch !important;
+  }
 }
