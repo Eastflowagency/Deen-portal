@@ -351,6 +351,7 @@ function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typ
 
 function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName: string; email: string; onSignOut: () => void; isLive: boolean; isAdmin: boolean }) {
   const [showMenu, setShowMenu] = useState(false)
+  const [showDrawer, setShowDrawer] = useState(false)
   const [showAccount, setShowAccount] = useState(false)
   const [accountTab, setAccountTab] = useState<'profil' | 'passord'>('profil')
   const [showNotifications, setShowNotifications] = useState(false)
@@ -470,20 +471,26 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
     <div style={{ height: '100vh', overflow: 'hidden', position: 'relative', background: '#060b14' }}>
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+        @keyframes drawerSlideIn { from { transform: translateX(100%) } to { transform: translateX(0) } }
+        .mobile-hamburger { display: none; }
+        .student-bottom-nav { display: none; }
         @media (max-width: 767px) {
-          .student-nav { height: auto !important; flex-wrap: wrap !important; padding: 0 16px !important; gap: 0 !important; align-items: center !important; }
-          .student-nav-brand { order: 1 !important; flex: 1 !important; height: 64px !important; display: flex !important; align-items: center !important; }
+          .student-nav { height: 64px !important; flex-wrap: nowrap !important; padding: 0 16px !important; gap: 0 !important; align-items: center !important; }
+          .student-nav-brand { flex: 1 !important; height: 64px !important; display: flex !important; align-items: center !important; }
           .student-nav-logo { height: 52px !important; }
-          .student-nav-icons { order: 2 !important; display: flex !important; align-items: center !important; margin-top: 0 !important; height: 64px !important; flex-shrink: 0 !important; }
-          .student-nav-tabs { order: 3 !important; display: flex !important; flex: 0 0 100% !important; overflow-x: auto !important; scrollbar-width: none !important; padding: 0 0 10px !important; gap: 6px !important; margin-top: 0 !important; }
-          .student-nav-tabs::-webkit-scrollbar { display: none; }
-          .student-nav-icons button { width: 32px !important; height: 32px !important; }
+          .student-nav-tabs { display: none !important; }
+          .student-nav-icons { display: flex !important; align-items: center !important; gap: 8px !important; margin-top: 0 !important; height: 64px !important; flex-shrink: 0 !important; }
+          .student-nav-icons button { width: 36px !important; height: 36px !important; }
+          .desktop-icon { display: none !important; }
+          .mobile-hamburger { display: flex !important; align-items: center !important; justify-content: center !important; width: 36px !important; height: 36px !important; border-radius: 8px !important; background: transparent !important; border: 1px solid rgba(255,255,255,0.1) !important; color: rgba(255,255,255,0.75) !important; cursor: pointer !important; }
+          .student-scroll-content { height: calc(100vh - 64px - 56px) !important; }
           .student-content { padding: 16px !important; }
           .subject-row { gap: 12px !important; padding-bottom: 12px !important; }
           .subject-card { width: 160px !important; flex-shrink: 0; }
           .subject-card-thumb { height: 120px !important; }
           .level-cards { flex-direction: column !important; gap: 10px !important; }
           .level-card { width: 100% !important; min-width: unset !important; }
+          .student-bottom-nav { display: flex !important; position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; height: 56px; background: rgba(6,11,20,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.07); align-items: center; justify-content: space-around; padding: 0 20px; }
         }
       ` }} />
       {/* Background */}
@@ -676,17 +683,19 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
             )}
           </div>
 
-          {/* Placeholder icons */}
-          {[
-            <svg key="support" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" strokeLinecap="round"/><circle cx="12" cy="17" r=".5" fill="currentColor"/></svg>,
-            <svg key="star" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>,
-          ].map((icon, i) => (
-            <button key={i} title="Kommer snart" style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'transparent', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.55)', cursor: 'not-allowed' }}>
-              {icon}
-            </button>
-          ))}
-          {/* Avatar — opens account menu */}
-          <div style={{ position: 'relative' }}>
+          {/* Placeholder icons — desktop only */}
+          <div className="desktop-icon" style={{ display: 'flex', gap: '8px' }}>
+            {[
+              <svg key="support" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" strokeLinecap="round"/><circle cx="12" cy="17" r=".5" fill="currentColor"/></svg>,
+              <svg key="star" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>,
+            ].map((icon, i) => (
+              <button key={i} title="Kommer snart" style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'transparent', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.55)', cursor: 'not-allowed' }}>
+                {icon}
+              </button>
+            ))}
+          </div>
+          {/* Avatar — opens account menu (desktop only) */}
+          <div className="desktop-icon" style={{ position: 'relative' }}>
             <button
               onClick={() => setShowMenu(v => !v)}
               style={{
@@ -780,6 +789,20 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               </>
             )}
           </div>
+
+          {/* Hamburger — opens mobile drawer (mobile only) */}
+          <button
+            className="mobile-hamburger"
+            onClick={() => setShowDrawer(v => !v)}
+            title="Meny"
+            aria-label="Åpne meny"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+              <line x1="3" y1="7" x2="21" y2="7"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="17" x2="21" y2="17"/>
+            </svg>
+          </button>
         </div>
       </nav>
 
@@ -890,7 +913,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
       )}
 
       {/* Scrollable page content — only this div scrolls */}
-      <div style={{ height: 'calc(100vh - 112px)', overflowY: 'auto', position: 'relative', zIndex: 1 }}>
+      <div className="student-scroll-content" style={{ height: 'calc(100vh - 112px)', overflowY: 'auto', position: 'relative', zIndex: 1 }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '32px 32px 80px' }}>
 
         {/* Greeting */}
@@ -930,6 +953,119 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
         ))}
 
       </div>
+      </div>
+
+      {/* ── Mobile slide-in drawer ─────────────────────────────────────────── */}
+      {showDrawer && (
+        <>
+          {/* Backdrop */}
+          <div
+            onClick={() => setShowDrawer(false)}
+            style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)' }}
+          />
+          {/* Drawer panel */}
+          <div style={{
+            position: 'fixed', top: 0, right: 0, bottom: 0, zIndex: 201,
+            width: '285px',
+            background: '#080e1c',
+            borderLeft: '1px solid rgba(255,255,255,0.07)',
+            display: 'flex', flexDirection: 'column',
+            animation: 'drawerSlideIn 0.28s cubic-bezier(0.32, 0.72, 0, 1) forwards',
+            overflowY: 'auto',
+          }}>
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 16px' }}>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.06em', color: '#e2e8f0' }}>Meny</span>
+              <button onClick={() => setShowDrawer(false)} style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b', cursor: 'pointer', fontSize: '14px' }}>✕</button>
+            </div>
+
+            {/* User row */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '0 20px 20px' }}>
+              <div style={{ width: '42px', height: '42px', borderRadius: '50%', flexShrink: 0, background: 'rgba(201,168,76,0.15)', border: '1.5px solid rgba(201,168,76,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C9A84C', fontFamily: 'var(--font-montserrat)', fontSize: '0.78rem', fontWeight: 700 }}>
+                {displayName.split(' ').map((w: string) => w[0]).filter(Boolean).join('').slice(0, 2).toUpperCase()}
+              </div>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.85rem', fontWeight: 700, color: '#e2e8f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayName}</div>
+                <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', color: '#334155', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{email}</div>
+              </div>
+            </div>
+
+            {/* ── PROGRAMMER ── */}
+            <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)' }} />
+            <div style={{ padding: '14px 20px 6px' }}>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', letterSpacing: '0.22em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase' }}>PROGRAMMER</span>
+            </div>
+
+            {/* Al Rawdah Arabisk — kommer snart */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 20px', opacity: 0.38, cursor: 'default' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="1.6"><path d="M12 6.5c-3.6-3-8.5-1.5-8.5 4 0 3 2 5.5 8.5 9 6.5-3.5 8.5-6 8.5-9 0-5.5-4.9-7-8.5-4z"/></svg>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)' }}>Al Rawdah Arabisk</span>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.5rem', letterSpacing: '0.12em', color: '#334155', marginLeft: 'auto', textTransform: 'uppercase' }}>Snart</span>
+            </div>
+
+            {/* Islamsk Vitenskap — aktiv */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 20px', background: 'rgba(201,168,76,0.06)', borderLeft: '2px solid rgba(201,168,76,0.55)', cursor: 'default' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="1.6"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.82rem', fontWeight: 600, color: '#C9A84C' }}>Islamsk Vitenskap</span>
+            </div>
+
+            {/* ── Timeplan ── */}
+            <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)', margin: '8px 0' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 20px', opacity: 0.42, cursor: 'default' }}>
+              {isLive && (
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.48rem', letterSpacing: '0.18em', color: '#ef4444', textTransform: 'uppercase', background: 'rgba(220,38,38,0.12)', border: '1px solid rgba(220,38,38,0.3)', borderRadius: '4px', padding: '2px 6px', fontFamily: 'var(--font-montserrat)', fontWeight: 700 }}>
+                  <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#ef4444', animation: 'livePulse 1.4s infinite' }} />
+                  LIVE
+                </span>
+              )}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)' }}>Timeplan</span>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.5rem', letterSpacing: '0.12em', color: '#334155', marginLeft: 'auto', textTransform: 'uppercase' }}>Snart</span>
+            </div>
+
+            {/* ── Konto + Få støtte ── */}
+            <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)', margin: '8px 0' }} />
+            <button
+              onClick={() => { setShowDrawer(false); setAccountTab('profil'); setShowAccount(true) }}
+              style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 20px', width: '100%', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" strokeLinecap="round"/></svg>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)' }}>Konto</span>
+            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 20px', opacity: 0.38, cursor: 'default' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.6"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" strokeLinecap="round"/><circle cx="12" cy="17" r=".5" fill="rgba(255,255,255,0.7)"/></svg>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)' }}>Få støtte</span>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.5rem', letterSpacing: '0.12em', color: '#334155', marginLeft: 'auto', textTransform: 'uppercase' }}>Snart</span>
+            </div>
+
+            {/* Spacer + Logg ut */}
+            <div style={{ flex: 1 }} />
+            <div style={{ padding: '8px 12px 28px' }}>
+              <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)', marginBottom: '8px' }} />
+              <button
+                onClick={() => { setShowDrawer(false); onSignOut() }}
+                style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px', width: '100%', borderRadius: '8px', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', transition: 'background 0.15s' }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(239,68,68,0.08)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.6" strokeLinecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)' }}>Logg ut</span>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ── Bottom navigation — mobile only ──────────────────────────────────── */}
+      <div className="student-bottom-nav">
+        <button style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', background: 'none', border: 'none', cursor: 'pointer', color: '#C9A84C', padding: '6px 20px' }}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+          <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.04em' }}>Hjem</span>
+        </button>
+        <button title="Kommer snart" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', background: 'none', border: 'none', cursor: 'not-allowed', color: 'rgba(255,255,255,0.32)', padding: '6px 20px' }}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', letterSpacing: '0.04em' }}>Kalender</span>
+        </button>
       </div>
     </div>
   )
