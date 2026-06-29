@@ -544,7 +544,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
             Islamske Vitenskaper
           </div>
           {/* Inactive tabs - coming soon */}
-          {['Arabic', 'Kalender', 'Timeplan'].map((tab) => (
+          {['Arabisk', 'Kalender', 'Timeplan'].map((tab) => (
             <div
               key={tab}
               title="Kommer snart"
