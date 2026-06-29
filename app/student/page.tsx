@@ -515,15 +515,17 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
       }}>
         {/* Logo */}
         <div className="student-nav-brand" style={{ flexShrink: 0 }}>
-          <Image
-            src="/Logo2.png"
-            alt="Al Rawdah Institutt"
-            width={640}
-            height={230}
-            className="student-nav-logo"
-            style={{ height: '108px', width: 'auto', objectFit: 'contain' }}
-            priority
-          />
+          <Link href="/" style={{ display: 'inline-flex', alignItems: 'center' }}>
+            <Image
+              src="/Logo2.png"
+              alt="Al Rawdah Institutt"
+              width={640}
+              height={230}
+              className="student-nav-logo"
+              style={{ height: '108px', width: 'auto', objectFit: 'contain' }}
+              priority
+            />
+          </Link>
         </div>
 
         {/* Center tabs */}
