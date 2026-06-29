@@ -546,7 +546,7 @@ export default function HomePage() {
                 )
               })}
               <Link
-                href="/login"
+                href="/student"
                 className="btn-press"
                 style={{
                   background: '#C9A84C',
@@ -720,7 +720,7 @@ export default function HomePage() {
             })}
             <div style={{ padding: '4px 8px 8px' }}>
               <Link
-                href="/login"
+                href="/student"
                 onClick={() => setMenuOpen(false)}
                 className="btn-press"
                 style={{

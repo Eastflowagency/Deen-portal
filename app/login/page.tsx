@@ -17,9 +17,12 @@ export default function LoginPage() {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 50)
-    return () => clearTimeout(t)
-  }, [])
+    const supabase = createClient()
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) router.replace('/student')
+      else setTimeout(() => setMounted(true), 50)
+    })
+  }, [router])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
