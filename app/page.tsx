@@ -1690,9 +1690,9 @@ export default function HomePage() {
                   <div style={{ overflow: 'hidden' }}>
                     <div style={{
                       padding: '0 26px 22px',
-                      color: '#ffffff',
+                      color: '#94a3b8',
                       fontFamily: 'var(--font-montserrat)',
-                      fontWeight: 700,
+                      fontWeight: 400,
                       fontSize: '0.88rem',
                       letterSpacing: '0.05em',
                       lineHeight: 1.75,
