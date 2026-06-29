@@ -184,10 +184,46 @@ export default function HomePage() {
       const y = window.scrollY
       setNavOpacity(Math.min(y / 80, 1))
       setScrolled(y > 40)
-      if (y < 80) setActiveSection('top')
+      if (y < 80) {
+        setActiveSection('top')
+        window.history.replaceState(null, '', '/hjem')
+      }
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Clean URL ↔ section ID maps
+  const sectionToUrl: Record<string, string> = {
+    top: '/hjem', curriculum: '/pensum', pricing: '/priser', faq: '/spørsmål',
+  }
+  const urlToSection: Record<string, string> = {
+    '/hjem': 'top', '/pensum': 'curriculum', '/priser': 'pricing', '/spørsmål': 'faq',
+  }
+
+  function scrollToSection(sectionId: string, url: string) {
+    if (sectionId === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else {
+      const el = document.getElementById(sectionId)
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    }
+    window.history.replaceState(null, '', url)
+    setActiveSection(sectionId)
+  }
+
+  // On first load: if URL is /pensum etc., scroll to that section
+  useEffect(() => {
+    const path = window.location.pathname
+    const sectionId = urlToSection[path]
+    if (sectionId && sectionId !== 'top') {
+      setTimeout(() => {
+        const el = document.getElementById(sectionId)
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+        setActiveSection(sectionId)
+      }, 120)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Active section detection via IntersectionObserver
@@ -197,7 +233,12 @@ export default function HomePage() {
       const el = document.getElementById(id)
       if (!el) return null
       const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveSection(id) },
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id)
+            window.history.replaceState(null, '', sectionToUrl[id])
+          }
+        },
         { rootMargin: '-25% 0px -65% 0px', threshold: 0 }
       )
       obs.observe(el)
@@ -292,25 +333,20 @@ export default function HomePage() {
     return () => { cancelAnimationFrame(rafId); window.removeEventListener('resize', resize) }
   }, [])
 
-  const navLinks: { label: string; href: string; dropdown?: { label: string; href: string }[] }[] = [
-    { label: 'Hjem', href: '#top' },
-    {
-      label: 'Pensum', href: '#curriculum',
-      dropdown: [
-        { label: 'Studieplan', href: '/studieplan' },
-      ],
-    },
-    { label: 'Pris', href: '#pricing' },
-    { label: 'Artikler', href: '/artikler' },
-    { label: 'Spørsmål', href: '#faq' },
+  const navLinks: { label: string; href: string; section?: string; dropdown?: { label: string; href: string }[] }[] = [
+    { label: 'Hjem',      href: '/hjem',      section: 'top' },
+    { label: 'Pensum',    href: '/pensum',     section: 'curriculum', dropdown: [{ label: 'Studieplan', href: '/studieplan' }] },
+    { label: 'Pris',      href: '/priser',     section: 'pricing' },
+    { label: 'Artikler',  href: '/artikler' },
+    { label: 'Spørsmål',  href: '/spørsmål',   section: 'faq' },
   ]
 
   // ── Shared style tokens ──────────────────────────────────────────────────────
   const pillBg = scrolled ? 'rgba(12,20,38,0.5)' : 'rgba(12,20,38,0.18)'
   const pillBorder = scrolled ? '1px solid rgba(201,168,76,0.35)' : '1px solid rgba(201,168,76,0.22)'
   const isActive = (href: string) => {
-    const id = href.replace('#', '')
-    return id === 'top' ? activeSection === 'top' : activeSection === id
+    const sectionId = urlToSection[href]
+    return sectionId ? activeSection === sectionId : false
   }
 
   return (
@@ -382,7 +418,8 @@ export default function HomePage() {
         >
           {/* Logo — left, shrinks via clamp so it never collides with the pill */}
           <a
-            href="#top"
+            href="/hjem"
+            onClick={(e) => { e.preventDefault(); scrollToSection('top', '/hjem') }}
             style={{ pointerEvents: 'all', flexShrink: 0, display: 'flex', alignItems: 'center', textDecoration: 'none' }}
           >
             <Image
@@ -427,6 +464,7 @@ export default function HomePage() {
                     >
                       <a
                         href={l.href}
+                        onClick={l.section ? (e) => { e.preventDefault(); scrollToSection(l.section!, l.href) } : undefined}
                         style={{
                           color: active || isOpen ? '#C9A84C' : '#e2e8f0',
                           fontSize: '0.8rem',
@@ -513,6 +551,7 @@ export default function HomePage() {
                   <a
                     key={l.label}
                     href={l.href}
+                    onClick={l.section ? (e) => { e.preventDefault(); scrollToSection(l.section!, l.href) } : undefined}
                     style={{
                       color: active ? '#C9A84C' : '#e2e8f0',
                       fontSize: '0.8rem',
@@ -690,7 +729,10 @@ export default function HomePage() {
                 <a
                   key={l.label}
                   href={l.href}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={l.section
+                    ? (e) => { e.preventDefault(); scrollToSection(l.section!, l.href); setMenuOpen(false) }
+                    : () => setMenuOpen(false)
+                  }
                   style={{
                     display: 'block',
                     color: '#cbd5e1',
@@ -1710,15 +1752,16 @@ export default function HomePage() {
 
           <nav aria-label="Footer navigation" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '8px', marginBottom: 40 }}>
             {[
-              { label: 'Hjem', href: '#top' },
-              { label: 'Pensum', href: '#curriculum' },
-              { label: 'Pris', href: '#pricing' },
-              { label: 'Artikler', href: '/artikler' },
-              { label: 'Spørsmål', href: '#faq' },
+              { label: 'Hjem',      href: '/hjem',      section: 'top' },
+              { label: 'Pensum',    href: '/pensum',     section: 'curriculum' },
+              { label: 'Pris',      href: '/priser',     section: 'pricing' },
+              { label: 'Artikler',  href: '/artikler' },
+              { label: 'Spørsmål',  href: '/spørsmål',   section: 'faq' },
             ].map((l) => (
               <a
                 key={l.label}
                 href={l.href}
+                onClick={'section' in l ? (e) => { e.preventDefault(); scrollToSection((l as { section: string }).section, l.href) } : undefined}
                 style={{
                   color: '#94a3b8',
                   textDecoration: 'none',
