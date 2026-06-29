@@ -1574,7 +1574,9 @@ export default function HomePage() {
             </ul>
 
             <a
-              href="mailto:info@alrawdah.no"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSftLc6RDvnztwOoIJgqj-szlmP5HuMJuoxp80sRsmx0c-1bdQ/viewform?usp=dialog"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.8rem',
