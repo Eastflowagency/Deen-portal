@@ -156,10 +156,6 @@ export default function StudieplanPage() {
           <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.8rem', letterSpacing: '0.2em', color: '#94a3b8', textTransform: 'uppercase' }}>
             Høst + Vår semester
           </span>
-          <span style={{ color: 'rgba(201,168,76,0.3)', fontSize: '0.7rem' }}>·</span>
-          <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.8rem', letterSpacing: '0.2em', color: '#94a3b8', textTransform: 'uppercase' }}>
-            30 plasser
-          </span>
         </div>
 
         {/* Program 1: Islamske vitenskaper */}
@@ -273,29 +269,6 @@ export default function StudieplanPage() {
           </div>
         </div>
 
-        {/* Back to courses */}
-        <div style={{ textAlign: 'center', marginTop: '56px' }}>
-          <Link
-            href="/studieplan"
-            style={{
-              fontFamily: 'var(--font-montserrat)',
-              fontSize: '0.78rem',
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              color: '#0F1829',
-              background: '#C9A84C',
-              padding: '13px 40px',
-              textDecoration: 'none',
-              display: 'inline-block',
-              borderRadius: '4px',
-              transition: 'background 0.2s',
-            }}
-            onMouseEnter={(e) => ((e.target as HTMLElement).style.background = '#dbb95e')}
-            onMouseLeave={(e) => ((e.target as HTMLElement).style.background = '#C9A84C')}
-          >
-            Se alle kurs
-          </Link>
-        </div>
       </div>
     </div>
   )
