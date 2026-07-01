@@ -96,9 +96,8 @@ export default function SlidePage() {
             <Image
               src="/logo-cropped.png"
               alt="Al Rawdah Institutt"
-              width={1287}
-              height={461}
-              style={{ width: '58mm', height: 'auto', objectFit: 'contain', marginBottom: '10mm' }}
+              width={988} height={374}
+              style={{ height: '20mm', width: 'auto', objectFit: 'contain', marginBottom: '10mm' }}
             />
 
             {/* Divider */}
@@ -218,3 +217,4 @@ export default function SlidePage() {
     </>
   )
 }
+

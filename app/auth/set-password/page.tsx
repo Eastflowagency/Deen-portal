@@ -72,9 +72,8 @@ export default function SetPasswordPage() {
               <Image
                 src="/logo-cropped.png"
                 alt="Al Rawdah Institute"
-                width={1287}
-                height={461}
-                style={{ width: '100%', maxWidth: '380px', height: 'auto', objectFit: 'contain' }}
+                width={988} height={374}
+                style={{ height: '80px', width: 'auto', objectFit: 'contain' }}
                 priority
               />
             </div>
@@ -108,7 +107,7 @@ export default function SetPasswordPage() {
               <input
                 id="confirm" type="password" value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
-                required placeholder="••••••••"
+                required placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                 className="w-full rounded-lg px-4 py-3 text-sm outline-none transition-all duration-200"
                 style={{ backgroundColor: '#0F1829', border: '1px solid rgba(201,168,76,0.2)', color: '#fff' }}
                 onFocus={(e) => (e.target.style.borderColor = 'rgba(201,168,76,0.6)')}
@@ -135,3 +134,4 @@ export default function SetPasswordPage() {
     </div>
   )
 }
+

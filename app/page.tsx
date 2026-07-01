@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
-// ── SVG Icons (no emoji — ui-ux-pro-max: no-emoji-icons) ────────────────────
+// â”€â”€ SVG Icons (no emoji — ui-ux-pro-max: no-emoji-icons) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const IconMenu = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -40,7 +40,7 @@ const IconChevronDown = () => (
   </svg>
 )
 
-// ── Data ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const ISLAMIC_SUBJECTS = [
   { name: 'Koranvitenskaper', desc: 'Tafseer, tajweed og koranvitenskapene.' },
@@ -84,7 +84,7 @@ const FEATURES = [
   'Fraværs- og fremgangssporing',
 ]
 
-// ── AnimatedHeading ───────────────────────────────────────────────────────────
+// â”€â”€ AnimatedHeading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function AnimatedHeading({ text, delay = 0, color, gradient }: { text: string; delay?: number; color?: string; gradient?: string }) {
   if (gradient) {
@@ -132,7 +132,7 @@ function AnimatedHeading({ text, delay = 0, color, gradient }: { text: string; d
   )
 }
 
-// ── useReveal ─────────────────────────────────────────────────────────────────
+// â”€â”€ useReveal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function useReveal(threshold = 0.1) {
   const ref = useRef<HTMLElement>(null)
@@ -150,11 +150,11 @@ function useReveal(threshold = 0.1) {
   return { ref, revealed }
 }
 
-// ── Particle type ─────────────────────────────────────────────────────────────
+// â”€â”€ Particle type â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 type Particle = { x: number; y: number; vx: number; vy: number; r: number; opacity: number; node: boolean }
 
-// ── Section heading helper ────────────────────────────────────────────────────
+// â”€â”€ Section heading helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
@@ -175,7 +175,7 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   )
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
+// â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -197,7 +197,7 @@ export default function HomePage() {
   const { ref: faqRef, revealed: faqRevealed } = useReveal()
   const { ref: footerRef, revealed: footerRevealed } = useReveal()
 
-  // Scroll detector — continuous 0→1 over first 80px, boolean for pill styling
+  // Scroll detector — continuous 0←’1 over first 80px, boolean for pill styling
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY
@@ -212,7 +212,7 @@ export default function HomePage() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Clean URL ↔ section ID maps
+  // Clean URL ←” section ID maps
   const sectionToUrl: Record<string, string> = {
     top: '/hjem', curriculum: '/pensum', pricing: '/søknad', faq: '/spørsmål',
   }
@@ -360,7 +360,7 @@ export default function HomePage() {
     { label: 'Spørsmål',  href: '/spørsmål',   section: 'faq' },
   ]
 
-  // ── Shared style tokens ──────────────────────────────────────────────────────
+  // â”€â”€ Shared style tokens â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const pillBg = scrolled ? 'rgba(12,20,38,0.5)' : 'rgba(12,20,38,0.18)'
   const pillBorder = scrolled ? '1px solid rgba(201,168,76,0.35)' : '1px solid rgba(201,168,76,0.22)'
   const isActive = (href: string) => {
@@ -371,10 +371,10 @@ export default function HomePage() {
   return (
     <div id="top" style={{ backgroundColor: '#080c14', color: '#f1f5f9' }}>
 
-      {/* ── SKIP LINK ─────────────────────────────────────────── */}
+      {/* â”€â”€ SKIP LINK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <a href="#main-content" className="skip-link">Skip to main content</a>
 
-      {/* ── LOADING SCREEN ──────────────────────────────────────── */}
+      {/* â”€â”€ LOADING SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       {!loadingHidden && (
         <div className={`loading-overlay${loadingDone ? ' loading-fade-out' : ''}`} aria-hidden="true">
           <div className="loading-logo">
@@ -382,8 +382,7 @@ export default function HomePage() {
               <Image
                 src="/logo-cropped.png"
                 alt="Al Rawdah Institutt"
-                width={1287}
-                height={461}
+                width={988} height={374}
                 className="loading-logo-img"
                 priority
               />
@@ -402,7 +401,7 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* ── NAVBAR ────────────────────────────────────────────────────── */}
+      {/* â”€â”€ NAVBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header
         className="fixed z-50"
         style={{
@@ -444,9 +443,8 @@ export default function HomePage() {
             <Image
               src="/logo-cropped.png"
               alt="Al Rawdah Institutt"
-              width={1287}
-              height={461}
-              style={{ width: 'clamp(130px, 16vw, 220px)', height: 'auto', objectFit: 'contain' }}
+              width={988} height={374}
+              style={{ height: 'clamp(60px, 7vw, 88px)', width: 'auto', objectFit: 'contain' }}
               priority
             />
           </a>
@@ -807,10 +805,10 @@ export default function HomePage() {
         )}
       </header>
 
-      {/* ── MAIN CONTENT ───────────────────────────────────────── */}
+      {/* â”€â”€ MAIN CONTENT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <main id="main-content">
 
-      {/* ── HERO ───────────────────────────────────────────────── */}
+      {/* â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section
         className={`hero-bg${loadingHidden ? ' hero-active' : ''}`}
         aria-label="Hero"
@@ -997,7 +995,7 @@ export default function HomePage() {
 
       </main>
 
-      {/* ── SECTIONS BACKGROUND ─────────────────────────────────── */}
+      {/* â”€â”€ SECTIONS BACKGROUND â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="sections-bg" style={{
         backgroundImage: "url('/Background.png')",
         backgroundSize: 'cover',
@@ -1015,7 +1013,7 @@ export default function HomePage() {
           zIndex: 1,
         }} />
 
-      {/* ── MISSION & VISION ──────────────────────────────────────────────────── */}
+      {/* â”€â”€ MISSION & VISION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           <SectionHeading>Misjon &amp; Visjon</SectionHeading>
@@ -1125,7 +1123,85 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── CURRICULUM ─────────────────────────────────────────── */}
+      {/* â”€â”€ SLIK FUNGERER DET â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      <section style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <SectionHeading>Slik fungerer det</SectionHeading>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: '20px',
+            marginTop: '48px',
+          }}>
+            {[
+              {
+                title: 'Kontinuitet',
+                desc: 'Samme 30 elever følges gjennom hele programmet, år for år.',
+              },
+              {
+                title: 'Struktur',
+                desc: 'En tydelig studieplan bygget på klassisk pensum.',
+              },
+              {
+                title: 'Oppfølging',
+                desc: 'Fremgang, oppmøte og tilbakemeldinger spores i studentportalen, synlig for både elev og foresatte.',
+              },
+              {
+                title: 'Progresjon',
+                desc: 'Hvert nivå bygger direkte på det forrige, mot et reelt sluttmål.',
+              },
+            ].map((item, i) => (
+              <div
+                key={item.title}
+                style={{
+                  backgroundColor: 'rgba(10,18,34,0.45)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(201,168,76,0.18)',
+                  borderRadius: '14px',
+                  padding: '32px 28px',
+                  transition: 'border-color 0.25s cubic-bezier(0.23,1,0.32,1), box-shadow 0.25s cubic-bezier(0.23,1,0.32,1)',
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.borderColor = 'rgba(201,168,76,0.4)'
+                  el.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)'
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.borderColor = 'rgba(201,168,76,0.18)'
+                  el.style.boxShadow = 'none'
+                }}
+              >
+                <div style={{ width: 28, height: 1, background: '#C9A84C', marginBottom: 20, opacity: 0.7 }} aria-hidden="true" />
+                <h3 style={{
+                  color: '#C9A84C',
+                  fontSize: '0.78rem',
+                  fontFamily: 'var(--font-montserrat)',
+                  letterSpacing: '0.14em',
+                  fontWeight: 700,
+                  marginBottom: 12,
+                  textTransform: 'uppercase',
+                }}>
+                  {item.title}
+                </h3>
+                <p style={{
+                  color: '#cbd5e1',
+                  fontFamily: 'var(--font-montserrat)',
+                  fontSize: '1rem',
+                  lineHeight: 1.65,
+                  fontWeight: 400,
+                }}>
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* â”€â”€ CURRICULUM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section
         ref={currRef}
         id="curriculum"
@@ -1311,103 +1387,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── WHY AL RAWDAH ──────────────────────────────────────── */}
-      <section style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-          <SectionHeading>Ikke nok en helgeskole</SectionHeading>
-          <p style={{
-            textAlign: 'center',
-            color: '#94a3b8',
-            fontFamily: 'var(--font-montserrat)',
-            fontWeight: 400,
-            fontSize: '1.15rem',
-            lineHeight: 1.65,
-            marginTop: '20px',
-            marginBottom: '56px',
-          }}>
-            Al Rawdah er ikke sporadisk moskeundervisning eller løsrevne helgetimer. Det er et strukturert treårig løp, med de samme elevene og lærerne gjennom hele programmet.
-          </p>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: '20px',
-          }}>
-            {[
-              {
-                title: 'Kontinuitet',
-                desc: 'Samme 30 elever følges gjennom hele programmet, år for år.',
-              },
-              {
-                title: 'Struktur',
-                desc: 'En tydelig studieplan bygget på klassisk pensum.',
-              },
-              {
-                title: 'Oppfølging',
-                desc: 'Fremgang, oppmøte og tilbakemeldinger spores i studentportalen, synlig for både elev og foresatte.',
-              },
-              {
-                title: 'Progresjon',
-                desc: 'Hvert nivå bygger direkte på det forrige, mot et reelt sluttmål.',
-              },
-            ].map((item, i) => (
-              <div
-                key={item.title}
-                style={{
-                  backgroundColor: 'rgba(10,18,34,0.45)',
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(201,168,76,0.18)',
-                  borderRadius: '14px',
-                  padding: '32px 28px',
-                  transition: 'border-color 0.25s cubic-bezier(0.23,1,0.32,1), box-shadow 0.25s cubic-bezier(0.23,1,0.32,1)',
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.borderColor = 'rgba(201,168,76,0.4)'
-                  el.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)'
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement
-                  el.style.borderColor = 'rgba(201,168,76,0.18)'
-                  el.style.boxShadow = 'none'
-                }}
-              >
-                <div style={{ width: 28, height: 1, background: '#C9A84C', marginBottom: 20, opacity: 0.7 }} aria-hidden="true" />
-                <h3 style={{
-                  color: '#C9A84C',
-                  fontSize: '0.78rem',
-                  fontFamily: 'var(--font-montserrat)',
-                  letterSpacing: '0.14em',
-                  fontWeight: 700,
-                  marginBottom: 12,
-                  textTransform: 'uppercase',
-                }}>
-                  {item.title}
-                </h3>
-                <p style={{
-                  color: '#cbd5e1',
-                  fontFamily: 'var(--font-montserrat)',
-                  fontSize: '1rem',
-                  lineHeight: 1.65,
-                  fontWeight: 400,
-                }}>
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS ───────────────────────────────────────── */}
+      {/* â”€â”€ HOW IT WORKS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section
         ref={howRef}
         className={`reveal-section${howRevealed ? ' revealed' : ''}`}
         style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}
       >
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-          <SectionHeading>Slik fungerer det</SectionHeading>
+          <SectionHeading>Studieplan</SectionHeading>
           <p style={{
             color: '#cbd5e1',
             fontFamily: 'var(--font-montserrat)',
@@ -1511,7 +1498,7 @@ export default function HomePage() {
                   {row.semesters}
                 </div>
                 <span
-                  className="hidden sm:block"
+                  className="tl-studieplan"
                   style={{
                     fontFamily: 'var(--font-montserrat)',
                     fontSize: '0.72rem',
@@ -1533,7 +1520,7 @@ export default function HomePage() {
                     ;(e.currentTarget as HTMLElement).style.background = 'transparent'
                   }}
                 >
-                  Se studieplan →
+                  Se studieplan ←’
                 </span>
               </Link>
             ))}
@@ -1542,7 +1529,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── PRICING ────────────────────────────────────────────── */}
+      {/* â”€â”€ PRICING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section
         ref={pricingRef}
         id="pricing"
@@ -1737,7 +1724,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── FAQ ────────────────────────────────────────────────── */}
+      {/* â”€â”€ FAQ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section
         ref={faqRef}
         id="faq"
@@ -1836,7 +1823,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── FOOTER ─────────────────────────────────────────────── */}
+      {/* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <footer
         ref={footerRef}
         className={`reveal-section${footerRevealed ? ' revealed' : ''}`}
@@ -1920,3 +1907,4 @@ export default function HomePage() {
     </div>
   )
 }
+

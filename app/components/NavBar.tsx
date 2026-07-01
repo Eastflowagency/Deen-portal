@@ -87,15 +87,14 @@ export default function NavBar() {
           <Image
             src="/logo-cropped.png"
             alt="Al Rawdah Institutt"
-            width={1287}
-            height={461}
-            style={{ width: 'clamp(130px, 16vw, 220px)', height: 'auto', objectFit: 'contain' }}
+            width={988} height={374}
+            style={{ height: 'clamp(60px, 7vw, 88px)', width: 'auto', objectFit: 'contain' }}
             priority
           />
         </Link>
 
         <nav role="navigation" aria-label="Main navigation" style={{ flexShrink: 0 }}>
-          {/* ── Desktop pill ───────────────────────────────────── */}
+          {/* â”€â”€ Desktop pill â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <div
             className="hidden md:flex items-center gap-0.5"
             style={{
@@ -269,7 +268,7 @@ export default function NavBar() {
             </Link>
           </div>
 
-          {/* ── Mobile hamburger ───────────────────────────────── */}
+          {/* â”€â”€ Mobile hamburger â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <button
             className="md:hidden flex items-center justify-center btn-press"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -293,7 +292,7 @@ export default function NavBar() {
         </nav>
       </div>
 
-      {/* ── Mobile menu panel ──────────────────────────────────── */}
+      {/* â”€â”€ Mobile menu panel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       {menuOpen && (
         <div
           className="md:hidden"
@@ -432,3 +431,4 @@ export default function NavBar() {
     </header>
   )
 }
+

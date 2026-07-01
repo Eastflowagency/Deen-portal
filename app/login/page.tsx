@@ -95,9 +95,8 @@ export default function LoginPage() {
           <Image
             src="/logo-cropped.png"
             alt="Al Rawdah Institutt"
-            width={1287}
-            height={461}
-            style={{ width: '100%', maxWidth: '320px', height: 'auto', objectFit: 'contain' }}
+            width={988} height={374}
+            style={{ height: '80px', width: 'auto', objectFit: 'contain' }}
             priority
           />
         </div>
@@ -180,7 +179,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              placeholder="••••••••"
+              placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
               onFocus={() => setPasswordFocused(true)}
               onBlur={() => setPasswordFocused(false)}
               style={{
@@ -299,3 +298,4 @@ export default function LoginPage() {
     </div>
   )
 }
+

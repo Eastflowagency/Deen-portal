@@ -67,8 +67,8 @@ export default function AdminLoginPage() {
       }}>
         {/* Logo */}
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '24px' }}>
-          <Image src="/logo-cropped.png" alt="Al Rawdah Institutt" width={1287} height={461}
-            style={{ width: '100%', maxWidth: '240px', height: 'auto' }} priority />
+          <Image src="/logo-cropped.png" alt="Al Rawdah Institutt" width={988} height={374}
+            style={{ height: '60px', width: 'auto' }} priority />
         </div>
 
         {/* Admin badge */}
@@ -107,7 +107,7 @@ export default function AdminLoginPage() {
             </label>
             <input
               type="password" value={password} onChange={(e) => setPassword(e.target.value)} required
-              placeholder="••••••••"
+              placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
               style={{
                 width: '100%', boxSizing: 'border-box',
                 background: 'rgba(6,11,20,0.6)',
@@ -151,3 +151,4 @@ export default function AdminLoginPage() {
     </div>
   )
 }
+

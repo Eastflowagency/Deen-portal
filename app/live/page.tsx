@@ -66,7 +66,7 @@ export default function PublicLivePage() {
   return (
     <div style={{ minHeight: '100vh', background: '#060b14', display: 'flex', flexDirection: 'column' }}>
 
-      {/* ── Header ──────────────────────────────────────────────────────────── */}
+      {/* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header style={{
         height: '62px',
         background: 'rgba(6,11,20,0.96)',
@@ -76,7 +76,7 @@ export default function PublicLivePage() {
         position: 'sticky', top: 0, zIndex: 50, flexShrink: 0,
       }}>
         <Link href="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
-          <Image src="/logo-cropped.png" alt="Al Rawdah" width={640} height={230}
+          <Image src="/logo-cropped.png" alt="Al Rawdah" width={988} height={374}
             style={{ height: '40px', width: 'auto', objectFit: 'contain' }} priority />
         </Link>
 
@@ -110,7 +110,7 @@ export default function PublicLivePage() {
         )}
       </header>
 
-      {/* ── Main ─────────────────────────────────────────────────────────────── */}
+      {/* â”€â”€ Main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <main style={{ flex: 1, padding: 'clamp(20px, 3vw, 32px) clamp(16px, 3vw, 32px)', minWidth: 0 }}>
 
         <div style={{ marginBottom: '20px' }}>
@@ -118,7 +118,7 @@ export default function PublicLivePage() {
         </div>
 
         {!isLive ? (
-          /* ── No active class ────────────────────────────────────────────── */
+          /* â”€â”€ No active class â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
           <div style={{
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             minHeight: '60vh', gap: 20, textAlign: 'center',
@@ -181,3 +181,4 @@ export default function PublicLivePage() {
     </div>
   )
 }
+

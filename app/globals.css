@@ -171,8 +171,8 @@ body {
   pointer-events: none;
 }
 .loading-logo-img {
-  width: clamp(180px, 38vw, 340px);
-  height: auto;
+  height: clamp(80px, 16vw, 160px);
+  width: auto;
   display: block;
   position: relative;
   z-index: 1;
@@ -386,27 +386,37 @@ body {
   margin: 0 auto;
 }
 
-/* ── "Slik fungerer det" timeline mobile fix ─────────────────────────────── */
-@media (max-width: 520px) {
+/* ── Timeline mobile fix ─────────────────────────────────────────────────── */
+@media (max-width: 767px) {
   .tl-header {
     display: none !important;
   }
   .tl-row {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    gap: 0 !important;
-    padding: 16px 20px !important;
-    flex-wrap: nowrap !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    grid-template-rows: auto auto !important;
+    padding: 18px 20px !important;
+    column-gap: 12px !important;
+    row-gap: 6px !important;
   }
   .tl-year {
-    font-size: 0.95rem !important;
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    font-size: 1rem !important;
     white-space: nowrap !important;
-    min-width: 82px !important;
-    flex-shrink: 0 !important;
+    align-self: center !important;
+  }
+  .tl-sem {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    font-size: 0.88rem !important;
+    white-space: nowrap !important;
+    text-align: right !important;
+    align-self: center !important;
   }
   .tl-level {
-    flex: 1 !important;
+    grid-column: 1 !important;
+    grid-row: 2 !important;
     min-width: 0 !important;
   }
   .tl-level span:first-child {
@@ -414,13 +424,16 @@ body {
     letter-spacing: 0.08em !important;
   }
   .tl-level span:last-child {
-    font-size: 0.82rem !important;
+    font-size: 0.88rem !important;
   }
-  .tl-sem {
-    font-size: 0.82rem !important;
+  .tl-studieplan {
+    display: block !important;
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    align-self: end !important;
+    text-align: right !important;
+    font-size: 0.6rem !important;
     white-space: nowrap !important;
-    flex-shrink: 0 !important;
-    margin-left: 8px !important;
   }
 }
 

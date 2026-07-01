@@ -21,7 +21,7 @@ const MOCK_SESSION: LiveSession = {
   description: 'I denne leksjonen fortsetter vi studiet av de guddommelige attributtene slik de er beskrevet i Koranen og Sunnah, med fokus på sifat dhatiyya og fi\'liyya.',
 }
 
-// ── Portal shell ─────────────────────────────────────────────────────────────
+// â”€â”€ Portal shell â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function PortalLiveUI({ firstName, onSignOut }: { firstName: string; onSignOut: () => void }) {
   const [meetingUrl, setMeetingUrl] = useState('')
@@ -58,7 +58,7 @@ function PortalLiveUI({ firstName, onSignOut }: { firstName: string; onSignOut: 
   return (
     <div style={{ minHeight: '100vh', background: '#060b14', display: 'flex', flexDirection: 'column' }}>
 
-      {/* ── Top nav ──────────────────────────────────────────────────────────── */}
+      {/* â”€â”€ Top nav â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header style={{
         height: '62px',
         background: 'rgba(6,11,20,0.96)',
@@ -70,7 +70,7 @@ function PortalLiveUI({ firstName, onSignOut }: { firstName: string; onSignOut: 
         position: 'sticky', top: 0, zIndex: 50, flexShrink: 0,
       }}>
         <Link href="/student" style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
-          <Image src="/logo-cropped.png" alt="Al Rawdah" width={640} height={230}
+          <Image src="/logo-cropped.png" alt="Al Rawdah" width={988} height={374}
             style={{ height: '40px', width: 'auto', objectFit: 'contain' }} priority />
         </Link>
 
@@ -112,7 +112,7 @@ function PortalLiveUI({ firstName, onSignOut }: { firstName: string; onSignOut: 
         </button>
       </header>
 
-      {/* ── Main content ─────────────────────────────────────────────────────── */}
+      {/* â”€â”€ Main content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <main style={{ flex: 1, padding: 'clamp(20px, 3vw, 32px) clamp(16px, 3vw, 32px)', minWidth: 0 }}>
 
         {/* Breadcrumb */}
@@ -120,7 +120,7 @@ function PortalLiveUI({ firstName, onSignOut }: { firstName: string; onSignOut: 
           <LivePageHeader isLive={isLive} subject={MOCK_SESSION.subject} />
         </div>
 
-        {/* ── Two-column layout (flexbox — no auto-placement issues) ────────── */}
+        {/* â”€â”€ Two-column layout (flexbox — no auto-placement issues) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="live-layout" style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
 
           {/* LEFT: video + controls + session info */}
@@ -189,7 +189,7 @@ function PortalLiveUI({ firstName, onSignOut }: { firstName: string; onSignOut: 
   )
 }
 
-// ── Auth wrapper ──────────────────────────────────────────────────────────────
+// â”€â”€ Auth wrapper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default function StudentLivePage() {
   const router = useRouter()
@@ -226,8 +226,7 @@ export default function StudentLivePage() {
             <Image
               src="/logo-cropped.png"
               alt="Al Rawdah Institutt"
-              width={1287}
-              height={461}
+              width={988} height={374}
               className="loading-logo-img"
               priority
             />
@@ -240,3 +239,4 @@ export default function StudentLivePage() {
 
   return <PortalLiveUI firstName={firstName} onSignOut={handleSignOut} />
 }
+

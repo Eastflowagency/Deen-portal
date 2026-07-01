@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
 
-// ── Subject data ────────────────────────────────────────────────────────────────
+// â”€â”€ Subject data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const SUBJECTS = [
   {
@@ -77,7 +77,7 @@ const LEVELS = [
   { label: 'Viderenivå', num: 3, year: '2028–2029', color: 'rgba(167,139,250,0.85)', bg: 'rgba(167,139,250,0.08)', locked: true, startsYear: '2028' },
 ]
 
-// ── Components ──────────────────────────────────────────────────────────────────
+// â”€â”€ Components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function IntroCard({ subject }: { subject: typeof SUBJECTS[0] }) {
   const [hovered, setHovered] = useState(false)
@@ -169,7 +169,7 @@ function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typ
       backdropFilter: 'blur(12px)',
     }}>
 
-      {/* ── Thumbnail ──────────────────────────────────────────────────────── */}
+      {/* â”€â”€ Thumbnail â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div style={{ position: 'relative', height: '190px', background: subject.gradient, overflow: 'hidden' }}>
         {/* Grid texture */}
         <div style={{
@@ -194,7 +194,7 @@ function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typ
         {/* Bottom fade */}
         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '60%', background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, transparent 100%)' }} />
 
-        {/* ── Lock badge top-left ───────────────────────────────────────────── */}
+        {/* â”€â”€ Lock badge top-left â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {isLocked && (
           <div style={{
             position: 'absolute', top: '13px', left: '13px',
@@ -219,7 +219,7 @@ function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typ
           </div>
         )}
 
-        {/* ── Nivå badge top-right ──────────────────────────────────────────── */}
+        {/* â”€â”€ Nivå badge top-right â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div style={{
           position: 'absolute', top: '13px', right: '13px',
           padding: '5px 13px',
@@ -256,7 +256,7 @@ function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typ
         </div>
       </div>
 
-      {/* ── Bottom info ────────────────────────────────────────────────────── */}
+      {/* â”€â”€ Bottom info â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div style={{ padding: '14px 16px 17px', background: 'rgba(6,10,20,0.6)' }}>
         {/* Level chip + year */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '9px' }}>
@@ -347,7 +347,7 @@ function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typ
   )
 }
 
-// ── Portal UI ────────────────────────────────────────────────────────────────────
+// â”€â”€ Portal UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName: string; email: string; onSignOut: () => void; isLive: boolean; isAdmin: boolean }) {
   const [showMenu, setShowMenu] = useState(false)
@@ -394,7 +394,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
     setProfileSaving(false)
     if (!error) {
       setDisplayName(fullName)
-      setProfileMsg('✓ Endringer lagret!')
+      setProfileMsg('âœ“ Endringer lagret!')
     } else {
       setProfileMsg(`Feil: ${error.message}`)
     }
@@ -413,7 +413,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
     if (!error && signOutOthers) await supabase.auth.signOut({ scope: 'others' })
     setPwSaving(false)
     setCurrentPw(''); setNewPw(''); setConfirmPw('')
-    setPwMsg(error ? `Feil: ${error.message}` : '✓ Passord oppdatert!')
+    setPwMsg(error ? `Feil: ${error.message}` : 'âœ“ Passord oppdatert!')
   }
 
   async function loadNotifications() {
@@ -519,8 +519,8 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
             <Image
               src="/Logo2.png"
               alt="Al Rawdah Institutt"
-              width={640}
-              height={230}
+              width={1522}
+              height={1024}
               className="student-nav-logo"
               style={{ height: '108px', width: 'auto', objectFit: 'contain' }}
               priority
@@ -816,7 +816,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
             {/* Header */}
             <div style={{ padding: '18px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', letterSpacing: '0.2em', color: 'rgba(201,168,76,0.7)', textTransform: 'uppercase' }}>Konto</span>
-              <button onClick={() => setShowAccount(false)} style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#475569', cursor: 'pointer', fontSize: '13px' }}>✕</button>
+              <button onClick={() => setShowAccount(false)} style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#475569', cursor: 'pointer', fontSize: '13px' }}>âœ•</button>
             </div>
 
             {/* Body: sidebar + content */}
@@ -874,7 +874,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
                     </div>
 
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      {profileMsg && <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', color: profileMsg.startsWith('✓') ? 'rgba(74,197,120,0.9)' : '#ef4444' }}>{profileMsg}</span>}
+                      {profileMsg && <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', color: profileMsg.startsWith('âœ“') ? 'rgba(74,197,120,0.9)' : '#ef4444' }}>{profileMsg}</span>}
                       <button onClick={handleSaveProfile} disabled={profileSaving} style={{ marginLeft: 'auto', padding: '10px 22px', background: '#C9A84C', border: 'none', borderRadius: '8px', color: '#0F1829', fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', letterSpacing: '0.12em', fontWeight: 700, textTransform: 'uppercase', cursor: profileSaving ? 'wait' : 'pointer', opacity: profileSaving ? 0.7 : 1 }}>
                         {profileSaving ? 'Lagrer…' : 'Lagre endringer'}
                       </button>
@@ -901,7 +901,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
                     </label>
 
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '4px' }}>
-                      {pwMsg && <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', color: pwMsg.startsWith('✓') ? 'rgba(74,197,120,0.9)' : '#ef4444' }}>{pwMsg}</span>}
+                      {pwMsg && <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', color: pwMsg.startsWith('âœ“') ? 'rgba(74,197,120,0.9)' : '#ef4444' }}>{pwMsg}</span>}
                       <button onClick={handleUpdatePassword} disabled={pwSaving} style={{ marginLeft: 'auto', padding: '10px 22px', background: '#C9A84C', border: 'none', borderRadius: '8px', color: '#0F1829', fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', letterSpacing: '0.12em', fontWeight: 700, textTransform: 'uppercase', cursor: pwSaving ? 'wait' : 'pointer', opacity: pwSaving ? 0.7 : 1 }}>
                         {pwSaving ? 'Oppdaterer…' : 'Oppdater passord'}
                       </button>
@@ -929,7 +929,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
           <div style={{ width: '48px', height: '1px', background: 'linear-gradient(to right, #C9A84C, transparent)' }} />
         </div>
 
-        {/* ── Per-subject sections ─────────────────────────────────────────────── */}
+        {/* â”€â”€ Per-subject sections â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {SUBJECTS.map((subject) => (
           <section key={subject.id} style={{ marginBottom: '60px' }}>
             {/* Section header */}
@@ -957,7 +957,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
       </div>
       </div>
 
-      {/* ── Mobile slide-in drawer ─────────────────────────────────────────── */}
+      {/* â”€â”€ Mobile slide-in drawer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       {showDrawer && (
         <>
           {/* Backdrop */}
@@ -978,7 +978,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 16px' }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.06em', color: '#e2e8f0' }}>Meny</span>
-              <button onClick={() => setShowDrawer(false)} style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b', cursor: 'pointer', fontSize: '14px' }}>✕</button>
+              <button onClick={() => setShowDrawer(false)} style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b', cursor: 'pointer', fontSize: '14px' }}>âœ•</button>
             </div>
 
             {/* User row */}
@@ -992,7 +992,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               </div>
             </div>
 
-            {/* ── PROGRAMMER ── */}
+            {/* â”€â”€ PROGRAMMER â”€â”€ */}
             <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)' }} />
             <div style={{ padding: '14px 20px 6px' }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', letterSpacing: '0.22em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase' }}>PROGRAMMER</span>
@@ -1011,7 +1011,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.82rem', fontWeight: 600, color: '#C9A84C' }}>Islamsk Vitenskap</span>
             </div>
 
-            {/* ── Timeplan ── */}
+            {/* â”€â”€ Timeplan â”€â”€ */}
             <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)', margin: '8px 0' }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 20px', opacity: 0.42, cursor: 'default' }}>
               {isLive && (
@@ -1025,7 +1025,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.5rem', letterSpacing: '0.12em', color: '#334155', marginLeft: 'auto', textTransform: 'uppercase' }}>Snart</span>
             </div>
 
-            {/* ── Konto + Få støtte ── */}
+            {/* â”€â”€ Konto + Få støtte â”€â”€ */}
             <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)', margin: '8px 0' }} />
             <button
               onClick={() => { setShowDrawer(false); setAccountTab('profil'); setShowAccount(true) }}
@@ -1058,7 +1058,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
         </>
       )}
 
-      {/* ── Bottom navigation — mobile only ──────────────────────────────────── */}
+      {/* â”€â”€ Bottom navigation — mobile only â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="student-bottom-nav">
         <button style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', background: 'none', border: 'none', cursor: 'pointer', color: '#C9A84C', padding: '6px 20px' }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
@@ -1073,7 +1073,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
   )
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────────
+// â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default function StudentPage() {
   const router = useRouter()
@@ -1134,8 +1134,7 @@ export default function StudentPage() {
             <Image
               src="/logo-cropped.png"
               alt="Al Rawdah Institutt"
-              width={1287}
-              height={461}
+              width={988} height={374}
               className="loading-logo-img"
               priority
             />
@@ -1148,3 +1147,4 @@ export default function StudentPage() {
 
   return <PortalUI firstName={firstName} email={userEmail} onSignOut={handleSignOut} isLive={isLive} isAdmin={isAdmin} />
 }
+
