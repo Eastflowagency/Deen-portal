@@ -63,7 +63,7 @@ const TIMELINE = [
 
 const FAQS = [
   { q: 'Når starter Nivå 1?', a: 'Nivå 1 starter september 2026. Nivå 2 og 3 følger i de to påfølgende skoleårene, med det samme kullet.' },
-  { q: 'Hvordan fungerer opptaksprosessen?', a: 'Alle søkere kalles inn til et kort intervju. Vi tar inn 30 studenter som følger programmet samlet gjennom alle tre nivåer.' },
+  { q: 'Hvordan fungerer opptaksprosessen?', a: 'Alle søkere fyller først ut søknadsskjemaet. Deretter kaller vi inn til en kort samtale (ingen eksamen) hvor vi blir kjent med eleven og ser at programmet passer for dem. Vi ser ikke etter forkunnskaper i arabisk eller islamske vitenskaper; programmet starter fra grunnen. Det vi ser etter er motivasjon og at familien er innstilt på et treårig løp.' },
   { q: 'Hva skjer hvis jeg ikke kommer inn?', a: 'Du havner på venteliste. Vi planlegger nye kull etter hvert.' },
   { q: 'Hvor ofte holdes liveklassene?', a: 'Klasser holdes ukentlig via Google Meet, over Høst- og Vårsemester.' },
   { q: 'Hvordan får jeg tilgang til klassemateriell?', a: 'Alle PDF-er og ressurser ligger i studentportalen etter innlogging.' },
@@ -86,7 +86,26 @@ const FEATURES = [
 
 // ── AnimatedHeading ───────────────────────────────────────────────────────────
 
-function AnimatedHeading({ text, delay = 0, color }: { text: string; delay?: number; color?: string }) {
+function AnimatedHeading({ text, delay = 0, color, gradient }: { text: string; delay?: number; color?: string; gradient?: string }) {
+  if (gradient) {
+    return (
+      <span
+        className="hero-fade-item"
+        aria-label={text}
+        style={{
+          display: 'block',
+          background: gradient,
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+          animationDelay: `${delay}ms`,
+          opacity: 0,
+        }}
+      >
+        {text}
+      </span>
+    )
+  }
   return (
     <span aria-label={text} style={{ perspective: '600px', display: 'block', color: color ?? 'inherit' }}>
       {text.split(' ').map((word, wi, arr) => {
@@ -195,10 +214,10 @@ export default function HomePage() {
 
   // Clean URL ↔ section ID maps
   const sectionToUrl: Record<string, string> = {
-    top: '/hjem', curriculum: '/pensum', pricing: '/priser', faq: '/spørsmål',
+    top: '/hjem', curriculum: '/pensum', pricing: '/søknad', faq: '/spørsmål',
   }
   const urlToSection: Record<string, string> = {
-    '/hjem': 'top', '/pensum': 'curriculum', '/priser': 'pricing', '/spørsmål': 'faq',
+    '/hjem': 'top', '/pensum': 'curriculum', '/søknad': 'pricing', '/spørsmål': 'faq',
   }
 
   function scrollToSection(sectionId: string, url: string) {
@@ -336,7 +355,7 @@ export default function HomePage() {
   const navLinks: { label: string; href: string; section?: string; dropdown?: { label: string; href: string }[] }[] = [
     { label: 'Hjem',      href: '/hjem',      section: 'top' },
     { label: 'Pensum',    href: '/pensum',     section: 'curriculum', dropdown: [{ label: 'Studieplan', href: '/studieplan' }] },
-    { label: 'Pris',      href: '/priser',     section: 'pricing' },
+    { label: 'Søknad',    href: '/søknad',     section: 'pricing' },
     { label: 'Artikler',  href: '/artikler' },
     { label: 'Spørsmål',  href: '/spørsmål',   section: 'faq' },
   ]
@@ -875,7 +894,7 @@ export default function HomePage() {
             }}
           >
             <AnimatedHeading text="ISLAMSKE VITENSKAPER" delay={180} />
-            <AnimatedHeading text="OG ARABISK" delay={420} color="#C9A84C" />
+            <AnimatedHeading text="OG ARABISK" delay={420} gradient="linear-gradient(90deg, #f5e090 0%, #C9A84C 40%, #e0a830 70%, #f5e090 100%)" />
           </h1>
 
           {/* Gold separator */}
@@ -907,7 +926,7 @@ export default function HomePage() {
               letterSpacing: '0.02em',
             }}
           >
-            Et treårig program for ungdom mellom 10–15 år — lær Islam direkte fra de klassiske kildene.
+            Et treårig program for ungdom mellom 10 og 15 år. Lær Islam direkte fra de klassiske kildene.
           </p>
 
           {/* CTA button */}
@@ -945,7 +964,7 @@ export default function HomePage() {
               e.currentTarget.style.boxShadow = '0 4px 24px rgba(201,168,76,0.25)'
             }}
           >
-            Bli med nå
+            Søk om plass
           </a>
 
           {/* Stats */}
@@ -1000,11 +1019,45 @@ export default function HomePage() {
       <section style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           <SectionHeading>Misjon &amp; Visjon</SectionHeading>
+
+          {/* Identity card */}
+          <div style={{
+            marginTop: '48px',
+            marginBottom: '48px',
+            backgroundColor: 'rgba(15,24,41,0.6)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '1px solid rgba(201,168,76,0.22)',
+            borderRadius: '16px',
+            padding: '40px 36px',
+          }}>
+            <div style={{ width: 32, height: 2, background: '#C9A84C', marginBottom: 24 }} aria-hidden="true" />
+            <h3 style={{
+              fontFamily: 'var(--font-montserrat)',
+              fontSize: '0.75rem',
+              letterSpacing: '0.22em',
+              textTransform: 'uppercase',
+              color: '#C9A84C',
+              marginBottom: 16,
+              fontWeight: 700,
+            }}>
+              Formål
+            </h3>
+            <p style={{
+              fontFamily: 'var(--font-montserrat)',
+              fontSize: '1.1rem',
+              lineHeight: 1.7,
+              color: '#e2e8f0',
+              fontWeight: 400,
+            }}>
+              Mellom 10 og 15 år formes identitet som varer livet ut. Uten islamsk forankring fylles rommet av noe annet. Al Rawdah finnes for å gi ungdommen en direkte forbindelse til kildene.
+            </p>
+          </div>
+
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
             gap: '24px',
-            marginTop: '48px',
           }}>
             {/* Mission card */}
             <div style={{
@@ -1258,6 +1311,95 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── WHY AL RAWDAH ──────────────────────────────────────── */}
+      <section style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <SectionHeading>Ikke nok en helgeskole</SectionHeading>
+          <p style={{
+            textAlign: 'center',
+            color: '#94a3b8',
+            fontFamily: 'var(--font-montserrat)',
+            fontWeight: 400,
+            fontSize: '1.15rem',
+            lineHeight: 1.65,
+            marginTop: '20px',
+            marginBottom: '56px',
+          }}>
+            Al Rawdah er ikke sporadisk moskeundervisning eller løsrevne helgetimer. Det er et strukturert treårig løp, med de samme elevene og lærerne gjennom hele programmet.
+          </p>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: '20px',
+          }}>
+            {[
+              {
+                title: 'Kontinuitet',
+                desc: 'Samme 30 elever følges gjennom hele programmet, år for år.',
+              },
+              {
+                title: 'Struktur',
+                desc: 'En tydelig studieplan bygget på klassisk pensum.',
+              },
+              {
+                title: 'Oppfølging',
+                desc: 'Fremgang, oppmøte og tilbakemeldinger spores i studentportalen, synlig for både elev og foresatte.',
+              },
+              {
+                title: 'Progresjon',
+                desc: 'Hvert nivå bygger direkte på det forrige, mot et reelt sluttmål.',
+              },
+            ].map((item, i) => (
+              <div
+                key={item.title}
+                style={{
+                  backgroundColor: 'rgba(10,18,34,0.45)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(201,168,76,0.18)',
+                  borderRadius: '14px',
+                  padding: '32px 28px',
+                  transition: 'border-color 0.25s cubic-bezier(0.23,1,0.32,1), box-shadow 0.25s cubic-bezier(0.23,1,0.32,1)',
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.borderColor = 'rgba(201,168,76,0.4)'
+                  el.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)'
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement
+                  el.style.borderColor = 'rgba(201,168,76,0.18)'
+                  el.style.boxShadow = 'none'
+                }}
+              >
+                <div style={{ width: 28, height: 1, background: '#C9A84C', marginBottom: 20, opacity: 0.7 }} aria-hidden="true" />
+                <h3 style={{
+                  color: '#C9A84C',
+                  fontSize: '0.78rem',
+                  fontFamily: 'var(--font-montserrat)',
+                  letterSpacing: '0.14em',
+                  fontWeight: 700,
+                  marginBottom: 12,
+                  textTransform: 'uppercase',
+                }}>
+                  {item.title}
+                </h3>
+                <p style={{
+                  color: '#cbd5e1',
+                  fontFamily: 'var(--font-montserrat)',
+                  fontSize: '1rem',
+                  lineHeight: 1.65,
+                  fontWeight: 400,
+                }}>
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── HOW IT WORKS ───────────────────────────────────────── */}
       <section
         ref={howRef}
@@ -1274,7 +1416,7 @@ export default function HomePage() {
             marginBottom: '48px',
             marginTop: '20px',
           }}>
-            De samme 30 studentene følger programmet fra start til slutt, tre skoleår på rad.
+            De samme 30 studentene følger programmet gjennom tre skoleår.
           </p>
 
           {/* 3-year timeline */}
@@ -1292,7 +1434,7 @@ export default function HomePage() {
             }}
           >
             {/* Table header */}
-            <div style={{
+            <div className="tl-header" style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr 1fr auto',
               borderBottom: '1px solid rgba(201,168,76,0.15)',
@@ -1316,6 +1458,7 @@ export default function HomePage() {
               <Link
                 key={row.year}
                 href={`/studieplan?nivå=${row.nivå}`}
+                className="tl-row"
                 style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr 1fr auto',
@@ -1329,7 +1472,7 @@ export default function HomePage() {
                 onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = 'rgba(201,168,76,0.04)')}
                 onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = 'transparent')}
               >
-                <div style={{
+                <div className="tl-year" style={{
                   fontFamily: 'var(--font-montserrat)',
                   fontSize: '1.05rem',
                   color: '#cbd5e1',
@@ -1338,7 +1481,7 @@ export default function HomePage() {
                 }}>
                   {row.year}
                 </div>
-                <div style={{ textAlign: 'left' }}>
+                <div className="tl-level" style={{ textAlign: 'left' }}>
                   <span style={{
                     fontFamily: 'var(--font-montserrat)',
                     fontSize: '0.78rem',
@@ -1359,7 +1502,7 @@ export default function HomePage() {
                     {row.sub}
                   </span>
                 </div>
-                <div style={{
+                <div className="tl-sem" style={{
                   fontFamily: 'var(--font-montserrat)',
                   fontSize: '1rem',
                   color: '#cbd5e1',
@@ -1396,95 +1539,6 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Divider label */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px',
-            marginBottom: '40px',
-            justifyContent: 'center',
-          }}>
-            <div style={{ flex: 1, height: 1, background: 'rgba(201,168,76,0.12)' }} aria-hidden="true" />
-            <span style={{
-              fontFamily: 'var(--font-montserrat)',
-              fontSize: '0.6rem',
-              letterSpacing: '0.3em',
-              textTransform: 'uppercase',
-              color: 'rgba(201,168,76,0.5)',
-              whiteSpace: 'nowrap',
-            }}>
-              Slik søker du
-            </span>
-            <div style={{ flex: 1, height: 1, background: 'rgba(201,168,76,0.12)' }} aria-hidden="true" />
-          </div>
-
-          {/* How to join steps */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              gap: '32px',
-            }}
-          >
-            {STEPS.map((s, i) => (
-              <div
-                key={s.num}
-                className="reveal-card"
-                style={{
-                  animationDelay: `${i * 110}ms`,
-                  backgroundColor: 'rgba(10,18,34,0.52)',
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(201,168,76,0.2)',
-                  borderRadius: '16px',
-                  padding: '36px 28px 32px',
-                  textAlign: 'center',
-                }}
-              >
-                <div style={{
-                  fontFamily: 'var(--font-montserrat)',
-                  fontSize: 'clamp(3.5rem, 7vw, 5.5rem)',
-                  fontWeight: 300,
-                  color: 'rgba(201,168,76,0.22)',
-                  lineHeight: 1,
-                  marginBottom: 20,
-                  letterSpacing: '0.04em',
-                  userSelect: 'none',
-                }}>
-                  {s.num}
-                </div>
-                <div style={{
-                  color: '#C9A84C',
-                  letterSpacing: '0.2em',
-                  fontSize: '0.72rem',
-                  marginBottom: 10,
-                  fontFamily: 'var(--font-montserrat)',
-                  textTransform: 'uppercase',
-                }}>
-                  Steg {s.num}
-                </div>
-                <h3 style={{
-                  fontSize: '1.05rem',
-                  fontFamily: 'var(--font-montserrat)',
-                  letterSpacing: '0.06em',
-                  fontWeight: 700,
-                  marginBottom: 14,
-                  color: '#ffffff',
-                }}>
-                  {s.title}
-                </h3>
-                <p style={{
-                  color: '#e2e8f0',
-                  fontFamily: 'var(--font-montserrat)',
-                  fontSize: '1.15rem',
-                  lineHeight: 1.75,
-                  fontWeight: 400,
-                }}>
-                  {s.desc}
-                </p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -1557,7 +1611,9 @@ export default function HomePage() {
             </ul>
 
             <a
-              href="mailto:info@alrawdah.no"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSftLc6RDvnztwOoIJgqj-szlmP5HuMJuoxp80sRsmx0c-1bdQ/viewform?usp=dialog"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.8rem',
@@ -1568,6 +1624,7 @@ export default function HomePage() {
                 padding: '16px 48px',
                 textDecoration: 'none',
                 display: 'inline-block',
+                whiteSpace: 'nowrap',
                 transition: 'background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease',
                 cursor: 'pointer',
                 fontWeight: 600,
@@ -1585,8 +1642,97 @@ export default function HomePage() {
                 e.currentTarget.style.boxShadow = '0 4px 20px rgba(201,168,76,0.2)'
               }}
             >
-              Ta kontakt for påmelding
+              Søk om plass
             </a>
+          </div>
+        </div>
+
+        {/* Slik søker du */}
+        <div style={{ maxWidth: '900px', margin: '64px auto 0', textAlign: 'center' }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px',
+            marginBottom: '40px',
+            justifyContent: 'center',
+          }}>
+            <div style={{ flex: 1, height: 1, background: 'rgba(201,168,76,0.12)' }} aria-hidden="true" />
+            <span style={{
+              fontFamily: 'var(--font-montserrat)',
+              fontSize: '0.6rem',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: 'rgba(201,168,76,0.5)',
+              whiteSpace: 'nowrap',
+            }}>
+              Slik søker du
+            </span>
+            <div style={{ flex: 1, height: 1, background: 'rgba(201,168,76,0.12)' }} aria-hidden="true" />
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: '32px',
+          }}>
+            {STEPS.map((s, i) => (
+              <div
+                key={s.num}
+                className="reveal-card"
+                style={{
+                  animationDelay: `${i * 110}ms`,
+                  backgroundColor: 'rgba(10,18,34,0.52)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(201,168,76,0.2)',
+                  borderRadius: '16px',
+                  padding: '36px 28px 32px',
+                  textAlign: 'center',
+                }}
+              >
+                <div style={{
+                  fontFamily: 'var(--font-montserrat)',
+                  fontSize: 'clamp(3.5rem, 7vw, 5.5rem)',
+                  fontWeight: 300,
+                  color: 'rgba(201,168,76,0.22)',
+                  lineHeight: 1,
+                  marginBottom: 20,
+                  letterSpacing: '0.04em',
+                  userSelect: 'none',
+                }}>
+                  {s.num}
+                </div>
+                <div style={{
+                  color: '#C9A84C',
+                  letterSpacing: '0.2em',
+                  fontSize: '0.72rem',
+                  marginBottom: 10,
+                  fontFamily: 'var(--font-montserrat)',
+                  textTransform: 'uppercase',
+                }}>
+                  Steg {s.num}
+                </div>
+                <h3 style={{
+                  fontSize: '1.05rem',
+                  fontFamily: 'var(--font-montserrat)',
+                  letterSpacing: '0.06em',
+                  fontWeight: 700,
+                  marginBottom: 14,
+                  color: '#ffffff',
+                }}>
+                  {s.title}
+                </h3>
+                <p style={{
+                  color: '#e2e8f0',
+                  fontFamily: 'var(--font-montserrat)',
+                  fontSize: '1.15rem',
+                  lineHeight: 1.75,
+                  fontWeight: 400,
+                }}>
+                  {s.desc}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -1737,7 +1883,7 @@ export default function HomePage() {
             {[
               { label: 'Hjem',      href: '/hjem',      section: 'top' },
               { label: 'Pensum',    href: '/pensum',     section: 'curriculum' },
-              { label: 'Pris',      href: '/priser',     section: 'pricing' },
+              { label: 'Søknad',    href: '/søknad',     section: 'pricing' },
               { label: 'Artikler',  href: '/artikler' },
               { label: 'Spørsmål',  href: '/spørsmål',   section: 'faq' },
             ].map((l) => (

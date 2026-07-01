@@ -254,8 +254,29 @@ export default function LoginPage() {
             paddingTop: '24px',
             borderTop: '1px solid rgba(201,168,76,0.1)',
             textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '14px',
           }}
         >
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSftLc6RDvnztwOoIJgqj-szlmP5HuMJuoxp80sRsmx0c-1bdQ/viewform?usp=dialog"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: 'var(--font-montserrat)',
+              fontSize: '0.7rem',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: '#C9A84C',
+              textDecoration: 'none',
+              transition: 'color 0.2s',
+            }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#dbb95e')}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#C9A84C')}
+          >
+            Søk om plass
+          </a>
           <Link
             href="/"
             style={{
