@@ -1121,74 +1121,57 @@ export default function HomePage() {
               gap: '20px',
             }}>
               {ISLAMIC_SUBJECTS.map((s, i) => (
-                <Link
+                <article
                   key={s.name}
-                  href="/studieplan"
-                  style={{ textDecoration: 'none' }}
+                  className="reveal-card"
+                  style={{
+                    backgroundColor: 'rgba(10,18,34,0.45)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    border: '1px solid rgba(201,168,76,0.18)',
+                    borderRadius: '14px',
+                    padding: '32px 28px',
+                    transition: 'border-color 0.25s cubic-bezier(0.23,1,0.32,1), box-shadow 0.25s cubic-bezier(0.23,1,0.32,1), transform 0.25s cubic-bezier(0.23,1,0.32,1)',
+                    animationDelay: `${i * 75}ms`,
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.borderColor = 'rgba(201,168,76,0.45)'
+                    el.style.boxShadow = '0 8px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(201,168,76,0.1)'
+                    el.style.transform = 'translateY(-2px)'
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    el.style.borderColor = 'rgba(201,168,76,0.14)'
+                    el.style.boxShadow = 'none'
+                    el.style.transform = 'none'
+                  }}
                 >
-                  <article
-                    className="reveal-card"
-                    style={{
-                      backgroundColor: 'rgba(10,18,34,0.45)',
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                      border: '1px solid rgba(201,168,76,0.18)',
-                      borderRadius: '14px',
-                      padding: '32px 28px',
-                      transition: 'border-color 0.25s cubic-bezier(0.23,1,0.32,1), box-shadow 0.25s cubic-bezier(0.23,1,0.32,1), transform 0.25s cubic-bezier(0.23,1,0.32,1)',
-                      cursor: 'pointer',
-                      animationDelay: `${i * 75}ms`,
-                      display: 'flex',
-                      flexDirection: 'column',
-                    }}
-                    onMouseEnter={(e) => {
-                      const el = e.currentTarget as HTMLElement
-                      el.style.borderColor = 'rgba(201,168,76,0.45)'
-                      el.style.boxShadow = '0 8px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(201,168,76,0.1)'
-                      el.style.transform = 'translateY(-2px)'
-                    }}
-                    onMouseLeave={(e) => {
-                      const el = e.currentTarget as HTMLElement
-                      el.style.borderColor = 'rgba(201,168,76,0.14)'
-                      el.style.boxShadow = 'none'
-                      el.style.transform = 'none'
-                    }}
-                  >
-                    <div style={{ width: 28, height: 1, background: '#C9A84C', marginBottom: 20, opacity: 0.7 }} aria-hidden="true" />
-                    <h3 style={{
-                      color: '#C9A84C',
-                      fontSize: '0.78rem',
-                      fontFamily: 'var(--font-montserrat)',
-                      letterSpacing: '0.14em',
-                      fontWeight: 700,
-                      marginBottom: 10,
-                      textTransform: 'uppercase',
-                    }}>
-                      {s.name}
-                    </h3>
-                    <p style={{
-                      color: '#cbd5e1',
-                      fontFamily: 'var(--font-montserrat)',
-                      fontSize: '1rem',
-                      lineHeight: 1.65,
-                      fontWeight: 400,
-                      flex: 1,
-                    }}>
-                      {s.desc}
-                    </p>
-                    <span style={{
-                      fontFamily: 'var(--font-montserrat)',
-                      fontSize: '0.72rem',
-                      letterSpacing: '0.18em',
-                      textTransform: 'uppercase',
-                      color: '#C9A84C',
-                      marginTop: '16px',
-                      display: 'block',
-                    }}>
-                      Se kurs →
-                    </span>
-                  </article>
-                </Link>
+                  <div style={{ width: 28, height: 1, background: '#C9A84C', marginBottom: 20, opacity: 0.7 }} aria-hidden="true" />
+                  <h3 style={{
+                    color: '#C9A84C',
+                    fontSize: '0.78rem',
+                    fontFamily: 'var(--font-montserrat)',
+                    letterSpacing: '0.14em',
+                    fontWeight: 700,
+                    marginBottom: 10,
+                    textTransform: 'uppercase',
+                  }}>
+                    {s.name}
+                  </h3>
+                  <p style={{
+                    color: '#cbd5e1',
+                    fontFamily: 'var(--font-montserrat)',
+                    fontSize: '1rem',
+                    lineHeight: 1.65,
+                    fontWeight: 400,
+                    flex: 1,
+                  }}>
+                    {s.desc}
+                  </p>
+                </article>
               ))}
             </div>
           </div>
@@ -1574,9 +1557,7 @@ export default function HomePage() {
             </ul>
 
             <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSftLc6RDvnztwOoIJgqj-szlmP5HuMJuoxp80sRsmx0c-1bdQ/viewform?usp=dialog"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="mailto:info@alrawdah.no"
               style={{
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.8rem',

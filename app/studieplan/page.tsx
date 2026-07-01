@@ -70,6 +70,7 @@ export default function StudieplanPage() {
 
   return (
     <div
+      className="page-bg"
       style={{
         minHeight: '100vh',
         backgroundImage: "url('/Background.png')",
@@ -79,13 +80,24 @@ export default function StudieplanPage() {
         backgroundColor: '#060b14',
       }}
     >
+      <style>{`
+        @media (max-width: 767px) {
+          .page-bg { background-attachment: scroll !important; }
+          .sp-content { padding: 90px 16px 60px !important; }
+          .sp-tab-btn { padding: 9px 14px !important; font-size: 0.63rem !important; letter-spacing: 0.12em !important; }
+          .sp-banner { gap: 12px !important; padding: 12px 16px !important; }
+          .sp-grid { grid-template-columns: 1fr !important; }
+          .sp-grid-sm { grid-template-columns: 1fr !important; }
+          .sp-divider-text { font-size: 0.6rem !important; letter-spacing: 0.18em !important; }
+        }
+      `}</style>
       {/* Dark overlay */}
       <div style={{ position: 'fixed', inset: 0, background: 'rgba(6,11,20,0.82)', pointerEvents: 'none', zIndex: 0 }} />
 
       <NavBar />
 
       {/* Content */}
-      <div style={{ position: 'relative', zIndex: 1, maxWidth: '1100px', margin: '0 auto', padding: '130px 24px 80px' }}>
+      <div className="sp-content" style={{ position: 'relative', zIndex: 1, maxWidth: '1100px', margin: '0 auto', padding: '130px 24px 80px' }}>
 
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '56px' }}>
@@ -107,7 +119,7 @@ export default function StudieplanPage() {
             <button
               key={l.id}
               onClick={() => setActiveLevel(l.id)}
-              className="btn-press"
+              className="btn-press sp-tab-btn"
               style={{
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.7rem',
@@ -140,7 +152,7 @@ export default function StudieplanPage() {
         </div>
 
         {/* Level Info Banner */}
-        <div style={{
+        <div className="sp-banner" style={{
           display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '32px',
           marginBottom: '40px',
           padding: '16px 32px',
@@ -168,7 +180,7 @@ export default function StudieplanPage() {
             <div style={{ flex: 1, height: '1px', background: 'rgba(201,168,76,0.12)' }} />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+          <div className="sp-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px,100%), 1fr))', gap: '16px' }}>
             {current.islamic.map((course) => (
               <Link
                 key={course.slug}
@@ -221,7 +233,7 @@ export default function StudieplanPage() {
             <div style={{ flex: 1, height: '1px', background: 'rgba(201,168,76,0.12)' }} />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+          <div className="sp-grid-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px,100%), 1fr))', gap: '16px' }}>
             {current.arabic.map((course) => (
               <Link
                 key={course.slug}

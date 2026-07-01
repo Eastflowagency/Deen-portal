@@ -285,6 +285,23 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── Global fixed background layer (see layout.tsx) ─────────────────────── */
+/* z-index: 0 (not -1): body's background is propagated to the CSS canvas when
+   html has no background, which renders below z-index:-1 children and would
+   hide the image. At z-index:0 the layer sits above the canvas; page content
+   comes later in the DOM so it paints on top (DOM order breaks the z-index:0 tie). */
+.global-fixed-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image: url('/Background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #060b14;
+  pointer-events: none;
+}
+
 /* ── Button press feedback (Emil Kowalski: buttons must feel responsive) ─── */
 .btn-press {
   transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1) !important;
@@ -377,8 +394,10 @@ body {
     padding-top: 90px !important;
     padding-bottom: 44px !important;
   }
-  /* iOS Safari does not support background-attachment: fixed inside scroll containers */
-  .hero-bg, .sections-bg {
+  /* On mobile, strip per-element background images so the global-fixed-bg div
+     (added in layout.tsx) provides the single viewport-locked background. */
+  .hero-bg, .sections-bg, .page-bg {
+    background-image: none !important;
     background-attachment: scroll !important;
   }
   /* Scale up hero heading and subtitle for readability on phone */

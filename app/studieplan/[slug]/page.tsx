@@ -1093,6 +1093,7 @@ export default function CourseDetailPage() {
 
   return (
     <div
+      className="page-bg"
       style={{
         minHeight: '100vh',
         backgroundImage: "url('/Background.png')",
@@ -1102,6 +1103,16 @@ export default function CourseDetailPage() {
         backgroundColor: '#060b14',
       }}
     >
+      <style>{`
+        @media (max-width: 767px) {
+          .page-bg { background-attachment: scroll !important; }
+          .cs-content { padding: 90px 16px 60px !important; }
+          .cs-accordion-card { padding-left: 16px !important; padding-right: 16px !important; }
+          .cs-dato-label { min-width: 72px !important; }
+          .cs-back-link { margin-bottom: 32px !important; }
+          .cs-header { margin-bottom: 36px !important; }
+        }
+      `}</style>
       {/* Dark overlay */}
       <div
         style={{
@@ -1116,6 +1127,7 @@ export default function CourseDetailPage() {
       <NavBar />
 
       <div
+        className="cs-content"
         style={{
           position: 'relative',
           zIndex: 1,
@@ -1188,6 +1200,7 @@ export default function CourseDetailPage() {
 
         {/* Accordion sections */}
         <div
+          className="cs-accordion-card"
           style={{
             background: 'rgba(15,24,41,0.55)',
             border: '1px solid rgba(201,168,76,0.14)',
@@ -1197,7 +1210,7 @@ export default function CourseDetailPage() {
           }}
         >
           {/* 1 — Hva er */}
-          <AccordionItem title={`Hva er ${subject}?`} defaultOpen>
+          <AccordionItem title={`Hva er ${subject}?`}>
             <BodyText>{course.whatIs}</BodyText>
           </AccordionItem>
 
@@ -1240,6 +1253,7 @@ export default function CourseDetailPage() {
               ].map(({ label, value }) => (
                 <div key={label} style={{ display: 'flex', gap: '16px', alignItems: 'baseline' }}>
                   <span
+                    className="cs-dato-label"
                     style={{
                       fontFamily: 'var(--font-montserrat)',
                       fontSize: '0.7rem',

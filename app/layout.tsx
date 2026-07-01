@@ -51,7 +51,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="nb" className={`${cinzel.variable} ${cormorant.variable} ${notoArabic.variable} ${montserrat.variable} ${inter.variable}`}>
-      <body><Suspense>{children}</Suspense></body>
+      <body>
+        {/* Fixed background layer — always behind all content.
+            On desktop, page elements paint their own fixed-attachment backgrounds on top.
+            On mobile (where fixed-attachment is unsupported), this div provides the
+            equivalent effect: one image, locked to viewport, as content scrolls over it. */}
+        <div className="global-fixed-bg" aria-hidden="true" />
+        <Suspense>{children}</Suspense>
+      </body>
     </html>
   )
 }

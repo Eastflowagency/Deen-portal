@@ -614,11 +614,19 @@ export default function KursSlugPage({ params }: { params: Promise<{ slug: strin
     'rgba(180,140,220,0.9)'
 
   return (
-    <div style={{ minHeight: '100vh', backgroundImage: "url('/Background.png')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', backgroundColor: '#060b14' }}>
+    <div className="page-bg" style={{ minHeight: '100vh', backgroundImage: "url('/Background.png')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', backgroundColor: '#060b14' }}>
+      <style>{`
+        @media (max-width: 767px) {
+          .page-bg { background-attachment: scroll !important; }
+          .kd-wrap { padding: 90px 16px 60px !important; }
+          .kd-section-body { padding: 16px !important; }
+          .kd-section-header { padding: 14px 16px !important; }
+        }
+      `}</style>
       <div style={{ position: 'fixed', inset: 0, background: 'rgba(6,11,20,0.85)', pointerEvents: 'none', zIndex: 0 }} />
       <NavBar />
 
-      <div style={{ position: 'relative', zIndex: 1, maxWidth: '820px', margin: '0 auto', padding: '130px 24px 80px' }}>
+      <div className="kd-wrap" style={{ position: 'relative', zIndex: 1, maxWidth: '820px', margin: '0 auto', padding: '130px 24px 80px' }}>
 
         {/* Breadcrumb */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '40px' }}>
@@ -670,7 +678,7 @@ export default function KursSlugPage({ params }: { params: Promise<{ slug: strin
                 }}
               >
                 {/* Section header */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '20px 28px', borderBottom: '1px solid rgba(201,168,76,0.1)' }}>
+                <div className="kd-section-header" style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '20px 28px', borderBottom: '1px solid rgba(201,168,76,0.1)' }}>
                   <div style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <span style={{ fontFamily: 'var(--font-cinzel)', fontSize: '0.6rem', color: '#C9A84C', fontWeight: 700 }}>{idx + 1}</span>
                   </div>
@@ -680,7 +688,7 @@ export default function KursSlugPage({ params }: { params: Promise<{ slug: strin
                 </div>
 
                 {/* Section content */}
-                <div style={{ padding: '24px 28px' }}>
+                <div className="kd-section-body" style={{ padding: '24px 28px' }}>
                   {section.key === 'innledning' && (
                     <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: '1.15rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.8, fontStyle: 'italic', margin: 0 }}>
                       {course.innledning}

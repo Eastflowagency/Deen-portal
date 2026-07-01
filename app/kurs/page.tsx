@@ -120,11 +120,28 @@ export default function KursPage() {
     : ARABIC_COURSES.filter((c) => c.nivå === activeFilter)
 
   return (
-    <div style={{ minHeight: '100vh', backgroundImage: "url('/Background.png')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', backgroundColor: '#060b14' }}>
+    <div className="page-bg" style={{ minHeight: '100vh', backgroundImage: "url('/Background.png')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', backgroundColor: '#060b14' }}>
+      <style>{`
+        @media (max-width: 767px) {
+          .page-bg { background-attachment: scroll !important; }
+          .kp-wrap { padding: 90px 16px 60px !important; }
+          .kp-filter-btn { padding: 8px 12px !important; font-size: 0.62rem !important; letter-spacing: 0.1em !important; }
+          .kp-card-inner { padding: 16px !important; }
+          .kp-course-grid { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+          .kp-arabic-grid { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+          .kp-divider { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
+          .kp-divider-line { display: none !important; }
+          .kp-cta { padding: 28px 16px !important; }
+        }
+        @media (max-width: 400px) {
+          .kp-course-grid { grid-template-columns: 1fr !important; }
+          .kp-arabic-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       <div style={{ position: 'fixed', inset: 0, background: 'rgba(6,11,20,0.83)', pointerEvents: 'none', zIndex: 0 }} />
       <NavBar />
 
-      <main id="main-content" style={{ position: 'relative', zIndex: 1, maxWidth: '1160px', margin: '0 auto', padding: '130px 24px 80px' }}>
+      <main id="main-content" className="kp-wrap" style={{ position: 'relative', zIndex: 1, maxWidth: '1160px', margin: '0 auto', padding: '130px 24px 80px' }}>
 
         {/* ── Header ── */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
@@ -147,6 +164,7 @@ export default function KursPage() {
               key={f.id}
               onClick={() => setActiveFilter(f.id)}
               aria-pressed={activeFilter === f.id}
+              className="kp-filter-btn"
               style={{
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.72rem',
@@ -234,7 +252,7 @@ export default function KursPage() {
                     </div>
 
                     {/* Course cards row */}
-                    <div style={{ padding: '16px 28px 24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px' }}>
+                    <div className="kp-course-grid kp-card-inner" style={{ padding: '16px 28px 24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(200px,100%), 1fr))', gap: '12px' }}>
                       {visible.map((course) => {
                         const lc = LEVEL_COLORS[course.nivå as 1 | 2 | 3]
                         return (
@@ -329,7 +347,7 @@ export default function KursPage() {
                 Klassisk arabisk grammatikk, vokabular og lesekomprehensjon. To semesterkurs per nivå — Høst og Vår.
               </p>
             </div>
-            <div style={{ padding: '16px 28px 24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '12px' }}>
+            <div className="kp-arabic-grid kp-card-inner" style={{ padding: '16px 28px 24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(220px,100%), 1fr))', gap: '12px' }}>
               {filteredArabic.map((course, ci) => {
                 const lc = LEVEL_COLORS[course.nivå as 1 | 2 | 3]
                 return (
@@ -375,7 +393,7 @@ export default function KursPage() {
           ref={ctaRef}
           className={`reveal-section ${ctaRevealed ? 'revealed' : ''}`}
         >
-          <div style={{ textAlign: 'center', padding: '40px', background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.12)', borderRadius: '12px' }}>
+          <div className="kp-cta" style={{ textAlign: 'center', padding: '40px', background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.12)', borderRadius: '12px' }}>
             <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.72rem', letterSpacing: '0.25em', color: '#C9A84C', textTransform: 'uppercase', marginBottom: '12px' }}>
               Se kursene per nivå
             </p>
