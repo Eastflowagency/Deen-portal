@@ -179,7 +179,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+              placeholder="••••••••"
               onFocus={() => setPasswordFocused(true)}
               onBlur={() => setPasswordFocused(false)}
               style={{
@@ -249,8 +249,8 @@ export default function LoginPage() {
         {/* Footer */}
         <div
           style={{
-            marginTop: '28px',
-            paddingTop: '24px',
+            marginTop: '16px',
+            paddingTop: '16px',
             borderTop: '1px solid rgba(201,168,76,0.1)',
             textAlign: 'center',
             display: 'flex',

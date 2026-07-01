@@ -388,16 +388,6 @@ export default function HomePage() {
               />
             </div>
           </div>
-          <div className="loading-percent" aria-live="polite" aria-label={`Laster inn ${loadingPercent} prosent`}>{loadingPercent}%</div>
-          <div className="loading-bar-track">
-            <div className="loading-bar-fill" style={{ width: `${loadingPercent}%` }} />
-          </div>
-          <div className="loading-tagline">Laster din opplevelse</div>
-
-          {/* Full-width gold line at the very bottom edge */}
-          <div className="loading-bar-bottom">
-            <div className="loading-bar-bottom-fill" style={{ width: `${loadingPercent}%` }} />
-          </div>
         </div>
       )}
 
