@@ -88,7 +88,7 @@ export default function NavBar() {
             src="/logo-cropped.png"
             alt="Al Rawdah Institutt"
             width={988} height={374}
-            style={{ height: 'clamp(60px, 7vw, 88px)', width: 'auto', objectFit: 'contain' }}
+            style={{ height: 'clamp(54px, 7vw, 78px)', width: 'auto', objectFit: 'contain' }}
             priority
           />
         </Link>
