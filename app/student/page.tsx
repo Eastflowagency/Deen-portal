@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
 
-// â”€â”€ Subject data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Subject data â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 const SUBJECTS = [
   {
@@ -72,12 +72,12 @@ const SUBJECTS = [
 ]
 
 const LEVELS = [
-  { label: 'Grunnivå', num: 1, year: '2026–2027', color: 'rgba(74,197,120,0.75)', bg: 'rgba(74,197,120,0.08)', locked: false, startsYear: null },
-  { label: 'Mellomnivå', num: 2, year: '2027–2028', color: '#C9A84C', bg: 'rgba(201,168,76,0.08)', locked: true, startsYear: '2027' },
-  { label: 'Viderenivå', num: 3, year: '2028–2029', color: 'rgba(167,139,250,0.85)', bg: 'rgba(167,139,250,0.08)', locked: true, startsYear: '2028' },
+  { label: 'Grunnivå', num: 1, year: '2026✓2027', color: 'rgba(74,197,120,0.75)', bg: 'rgba(74,197,120,0.08)', locked: false, startsYear: null },
+  { label: 'Mellomnivå', num: 2, year: '2027✓2028', color: '#C9A84C', bg: 'rgba(201,168,76,0.08)', locked: true, startsYear: '2027' },
+  { label: 'Viderenivå', num: 3, year: '2028✓2029', color: 'rgba(167,139,250,0.85)', bg: 'rgba(167,139,250,0.08)', locked: true, startsYear: '2028' },
 ]
 
-// â”€â”€ Components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Components â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 function IntroCard({ subject }: { subject: typeof SUBJECTS[0] }) {
   const [hovered, setHovered] = useState(false)
@@ -105,7 +105,7 @@ function IntroCard({ subject }: { subject: typeof SUBJECTS[0] }) {
           position: 'absolute', inset: 0,
           backgroundImage: 'repeating-linear-gradient(60deg, rgba(255,255,255,0.022) 0, rgba(255,255,255,0.022) 1px, transparent 1px, transparent 44px), repeating-linear-gradient(120deg, rgba(255,255,255,0.022) 0, rgba(255,255,255,0.022) 1px, transparent 1px, transparent 44px)',
         }} />
-        {/* Decorative symbol — background only, very subtle */}
+        {/* Decorative symbol ✓ background only, very subtle */}
         <div style={{
           position: 'absolute', right: '-10px', bottom: '-16px',
           fontFamily: 'serif', fontSize: '8rem', lineHeight: 1,
@@ -169,7 +169,7 @@ function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typ
       backdropFilter: 'blur(12px)',
     }}>
 
-      {/* â”€â”€ Thumbnail â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ Thumbnail â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <div style={{ position: 'relative', height: '190px', background: subject.gradient, overflow: 'hidden' }}>
         {/* Grid texture */}
         <div style={{
@@ -194,7 +194,7 @@ function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typ
         {/* Bottom fade */}
         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '60%', background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, transparent 100%)' }} />
 
-        {/* â”€â”€ Lock badge top-left â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* â"€â"€ Lock badge top-left â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
         {isLocked && (
           <div style={{
             position: 'absolute', top: '13px', left: '13px',
@@ -219,7 +219,7 @@ function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typ
           </div>
         )}
 
-        {/* â”€â”€ Nivå badge top-right â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* â"€â"€ Nivå badge top-right â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
         <div style={{
           position: 'absolute', top: '13px', right: '13px',
           padding: '5px 13px',
@@ -256,7 +256,7 @@ function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typ
         </div>
       </div>
 
-      {/* â”€â”€ Bottom info â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ Bottom info â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <div style={{ padding: '14px 16px 17px', background: 'rgba(6,10,20,0.6)' }}>
         {/* Level chip + year */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '9px' }}>
@@ -347,7 +347,7 @@ function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typ
   )
 }
 
-// â”€â”€ Portal UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Portal UI â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName: string; email: string; onSignOut: () => void; isLive: boolean; isAdmin: boolean }) {
   const [showMenu, setShowMenu] = useState(false)
@@ -394,7 +394,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
     setProfileSaving(false)
     if (!error) {
       setDisplayName(fullName)
-      setProfileMsg('âœ“ Endringer lagret!')
+      setProfileMsg('✓ Endringer lagret!')
     } else {
       setProfileMsg(`Feil: ${error.message}`)
     }
@@ -413,7 +413,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
     if (!error && signOutOthers) await supabase.auth.signOut({ scope: 'others' })
     setPwSaving(false)
     setCurrentPw(''); setNewPw(''); setConfirmPw('')
-    setPwMsg(error ? `Feil: ${error.message}` : 'âœ“ Passord oppdatert!')
+    setPwMsg(error ? `Feil: ${error.message}` : '✓ Passord oppdatert!')
   }
 
   async function loadNotifications() {
@@ -477,7 +477,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
         @media (max-width: 767px) {
           .student-nav { height: 64px !important; flex-wrap: nowrap !important; padding: 0 16px !important; gap: 0 !important; align-items: center !important; }
           .student-nav-brand { flex: 1 !important; height: 64px !important; display: flex !important; align-items: center !important; }
-          .student-nav-logo { height: 52px !important; }
+          .student-nav-logo { height: 30px !important; width: auto !important; }
           .student-nav-tabs { display: none !important; }
           .student-nav-icons { display: flex !important; align-items: center !important; gap: 8px !important; margin-top: 0 !important; height: 64px !important; flex-shrink: 0 !important; }
           .student-nav-icons button { width: 36px !important; height: 36px !important; }
@@ -501,7 +501,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
       }} />
       <div style={{ position: 'absolute', inset: 0, zIndex: 0, background: 'rgba(6,11,20,0.92)' }} />
 
-      {/* Top navigation — sits in normal flow, never scrolls */}
+      {/* Top navigation ✓ sits in normal flow, never scrolls */}
       <nav className="student-nav" style={{
         position: 'relative', zIndex: 10,
         height: '112px',
@@ -522,7 +522,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               width={1522}
               height={1024}
               className="student-nav-logo"
-              style={{ height: '108px', width: 'auto', objectFit: 'contain' }}
+              style={{ height: '62px', width: 'auto', objectFit: 'contain' }}
               priority
             />
           </Link>
@@ -565,7 +565,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               {tab}
             </div>
           ))}
-          {/* Live tab — only shown when admin has an active session */}
+          {/* Live tab ✓ only shown when admin has an active session */}
           {isLive && (
             <Link href="/live" style={{ textDecoration: 'none' }}>
               <div style={{
@@ -589,7 +589,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               </div>
             </Link>
           )}
-          {/* Admin tab — only visible to admin accounts */}
+          {/* Admin tab ✓ only visible to admin accounts */}
           {isAdmin && (
             <Link href="/admin/live" style={{ textDecoration: 'none' }}>
               <div style={{
@@ -619,7 +619,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
 
         {/* Right: placeholder icons + sign out */}
         <div className="student-nav-icons" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, marginTop: '-16px' }}>
-          {/* Bell — notifications */}
+          {/* Bell ✓ notifications */}
           <div style={{ position: 'relative' }}>
             <button
               onClick={openNotifications}
@@ -685,7 +685,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
             )}
           </div>
 
-          {/* Placeholder icons — desktop only */}
+          {/* Placeholder icons ✓ desktop only */}
           <div className="desktop-icon" style={{ display: 'flex', gap: '8px' }}>
             {[
               <svg key="support" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" strokeLinecap="round"/><circle cx="12" cy="17" r=".5" fill="currentColor"/></svg>,
@@ -696,7 +696,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               </button>
             ))}
           </div>
-          {/* Avatar — opens account menu (desktop only) */}
+          {/* Avatar ✓ opens account menu (desktop only) */}
           <div className="desktop-icon" style={{ position: 'relative' }}>
             <button
               onClick={() => setShowMenu(v => !v)}
@@ -792,7 +792,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
             )}
           </div>
 
-          {/* Hamburger — opens mobile drawer (mobile only) */}
+          {/* Hamburger ✓ opens mobile drawer (mobile only) */}
           <button
             className="mobile-hamburger"
             onClick={() => setShowDrawer(v => !v)}
@@ -810,47 +810,73 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
 
       {/* Account modal */}
       {showAccount && (
-        <div onClick={() => setShowAccount(false)} style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
+        <div onClick={() => setShowAccount(false)} style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
           <div onClick={(e) => e.stopPropagation()} style={{ width: '100%', maxWidth: '560px', background: '#0b1220', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 32px 80px rgba(0,0,0,0.8)', display: 'flex', flexDirection: 'column' }}>
+
+            <style>{`
+              @media (max-width: 500px) {
+                .konto-body { flex-direction: column !important; }
+                .konto-sidebar { width: 100% !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.06) !important; flex-direction: row !important; padding: 8px 12px !important; min-height: unset !important; gap: 4px !important; }
+                .konto-sidebar-tabs { flex-direction: row !important; flex: 1 !important; }
+                .konto-sidebar-tabs button { flex: 1 !important; justify-content: center !important; min-height: 44px !important; }
+                .konto-sidebar-logout { display: none !important; }
+                .konto-content { padding: 20px 16px 16px !important; }
+                .konto-name-grid { grid-template-columns: 1fr !important; }
+                .konto-save-row { flex-direction: column-reverse !important; align-items: stretch !important; gap: 10px !important; }
+                .konto-save-btn { width: 100% !important; margin-left: 0 !important; padding: 14px !important; text-align: center !important; }
+                .konto-avatar-row { flex-direction: column !important; align-items: center !important; text-align: center !important; }
+                .konto-avatar { width: 68px !important; height: 68px !important; font-size: 1.3rem !important; }
+                .konto-mobile-logout { display: flex !important; }
+              }
+              @media (min-width: 501px) {
+                .konto-mobile-logout { display: none !important; }
+              }
+            `}</style>
 
             {/* Header */}
             <div style={{ padding: '18px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', letterSpacing: '0.2em', color: 'rgba(201,168,76,0.7)', textTransform: 'uppercase' }}>Konto</span>
-              <button onClick={() => setShowAccount(false)} style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#475569', cursor: 'pointer', fontSize: '13px' }}>âœ•</button>
+              <button onClick={() => setShowAccount(false)} aria-label="Lukk" style={{ width: '30px', height: '30px', borderRadius: '6px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#475569', cursor: 'pointer' }}>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
             </div>
 
             {/* Body: sidebar + content */}
-            <div style={{ display: 'flex', minHeight: '380px' }}>
+            <div className="konto-body" style={{ display: 'flex', minHeight: '380px' }}>
 
               {/* Sidebar */}
-              <div style={{ width: '168px', flexShrink: 0, borderRight: '1px solid rgba(255,255,255,0.06)', padding: '16px 10px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                {([['profil', 'Profil', <svg key="p" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" strokeLinecap="round"/></svg>], ['passord', 'Passord', <svg key="k" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4" strokeLinecap="round"/></svg>]] as [string, string, React.ReactNode][]).map(([tab, label, icon]) => (
-                  <button key={tab} onClick={() => setAccountTab(tab as 'profil' | 'passord')} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px', border: 'none', background: accountTab === tab ? 'rgba(255,255,255,0.07)' : 'transparent', color: accountTab === tab ? '#e2e8f0' : '#475569', fontFamily: 'var(--font-montserrat)', fontSize: '0.75rem', fontWeight: accountTab === tab ? 600 : 400, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s', width: '100%' }}
-                    onMouseEnter={(e) => { if (accountTab !== tab) e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
-                    onMouseLeave={(e) => { if (accountTab !== tab) e.currentTarget.style.background = 'transparent' }}
-                  >
-                    {icon}{label}
-                  </button>
-                ))}
+              <div className="konto-sidebar" style={{ width: '168px', flexShrink: 0, borderRight: '1px solid rgba(255,255,255,0.06)', padding: '16px 10px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <div className="konto-sidebar-tabs" style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  {([['profil', 'Profil', <svg key="p" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" strokeLinecap="round"/></svg>], ['passord', 'Passord', <svg key="k" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4" strokeLinecap="round"/></svg>]] as [string, string, React.ReactNode][]).map(([tab, label, icon]) => (
+                    <button key={tab} onClick={() => setAccountTab(tab as 'profil' | 'passord')} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px', border: 'none', background: accountTab === tab ? 'rgba(255,255,255,0.07)' : 'transparent', color: accountTab === tab ? '#e2e8f0' : '#475569', fontFamily: 'var(--font-montserrat)', fontSize: '0.75rem', fontWeight: accountTab === tab ? 600 : 400, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s', width: '100%' }}
+                      onMouseEnter={(e) => { if (accountTab !== tab) e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+                      onMouseLeave={(e) => { if (accountTab !== tab) e.currentTarget.style.background = 'transparent' }}
+                    >
+                      {icon}{label}
+                    </button>
+                  ))}
+                </div>
                 <div style={{ flex: 1 }} />
-                <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)', margin: '8px 0' }} />
-                <button onClick={() => { setShowAccount(false); onSignOut() }} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px', border: 'none', background: 'transparent', color: '#475569', fontFamily: 'var(--font-montserrat)', fontSize: '0.75rem', cursor: 'pointer', textAlign: 'left', width: '100%', transition: 'all 0.15s' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(239,68,68,0.08)'; e.currentTarget.style.color = '#ef4444' }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#475569' }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" strokeLinecap="round"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12" strokeLinecap="round"/></svg>
-                  Logg ut
-                </button>
+                <div className="konto-sidebar-logout">
+                  <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)', margin: '8px 0' }} />
+                  <button onClick={() => { setShowAccount(false); onSignOut() }} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '8px', border: 'none', background: 'transparent', color: '#475569', fontFamily: 'var(--font-montserrat)', fontSize: '0.75rem', cursor: 'pointer', textAlign: 'left', width: '100%', transition: 'all 0.15s' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(239,68,68,0.08)'; e.currentTarget.style.color = '#ef4444' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#475569' }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" strokeLinecap="round"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12" strokeLinecap="round"/></svg>
+                    Logg ut
+                  </button>
+                </div>
               </div>
 
               {/* Content */}
-              <div style={{ flex: 1, padding: '28px 28px 24px', overflowY: 'auto' }}>
+              <div className="konto-content" style={{ flex: 1, padding: '28px 28px 24px', overflowY: 'auto' }}>
 
                 {accountTab === 'profil' && (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     {/* Avatar row */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                      <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(201,168,76,0.12)', border: '1.5px solid rgba(201,168,76,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C9A84C', fontFamily: 'var(--font-montserrat)', fontSize: '1.1rem', fontWeight: 700, flexShrink: 0 }}>{initials}</div>
+                    <div className="konto-avatar-row" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                      <div className="konto-avatar" style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(201,168,76,0.12)', border: '1.5px solid rgba(201,168,76,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C9A84C', fontFamily: 'var(--font-montserrat)', fontSize: '1.1rem', fontWeight: 700, flexShrink: 0 }}>{initials}</div>
                       <div>
                         <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.9rem', fontWeight: 700, color: '#e2e8f0' }}>{displayName}</div>
                         <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', color: '#334155', marginTop: '3px' }}>{email}</div>
@@ -860,12 +886,12 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
                     <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} />
 
                     {/* Name fields */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    <div className="konto-name-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                       {[['Fornavn', editFirst, setEditFirst], ['Etternavn', editLast, setEditLast]].map(([label, val, setter]) => (
                         <div key={label as string}>
                           <label style={{ display: 'block', fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', letterSpacing: '0.1em', color: '#475569', textTransform: 'uppercase', marginBottom: '7px' }}>{label as string}</label>
                           <input value={val as string} onChange={(e) => (setter as (v: string) => void)(e.target.value)}
-                            style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px 13px', color: '#e2e8f0', fontFamily: 'var(--font-montserrat)', fontSize: '0.85rem', outline: 'none', boxSizing: 'border-box', transition: 'border-color 0.18s' }}
+                            style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 13px', color: '#e2e8f0', fontFamily: 'var(--font-montserrat)', fontSize: '1rem', outline: 'none', boxSizing: 'border-box', transition: 'border-color 0.18s' }}
                             onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)' }}
                             onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
                           />
@@ -873,10 +899,18 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
                       ))}
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      {profileMsg && <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', color: profileMsg.startsWith('âœ“') ? 'rgba(74,197,120,0.9)' : '#ef4444' }}>{profileMsg}</span>}
-                      <button onClick={handleSaveProfile} disabled={profileSaving} style={{ marginLeft: 'auto', padding: '10px 22px', background: '#C9A84C', border: 'none', borderRadius: '8px', color: '#0F1829', fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', letterSpacing: '0.12em', fontWeight: 700, textTransform: 'uppercase', cursor: profileSaving ? 'wait' : 'pointer', opacity: profileSaving ? 0.7 : 1 }}>
+                    <div className="konto-save-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      {profileMsg && <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', color: profileMsg.startsWith('✓') ? 'rgba(74,197,120,0.9)' : '#ef4444' }}>{profileMsg}</span>}
+                      <button className="konto-save-btn" onClick={handleSaveProfile} disabled={profileSaving} style={{ marginLeft: 'auto', padding: '11px 22px', background: '#C9A84C', border: 'none', borderRadius: '8px', color: '#0F1829', fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', letterSpacing: '0.12em', fontWeight: 700, textTransform: 'uppercase', cursor: profileSaving ? 'wait' : 'pointer', opacity: profileSaving ? 0.7 : 1 }}>
                         {profileSaving ? 'Lagrer…' : 'Lagre endringer'}
+                      </button>
+                    </div>
+
+                    {/* Mobile-only logout */}
+                    <div className="konto-mobile-logout" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '14px' }}>
+                      <button onClick={() => { setShowAccount(false); onSignOut() }} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 0', border: 'none', background: 'transparent', color: '#475569', fontFamily: 'var(--font-montserrat)', fontSize: '0.72rem', cursor: 'pointer' }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" strokeLinecap="round"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12" strokeLinecap="round"/></svg>
+                        Logg ut
                       </button>
                     </div>
                   </div>
@@ -888,7 +922,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
                       <div key={label as string}>
                         <label style={{ display: 'block', fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', letterSpacing: '0.1em', color: '#475569', textTransform: 'uppercase', marginBottom: '7px' }}>{label as string}</label>
                         <input type="password" value={val as string} onChange={(e) => (setter as (v: string) => void)(e.target.value)}
-                          style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px 13px', color: '#e2e8f0', fontFamily: 'var(--font-montserrat)', fontSize: '0.85rem', outline: 'none', boxSizing: 'border-box', transition: 'border-color 0.18s' }}
+                          style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '12px 13px', color: '#e2e8f0', fontFamily: 'var(--font-montserrat)', fontSize: '1rem', outline: 'none', boxSizing: 'border-box', transition: 'border-color 0.18s' }}
                           onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)' }}
                           onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)' }}
                         />
@@ -900,10 +934,18 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
                       <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.72rem', color: '#64748b' }}>Logg ut av andre enheter</span>
                     </label>
 
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '4px' }}>
-                      {pwMsg && <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', color: pwMsg.startsWith('âœ“') ? 'rgba(74,197,120,0.9)' : '#ef4444' }}>{pwMsg}</span>}
-                      <button onClick={handleUpdatePassword} disabled={pwSaving} style={{ marginLeft: 'auto', padding: '10px 22px', background: '#C9A84C', border: 'none', borderRadius: '8px', color: '#0F1829', fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', letterSpacing: '0.12em', fontWeight: 700, textTransform: 'uppercase', cursor: pwSaving ? 'wait' : 'pointer', opacity: pwSaving ? 0.7 : 1 }}>
+                    <div className="konto-save-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '4px' }}>
+                      {pwMsg && <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', color: pwMsg.startsWith('✓') ? 'rgba(74,197,120,0.9)' : '#ef4444' }}>{pwMsg}</span>}
+                      <button className="konto-save-btn" onClick={handleUpdatePassword} disabled={pwSaving} style={{ marginLeft: 'auto', padding: '11px 22px', background: '#C9A84C', border: 'none', borderRadius: '8px', color: '#0F1829', fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', letterSpacing: '0.12em', fontWeight: 700, textTransform: 'uppercase', cursor: pwSaving ? 'wait' : 'pointer', opacity: pwSaving ? 0.7 : 1 }}>
                         {pwSaving ? 'Oppdaterer…' : 'Oppdater passord'}
+                      </button>
+                    </div>
+
+                    {/* Mobile-only logout */}
+                    <div className="konto-mobile-logout" style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '14px' }}>
+                      <button onClick={() => { setShowAccount(false); onSignOut() }} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 0', border: 'none', background: 'transparent', color: '#475569', fontFamily: 'var(--font-montserrat)', fontSize: '0.72rem', cursor: 'pointer' }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" strokeLinecap="round"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12" strokeLinecap="round"/></svg>
+                        Logg ut
                       </button>
                     </div>
                   </div>
@@ -914,7 +956,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
         </div>
       )}
 
-      {/* Scrollable page content — only this div scrolls */}
+      {/* Scrollable page content ✓ only this div scrolls */}
       <div className="student-scroll-content" style={{ height: 'calc(100vh - 112px)', overflowY: 'auto', position: 'relative', zIndex: 1 }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '32px 32px 80px' }}>
 
@@ -929,7 +971,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
           <div style={{ width: '48px', height: '1px', background: 'linear-gradient(to right, #C9A84C, transparent)' }} />
         </div>
 
-        {/* â”€â”€ Per-subject sections â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* â"€â"€ Per-subject sections â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
         {SUBJECTS.map((subject) => (
           <section key={subject.id} style={{ marginBottom: '60px' }}>
             {/* Section header */}
@@ -957,7 +999,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
       </div>
       </div>
 
-      {/* â”€â”€ Mobile slide-in drawer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ Mobile slide-in drawer â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       {showDrawer && (
         <>
           {/* Backdrop */}
@@ -978,7 +1020,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 16px' }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.06em', color: '#e2e8f0' }}>Meny</span>
-              <button onClick={() => setShowDrawer(false)} style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b', cursor: 'pointer', fontSize: '14px' }}>âœ•</button>
+              <button onClick={() => setShowDrawer(false)} style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b', cursor: 'pointer', fontSize: '14px' }}>â✓•</button>
             </div>
 
             {/* User row */}
@@ -992,26 +1034,26 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               </div>
             </div>
 
-            {/* â”€â”€ PROGRAMMER â”€â”€ */}
+            {/* â"€â"€ PROGRAMMER â"€â"€ */}
             <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)' }} />
             <div style={{ padding: '14px 20px 6px' }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', letterSpacing: '0.22em', color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase' }}>PROGRAMMER</span>
             </div>
 
-            {/* Al Rawdah Arabisk — kommer snart */}
+            {/* Al Rawdah Arabisk ✓ kommer snart */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 20px', opacity: 0.38, cursor: 'default' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="1.6"><path d="M12 6.5c-3.6-3-8.5-1.5-8.5 4 0 3 2 5.5 8.5 9 6.5-3.5 8.5-6 8.5-9 0-5.5-4.9-7-8.5-4z"/></svg>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)' }}>Al Rawdah Arabisk</span>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.5rem', letterSpacing: '0.12em', color: '#334155', marginLeft: 'auto', textTransform: 'uppercase' }}>Snart</span>
             </div>
 
-            {/* Islamsk Vitenskap — aktiv */}
+            {/* Islamsk Vitenskap ✓ aktiv */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 20px', background: 'rgba(201,168,76,0.06)', borderLeft: '2px solid rgba(201,168,76,0.55)', cursor: 'default' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" strokeWidth="1.6"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.82rem', fontWeight: 600, color: '#C9A84C' }}>Islamsk Vitenskap</span>
             </div>
 
-            {/* â”€â”€ Timeplan â”€â”€ */}
+            {/* â"€â"€ Timeplan â"€â"€ */}
             <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)', margin: '8px 0' }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 20px', opacity: 0.42, cursor: 'default' }}>
               {isLive && (
@@ -1025,7 +1067,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.5rem', letterSpacing: '0.12em', color: '#334155', marginLeft: 'auto', textTransform: 'uppercase' }}>Snart</span>
             </div>
 
-            {/* â”€â”€ Konto + Få støtte â”€â”€ */}
+            {/* â"€â"€ Konto + Få støtte â"€â"€ */}
             <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)', margin: '8px 0' }} />
             <button
               onClick={() => { setShowDrawer(false); setAccountTab('profil'); setShowAccount(true) }}
@@ -1058,7 +1100,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
         </>
       )}
 
-      {/* â”€â”€ Bottom navigation — mobile only â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ Bottom navigation ✓ mobile only â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <div className="student-bottom-nav">
         <button style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', background: 'none', border: 'none', cursor: 'pointer', color: '#C9A84C', padding: '6px 20px' }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
@@ -1073,7 +1115,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
   )
 }
 
-// â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Page â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 export default function StudentPage() {
   const router = useRouter()

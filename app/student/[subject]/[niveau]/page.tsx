@@ -9,12 +9,67 @@ import 'plyr/dist/plyr.css'
 const F = "var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, sans-serif"
 
 const LESSONS = [
-  { id: 1, title: 'Introduksjon av Aqeedah', duration: '21min', src: 'https://mkqxsppoxcuyklrxpjox.supabase.co/storage/v1/object/public/Videos/WIN_20260625_00_48_34_Pro.mp4', overview: 'En innledning til islamsk trosoverbevisning (aqeedah) — hva det betyr, hvorfor det er viktig, og hva dette kurset dekker.' },
-  { id: 2, title: 'Hvem er din Herre?', duration: '18min', src: '', overview: 'Vi utforsker det grunnleggende spørsmålet om å kjenne Allah, Hans egenskaper og vår plikt overfor Ham.' },
-  { id: 3, title: 'De seks pilarene i troen', duration: '24min', src: '', overview: 'En gjennomgang av de seks pilarene i iman: Allah, englene, skriftene, profetene, den siste dag og al-qadr.' },
-  { id: 4, title: 'Å tro på Allah og Hans navn og egenskaper', duration: '29min', src: '', overview: 'Detaljert studie av Allahs vakre navn og den rette metoden for å forstå Hans egenskaper uten forvrenging.' },
-  { id: 5, title: 'Profetene og de himmelske skriftene', duration: '22min', src: '', overview: 'Troen på profetene fra Adam til Muhammad ﷺ, og de åpenbarte skriftene, inkludert Koranen som det endelige ord.' },
-  { id: 6, title: 'Å tro på qadr', duration: '25min', src: '', overview: 'En dyptgående forklaring av qadr (guddommelig skjebne) — de fire nivåene og hvordan denne troen påvirker et muslims hjertelag.' },
+  {
+    id: 1, title: 'Introduksjon av Aqeedah', duration: '21min',
+    src: 'https://mkqxsppoxcuyklrxpjox.supabase.co/storage/v1/object/public/Videos/WIN_20260625_00_48_34_Pro.mp4',
+    overview: 'This lesson covers the ten introductory principles of Islamic creed, the topics covered in Aqeedah, and the historical development of authorship from the Sahaba onward.',
+    learnPoints: [
+      'Navnene på denne vitenskapen: Aqeedah, al-Fiqh al-Akbar, al-Iman, al-Sunnah og al-Tawhid',
+      'Hadith fra Jibreel som det grunnleggende tekstgrunnlaget for de seks pilarene i iman',
+      'Emnene som dekkes i aqeedah: tawhid, de seks pilarene, troens natur og avvikende sekter',
+      'Den historiske utviklingen av aqeedah-litteraturen fra sahabah til i dag',
+    ],
+  },
+  {
+    id: 2, title: 'Hvem er din Herre?', duration: '18min', src: '',
+    overview: 'Vi utforsker det grunnleggende spørsmålet om å kjenne Allah, Hans egenskaper og vår plikt overfor Ham som Hans skapninger og tjenere.',
+    learnPoints: [
+      'Hva det betyr å kjenne Allah og hvorfor dette er det viktigste spørsmålet i livet',
+      'Allahs egenskaper slik de er beskrevet i Koranen og Sunnah',
+      'Plikten til å tilbe Allah alene og unngå alle former for shirk',
+      'Hvordan kunnskap om Allah styrker og stabiliserer troens fundament',
+    ],
+  },
+  {
+    id: 3, title: 'De seks pilarene i troen', duration: '24min', src: '',
+    overview: 'En grundig gjennomgang av de seks pilarene i iman slik de er definert i Sunnah, og hvordan disse pilarene utgjør kjernen i en muslims trosoverbevisning.',
+    learnPoints: [
+      'De seks pilarene: tro på Allah, englene, skriftene, profetene, den siste dag og al-qadr',
+      'Koraniske og hadith-baserte bevis for hver av de seks pilarene i iman',
+      'Sammenhengen mellom de seks pilarene og det daglige islamske livet',
+      'Konsekvensene for troen av å avvise én av de seks pilarene',
+    ],
+  },
+  {
+    id: 4, title: 'Å tro på Allah og Hans navn og egenskaper', duration: '29min', src: '',
+    overview: 'Detaljert studie av Allahs vakre navn og egenskaper (al-Asma wa al-Sifat), og den rette metodologien for å forstå dem uten forvrenging, avvisning eller sammenlikning.',
+    learnPoints: [
+      'De fire avvikende metodologiene i forståelsen av Allahs navn og egenskaper',
+      'Ahlu Sunnahs korrekte metodologi: bekreftelse uten sammenlikning',
+      'Eksempler på Allahs navn og egenskaper fra Koranen og den autentiske Sunnah',
+      'Hvordan denne troen påvirker tilbedelsen og ens forhold til Allah',
+    ],
+  },
+  {
+    id: 5, title: 'Profetene og de himmelske skriftene', duration: '22min', src: '',
+    overview: 'Troen på alle Allahs profeter fra Adam til Muhammad ﷺ, og de åpenbarte skriftene, inkludert Koranen som det endelige og bevarte ord fra Allah.',
+    learnPoints: [
+      'Troen på alle profeter som en pilar i iman, og hva dette innebærer i praksis',
+      'Egenskapene til en profet og forskjellen mellom rasul og nabi',
+      'De fire store åpenbarte skriftene og deres stilling i Islam',
+      'Koranens unike stilling som det siste og perfekt bevarte ord fra Allah',
+    ],
+  },
+  {
+    id: 6, title: 'Å tro på qadr', duration: '25min', src: '',
+    overview: 'En dyptgående forklaring av troen på al-qadr (guddommelig skjebne) — de fire nivåene og hvordan denne troen gir muslimen styrke, takknemlighet og indre fred.',
+    learnPoints: [
+      'De fire nivåene av troen på qadr: Allahs kunnskap, oppskrift, vilje og skapelse',
+      'Forholdet mellom Allahs qadr og menneskets frie vilje og personlige ansvar',
+      'Hvordan troen på qadr gir indre fred, takknemlighet og styrke i motgang',
+      'Avvikende sekters syn på qadr og Ahlu Sunnahs korrekte forståelse',
+    ],
+  },
 ]
 
 const SUBJECT_NAMES: Record<string, string> = {
@@ -22,6 +77,7 @@ const SUBJECT_NAMES: Record<string, string> = {
   koranvitenskaper: 'Koranvitenskaper', hadith: 'Hadith', 'adab-al-talib': 'Adab al-Talib',
 }
 const NIVEAU_LABELS: Record<number, string> = { 1: 'Nivå 1', 2: 'Nivå 2', 3: 'Nivå 3' }
+const TABS = ['Overview', 'Lessons', 'Notes', 'Resources'] as const
 
 const PLYR_STYLES = `
   :root {
@@ -35,7 +91,7 @@ const PLYR_STYLES = `
     --plyr-range-thumb-background: #26caff;
     --plyr-range-fill-background: #26caff;
     --plyr-video-controls-background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
-    --plyr-menu-background: rgba(10, 14, 26, 0.97);
+    --plyr-menu-background: rgba(10,14,26,0.97);
     --plyr-menu-color: rgba(255,255,255,0.88);
     --plyr-menu-shadow: 0 8px 32px rgba(0,0,0,0.65);
     --plyr-menu-radius: 10px;
@@ -60,23 +116,13 @@ const PLYR_STYLES = `
   .plyr__menu__container [role=menuitemradio][aria-checked=true]::before { background: #26caff !important; }
   .plyr__menu__container [role=menuitemradio]:hover, .plyr__menu__container [role=menuitem]:hover { background: rgba(255,255,255,0.06) !important; }
   .plyr__control--active[data-plyr="settings"], .plyr__control[data-plyr="settings"]:hover { background: rgba(255,255,255,0.1) !important; }
-  .left-scroll::-webkit-scrollbar { display: none; }
 
   /* ── Mobile layout ── */
   @media (max-width: 767px) {
-    .course-layout {
-      flex-direction: column !important;
-      height: auto !important;
-      min-height: 100vh !important;
-      overflow: visible !important;
-      padding-bottom: 80px;
-    }
-    .course-left {
-      flex: none !important;
-      width: 100% !important;
-      overflow-y: visible !important;
-    }
+    .course-layout { flex-direction: column !important; padding-bottom: 80px; }
     .course-right { display: none !important; }
+    .course-left { width: 100% !important; }
+    .course-video { height: 56.25vw !important; min-height: 200px !important; }
     .course-bottom-bar { display: flex !important; }
     .course-info-pad { padding: 16px 16px 24px !important; }
     .course-title { font-size: 1.3rem !important; }
@@ -95,10 +141,12 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
   const [done, setDone] = useState<Set<number>>(new Set())
   const [ready, setReady] = useState(false)
   const [activeTab, setActiveTab] = useState<'overview' | 'lessons' | 'notes' | 'resources'>('overview')
+  const activeRef = useRef(0)
 
   const nNum = parseInt(niveau.replace(/\D/g, '')) || 1
   const nLabel = NIVEAU_LABELS[nNum] ?? 'Nivå 1'
   const sName = SUBJECT_NAMES[subject] ?? subject.charAt(0).toUpperCase() + subject.slice(1)
+  activeRef.current = active
   const lesson = LESSONS[active]
   const isComplete = done.has(active)
 
@@ -110,13 +158,11 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
     })
   }, [router])
 
-  // Initialise Plyr ONCE when ready. Lesson switching done via selectLesson().
   useEffect(() => {
     if (!ready || !videoRef.current || playerRef.current) return
     const video = videoRef.current
     const src = LESSONS[0].src
     if (src) { video.src = src; video.load() }
-
     import('plyr').then(({ default: Plyr }) => {
       if (playerRef.current) return
       playerRef.current = new Plyr(video, {
@@ -133,8 +179,6 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
 
   if (!ready) return null
 
-  // Called from click handlers — manipulates native video directly so iOS autoplay
-  // gesture context is preserved. Plyr updates automatically via its video event listeners.
   function selectLesson(i: number) {
     const video = videoRef.current
     if (!video) return
@@ -152,7 +196,7 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
       const n = new Set(prev)
       if (n.has(active)) { n.delete(active) } else {
         n.add(active)
-        if (active < LESSONS.length - 1) setTimeout(() => selectLesson(active + 1), 350)
+        if (active < LESSONS.length - 1) setTimeout(() => selectLesson(activeRef.current + 1), 350)
       }
       return n
     })
@@ -161,13 +205,11 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
   function goNext() { if (active < LESSONS.length - 1) selectLesson(active + 1) }
   function goPrev() { if (active > 0) selectLesson(active - 1) }
 
-  const TABS = ['Overview', 'Lessons', 'Notes', 'Resources'] as const
-
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: PLYR_STYLES }} />
 
-      {/* Back button — fixed, always visible */}
+      {/* Back button */}
       <Link href="/student" style={{
         position: 'fixed', top: 14, left: 14, zIndex: 200,
         width: 38, height: 38, borderRadius: '50%',
@@ -183,15 +225,14 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
         </svg>
       </Link>
 
-      {/* ── Fixed bottom bar (mobile only) ── */}
+      {/* Mobile bottom bar */}
       <div className="course-bottom-bar" style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 150,
-        height: 72, background: 'rgba(13,17,23,0.97)', backdropFilter: 'blur(16px)',
+        height: 72, background: '#0d1117',
         borderTop: '1px solid rgba(255,255,255,0.08)',
         alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 16px', gap: 12,
+        padding: '0 16px', gap: 12, display: 'none',
       }}>
-        {/* Prev */}
         <button onClick={goPrev} disabled={active === 0} style={{
           width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
           background: active === 0 ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.08)',
@@ -201,8 +242,6 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
         }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
-
-        {/* Mark complete */}
         <button onClick={toggle} style={{
           flex: 1, height: 44, borderRadius: 10,
           background: isComplete ? 'transparent' : '#fff',
@@ -215,8 +254,6 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
           {isComplete && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
           {isComplete ? 'Completed' : 'Mark complete'}
         </button>
-
-        {/* Next */}
         <button onClick={goNext} disabled={active === LESSONS.length - 1} style={{
           width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
           background: active === LESSONS.length - 1 ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.08)',
@@ -228,20 +265,27 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
         </button>
       </div>
 
-      <div className="course-layout" style={{ height: '100vh', background: '#0d1117', color: '#fff', fontFamily: F, display: 'flex', overflow: 'hidden' }}>
+      {/* ── Main layout ────────────────────────────────────────────────────────── */}
+      {/* position: relative + zIndex: 1 ensures this sits above the fixed global-fixed-bg layer */}
+      <div className="course-layout" style={{
+        position: 'relative', zIndex: 1,
+        minHeight: '100vh', backgroundColor: '#0a0e1a',
+        color: '#fff', fontFamily: F,
+        display: 'flex', alignItems: 'flex-start',
+      }}>
 
-        {/* ══ LEFT ═══════════════════════════════════════════════════════════════ */}
-        <div className="left-scroll course-left" style={{ flex: '0 0 74%', display: 'flex', flexDirection: 'column', overflowY: 'auto', scrollbarWidth: 'none' }}>
+        {/* LEFT — scrolls with the page */}
+        <div className="course-left" style={{ flex: '0 0 77%', minHeight: '100vh', backgroundColor: '#0a0e1a' }}>
 
           {/* Video */}
-          <div style={{ background: '#000', width: '100%', aspectRatio: '16/9', flexShrink: 0, position: 'relative', overflow: 'hidden' }}>
-            <video ref={videoRef} style={{ width: '100%', height: '100%', display: 'block' }} playsInline />
+          <div className="course-video" style={{ background: '#000', width: '100%', height: '80vh', position: 'relative', overflow: 'hidden' }}>
+            <video ref={videoRef} style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }} playsInline />
           </div>
 
-          {/* Info */}
-          <div className="course-info-pad" style={{ padding: '20px 28px 40px' }}>
+          {/* Info section */}
+          <div className="course-info-pad" style={{ padding: '20px 28px 60px' }}>
             <p style={{ margin: '0 0 1px', fontFamily: F, fontSize: '1rem', fontWeight: 700, color: '#fff' }}>{sName}</p>
-            <p style={{ margin: '0 0 10px', fontFamily: F, fontSize: '0.95rem', fontWeight: 400, color: '#fff' }}>{nLabel}</p>
+            <p style={{ margin: '0 0 10px', fontFamily: F, fontSize: '0.95rem', fontWeight: 400, color: 'rgba(255,255,255,0.55)' }}>{nLabel}</p>
             <h1 className="course-title" style={{ margin: '0 0 18px', fontFamily: F, fontSize: 'clamp(1.3rem, 2.4vw, 1.85rem)', fontWeight: 800, color: '#fff', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
               {active + 1}. {lesson.title}
             </h1>
@@ -266,30 +310,48 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
               })}
             </div>
 
-            {/* Tab: Overview */}
+            {/* Overview tab */}
             {activeTab === 'overview' && (
               <>
-                <p style={{ margin: '0 0 24px', fontFamily: F, fontSize: '0.9rem', color: 'rgba(255,255,255,0.48)', lineHeight: 1.75 }}>
-                  {lesson.overview}
-                </p>
-                <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '20px 22px', display: 'flex', gap: 18, marginBottom: 24 }}>
-                  <div style={{ width: 56, height: 56, borderRadius: '50%', flexShrink: 0, background: 'linear-gradient(135deg, #1a2540 0%, #2a3a5c 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                {/* Ustadh card */}
+                <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start', marginBottom: 28, padding: '18px 20px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12 }}>
+                  <div style={{ width: 60, height: 60, borderRadius: '50%', flexShrink: 0, background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.32))', border: '2px solid rgba(201,168,76,0.28)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontFamily: F, fontSize: '1rem', fontWeight: 700, color: '#C9A84C' }}>SY</span>
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ margin: '0 0 6px', fontFamily: F, fontSize: '0.95rem', fontWeight: 700, color: '#fff' }}>Shaykh — Al Rawdah Institutt</p>
-                    <p style={{ margin: 0, fontFamily: F, fontSize: '0.84rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.7 }}>
-                      Underviseren ved Al Rawdah Institutt bringer sammen klassisk islamsk kunnskap og en dyp forståelse av moderne utfordringer.
+                    <p style={{ margin: '0 0 5px', fontFamily: F, fontSize: '0.95rem', fontWeight: 700, color: '#fff' }}>Ustadh Sadiq.A Yasin</p>
+                    <p style={{ margin: 0, fontFamily: F, fontSize: '0.83rem', color: 'rgba(255,255,255,0.52)', lineHeight: 1.72 }}>
+                      Ustadh Sadiq Yasin is a PhD candidate at the Islamic University of Madinah. He holds a Master's in 'Aqidah and a Bachelor's in Hadith, and is known for his thorough research and deep understanding across the Islamic sciences. His academic strength and clarity in explanation have made him a respected voice among students of knowledge.
                     </p>
                   </div>
+                </div>
+
+                {/* Om denne leksjonen */}
+                <div style={{ marginBottom: 26 }}>
+                  <p style={{ margin: '0 0 10px', fontFamily: F, fontSize: '0.88rem', fontWeight: 700, color: '#fff', letterSpacing: '0.01em' }}>Om denne leksjonen</p>
+                  <p style={{ margin: 0, fontFamily: F, fontSize: '0.87rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.78 }}>
+                    {lesson.overview}
+                  </p>
+                </div>
+
+                {/* Hva du vil lære */}
+                <div style={{ marginBottom: 24 }}>
+                  <p style={{ margin: '0 0 14px', fontFamily: F, fontSize: '0.88rem', fontWeight: 700, color: '#fff', letterSpacing: '0.01em' }}>Hva du vil lære</p>
+                  {lesson.learnPoints.map((point, idx) => (
+                    <div key={idx} style={{ display: 'flex', gap: 11, marginBottom: 11, alignItems: 'flex-start' }}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.38)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 3 }}>
+                        <circle cx="12" cy="12" r="10"/>
+                      </svg>
+                      <p style={{ margin: 0, fontFamily: F, fontSize: '0.87rem', color: 'rgba(255,255,255,0.68)', lineHeight: 1.65 }}>{point}</p>
+                    </div>
+                  ))}
                 </div>
               </>
             )}
 
-            {/* Tab: Lessons (mobile lesson list) */}
+            {/* Lessons tab */}
             {activeTab === 'lessons' && (
               <div style={{ marginBottom: 16 }}>
-                {/* Progress */}
                 <div style={{ marginBottom: 16 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
                     <span style={{ fontFamily: F, fontSize: '0.72rem', color: 'rgba(255,255,255,0.42)' }}>Progress</span>
@@ -299,8 +361,6 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
                     <div style={{ height: '100%', width: `${(done.size / LESSONS.length) * 100}%`, background: '#fff', borderRadius: 2, transition: 'width 0.4s ease' }} />
                   </div>
                 </div>
-
-                {/* Lesson list */}
                 {LESSONS.map((l, i) => {
                   const isDone = done.has(i)
                   const isAct = i === active
@@ -311,8 +371,7 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
                       borderLeft: `3px solid ${isAct ? '#fff' : 'transparent'}`,
                       paddingLeft: isAct ? 12 : 3,
                       background: isAct ? 'rgba(255,255,255,0.04)' : 'transparent',
-                      cursor: 'pointer', transition: 'all 0.12s', alignItems: 'flex-start',
-                      borderRadius: 8,
+                      cursor: 'pointer', transition: 'all 0.12s', alignItems: 'flex-start', borderRadius: 8,
                     }}>
                       <div style={{ width: 100, height: 58, borderRadius: 6, flexShrink: 0, background: '#1a2035', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
                         {isAct && !isDone && <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.75)" style={{ marginLeft: 2 }}><path d="M8 5v14l11-7z"/></svg>}
@@ -326,7 +385,7 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
                         )}
                       </div>
                       <div style={{ flex: 1, minWidth: 0, paddingTop: 2 }}>
-                        <p style={{ margin: '0 0 4px', fontFamily: F, fontSize: '0.82rem', fontWeight: isAct ? 600 : 400, lineHeight: 1.4, color: isAct ? '#fff' : isDone ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.72)', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const }}>
+                        <p style={{ margin: '0 0 4px', fontFamily: F, fontSize: '0.82rem', fontWeight: isAct ? 600 : 400, lineHeight: 1.35, color: isAct ? '#fff' : isDone ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.82)', overflow: 'hidden', maxHeight: '2.7em' }}>
                           {i + 1}. {l.title}
                         </p>
                         {isDone
@@ -340,7 +399,7 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
               </div>
             )}
 
-            {/* Tab: Notes / Resources placeholder */}
+            {/* Notes / Resources placeholder */}
             {(activeTab === 'notes' || activeTab === 'resources') && (
               <div style={{ padding: '32px 0', textAlign: 'center' }}>
                 <p style={{ fontFamily: F, fontSize: '0.88rem', color: 'rgba(255,255,255,0.28)' }}>Kommer snart</p>
@@ -349,8 +408,13 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
           </div>
         </div>
 
-        {/* ══ RIGHT sidebar (desktop only) ══════════════════════════════════════ */}
-        <div className="course-right" style={{ flex: '0 0 26%', background: '#10151f', borderLeft: '1px solid rgba(255,255,255,0.07)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        {/* RIGHT sidebar — sticky, stays on screen while page scrolls */}
+        <div className="course-right" style={{
+          flex: '0 0 23%', position: 'sticky', top: 0, height: '100vh',
+          backgroundColor: '#0d1222',
+          borderLeft: '1px solid rgba(255,255,255,0.08)',
+          display: 'flex', flexDirection: 'column', overflow: 'hidden',
+        }}>
           <div style={{ padding: '18px 20px 14px', borderBottom: '1px solid rgba(255,255,255,0.07)', flexShrink: 0 }}>
             <p style={{ margin: '0 0 2px', fontFamily: F, fontSize: '1.05rem', fontWeight: 700, color: '#fff' }}>{sName}</p>
             <p style={{ margin: '0 0 14px', fontFamily: F, fontSize: '0.9rem', fontWeight: 400, color: 'rgba(255,255,255,0.55)' }}>{nLabel}</p>
@@ -400,7 +464,7 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
                     )}
                   </div>
                   <div style={{ flex: 1, minWidth: 0, paddingTop: 2 }}>
-                    <p style={{ margin: '0 0 5px', fontFamily: F, fontSize: '0.82rem', fontWeight: isAct ? 600 : 400, lineHeight: 1.4, color: isAct ? '#fff' : isDone ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.72)', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const }}>
+                    <p style={{ margin: '0 0 5px', fontFamily: F, fontSize: '0.82rem', fontWeight: isAct ? 600 : 400, lineHeight: 1.35, color: isAct ? '#fff' : isDone ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.82)', overflow: 'hidden', maxHeight: '2.7em' }}>
                       {i + 1}. {l.title}
                     </p>
                     {isDone
