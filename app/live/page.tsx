@@ -150,8 +150,8 @@ export default function PublicLivePage() {
 
               {/* Raise hand */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <RaiseHandButton />
-                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', color: '#1e2d42', letterSpacing: '0.1em' }}>
+                <RaiseHandButton userName={guestName} />
+                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', color: '#475569', letterSpacing: '0.1em' }}>
                   Rek opp hånden for å stille spørsmål
                 </span>
               </div>

@@ -316,12 +316,12 @@ export default function CoursePage({ params }: { params: Promise<{ subject: stri
                 {/* Ustadh card */}
                 <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start', marginBottom: 28, padding: '18px 20px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12 }}>
                   <div style={{ width: 60, height: 60, borderRadius: '50%', flexShrink: 0, background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.32))', border: '2px solid rgba(201,168,76,0.28)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontFamily: F, fontSize: '1rem', fontWeight: 700, color: '#C9A84C' }}>SY</span>
+                    <span style={{ fontFamily: F, fontSize: '1rem', fontWeight: 700, color: '#C9A84C' }}>AA</span>
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ margin: '0 0 5px', fontFamily: F, fontSize: '0.95rem', fontWeight: 700, color: '#fff' }}>Ustadh Sadiq.A Yasin</p>
+                    <p style={{ margin: '0 0 5px', fontFamily: F, fontSize: '0.95rem', fontWeight: 700, color: '#fff' }}>Ustadh Abdullahi Ahmed</p>
                     <p style={{ margin: 0, fontFamily: F, fontSize: '0.83rem', color: 'rgba(255,255,255,0.52)', lineHeight: 1.72 }}>
-                      Ustadh Sadiq Yasin is a PhD candidate at the Islamic University of Madinah. He holds a Master's in 'Aqidah and a Bachelor's in Hadith, and is known for his thorough research and deep understanding across the Islamic sciences. His academic strength and clarity in explanation have made him a respected voice among students of knowledge.
+                      Ustadh Abdullahi Ahmed er en 4-årig student ved Det islamske universitetet i Madinah. Han er kjent for sin grundige forskning og dype forståelse av de islamske vitenskapene. Hans faglige styrke og tydelige forklaringsevne har gjort ham til en respektert stemme blant kunnskapssøkere.
                     </p>
                   </div>
                 </div>

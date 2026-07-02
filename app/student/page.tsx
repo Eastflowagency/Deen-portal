@@ -477,7 +477,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
         @media (max-width: 767px) {
           .student-nav { height: 64px !important; flex-wrap: nowrap !important; padding: 0 16px !important; gap: 0 !important; align-items: center !important; }
           .student-nav-brand { flex: 1 !important; height: 64px !important; display: flex !important; align-items: center !important; }
-          .student-nav-logo { height: 30px !important; width: auto !important; }
+          .student-nav-logo { height: clamp(54px, 7vw, 78px) !important; width: auto !important; }
           .student-nav-tabs { display: none !important; }
           .student-nav-icons { display: flex !important; align-items: center !important; gap: 8px !important; margin-top: 0 !important; height: 64px !important; flex-shrink: 0 !important; }
           .student-nav-icons button { width: 36px !important; height: 36px !important; }
@@ -522,7 +522,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               width={1522}
               height={1024}
               className="student-nav-logo"
-              style={{ height: '62px', width: 'auto', objectFit: 'contain' }}
+              style={{ height: 'clamp(54px, 7vw, 78px)', width: 'auto', objectFit: 'contain' }}
               priority
             />
           </Link>
@@ -1020,7 +1020,9 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 16px' }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.06em', color: '#e2e8f0' }}>Meny</span>
-              <button onClick={() => setShowDrawer(false)} style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b', cursor: 'pointer', fontSize: '14px' }}>â✓•</button>
+              <button onClick={() => setShowDrawer(false)} style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b', cursor: 'pointer' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
             </div>
 
             {/* User row */}
@@ -1053,15 +1055,22 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.82rem', fontWeight: 600, color: '#C9A84C' }}>Islamsk Vitenskap</span>
             </div>
 
+            {/* â"€â"€ Live â"€â"€ */}
+            {isLive && (
+              <>
+                <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)', margin: '8px 0' }} />
+                <Link href="/live" style={{ textDecoration: 'none' }} onClick={() => setShowDrawer(false)}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 20px', cursor: 'pointer' }}>
+                    <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#ef4444', animation: 'livePulse 1.4s infinite', flexShrink: 0 }} />
+                    <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.82rem', fontWeight: 600, color: '#ef4444' }}>Live</span>
+                  </div>
+                </Link>
+              </>
+            )}
+
             {/* â"€â"€ Timeplan â"€â"€ */}
             <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)', margin: '8px 0' }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 20px', opacity: 0.42, cursor: 'default' }}>
-              {isLive && (
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.48rem', letterSpacing: '0.18em', color: '#ef4444', textTransform: 'uppercase', background: 'rgba(220,38,38,0.12)', border: '1px solid rgba(220,38,38,0.3)', borderRadius: '4px', padding: '2px 6px', fontFamily: 'var(--font-montserrat)', fontWeight: 700 }}>
-                  <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#ef4444', animation: 'livePulse 1.4s infinite' }} />
-                  LIVE
-                </span>
-              )}
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)' }}>Timeplan</span>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.5rem', letterSpacing: '0.12em', color: '#334155', marginLeft: 'auto', textTransform: 'uppercase' }}>Snart</span>

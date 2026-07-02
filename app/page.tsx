@@ -881,8 +881,8 @@ export default function HomePage() {
               margin: '0',
             }}
           >
-            <AnimatedHeading text="ISLAMSKE VITENSKAPER" delay={180} />
-            <AnimatedHeading text="OG ARABISK" delay={420} gradient="linear-gradient(90deg, #f5e090 0%, #C9A84C 40%, #e0a830 70%, #f5e090 100%)" />
+            <AnimatedHeading text="KUNNSKAPEN SOM" delay={180} />
+            <AnimatedHeading text="FORMER HVEM DU BLIR" delay={420} gradient="linear-gradient(90deg, #f5e090 0%, #C9A84C 40%, #e0a830 70%, #f5e090 100%)" />
           </h1>
 
           {/* Gold separator */}
@@ -1038,7 +1038,7 @@ export default function HomePage() {
               color: '#e2e8f0',
               fontWeight: 400,
             }}>
-              Mellom 10 og 15 år formes identitet som varer livet ut. Uten islamsk forankring fylles rommet av noe annet. Al Rawdah finnes for å gi ungdommen en direkte forbindelse til kildene.
+              Mellom 10 og 15 år formes identitet som varer livet ut. Uten islamsk forankring fylles rommet av noe annet. Al Rawdah finnes fordi neste generasjon trenger mer enn et navn på religionen sin. De trenger forståelsen.
             </p>
           </div>
 
