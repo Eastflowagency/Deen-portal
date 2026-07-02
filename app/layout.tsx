@@ -43,8 +43,8 @@ export const metadata: Metadata = {
   title: 'Al Rawdah Institutt',
   description: 'Authentic Islamic Education — Learn Arabic, study Islamic sciences, transform your understanding.',
   icons: {
-    icon: '/Logo2.png',
-    apple: '/Logo2.png',
+    icon: '/favicon-emblem.png',
+    apple: '/favicon-emblem.png',
   },
 }
 

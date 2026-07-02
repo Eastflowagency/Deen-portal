@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
-// â”€â”€ SVG Icons (no emoji — ui-ux-pro-max: no-emoji-icons) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ SVG Icons (no emoji — ui-ux-pro-max: no-emoji-icons) â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 const IconMenu = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -40,7 +40,7 @@ const IconChevronDown = () => (
   </svg>
 )
 
-// â”€â”€ Data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Data â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 const ISLAMIC_SUBJECTS = [
   { name: 'Koranvitenskaper', desc: 'Tafseer, tajweed og koranvitenskapene.' },
@@ -84,7 +84,7 @@ const FEATURES = [
   'Fraværs- og fremgangssporing',
 ]
 
-// â”€â”€ AnimatedHeading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ AnimatedHeading â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 function AnimatedHeading({ text, delay = 0, color, gradient }: { text: string; delay?: number; color?: string; gradient?: string }) {
   if (gradient) {
@@ -132,7 +132,7 @@ function AnimatedHeading({ text, delay = 0, color, gradient }: { text: string; d
   )
 }
 
-// â”€â”€ useReveal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ useReveal â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 function useReveal(threshold = 0.1) {
   const ref = useRef<HTMLElement>(null)
@@ -150,11 +150,11 @@ function useReveal(threshold = 0.1) {
   return { ref, revealed }
 }
 
-// â”€â”€ Particle type â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Particle type â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 type Particle = { x: number; y: number; vx: number; vy: number; r: number; opacity: number; node: boolean }
 
-// â”€â”€ Section heading helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Section heading helper â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
@@ -175,7 +175,7 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   )
 }
 
-// â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â"€â"€ Page â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -193,11 +193,12 @@ export default function HomePage() {
   // Section reveal hooks
   const { ref: currRef, revealed: currRevealed } = useReveal()
   const { ref: howRef, revealed: howRevealed } = useReveal()
+  const { ref: opptakRef, revealed: opptakRevealed } = useReveal()
   const { ref: pricingRef, revealed: pricingRevealed } = useReveal()
   const { ref: faqRef, revealed: faqRevealed } = useReveal()
   const { ref: footerRef, revealed: footerRevealed } = useReveal()
 
-  // Scroll detector — continuous 0←’1 over first 80px, boolean for pill styling
+  // Scroll detector — continuous 0←'1 over first 80px, boolean for pill styling
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY
@@ -212,12 +213,12 @@ export default function HomePage() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Clean URL ←” section ID maps
+  // Clean URL ←" section ID maps
   const sectionToUrl: Record<string, string> = {
-    top: '/hjem', curriculum: '/pensum', pricing: '/søknad', faq: '/spørsmål',
+    top: '/hjem', curriculum: '/pensum', opptak: '/søknad', faq: '/spørsmål',
   }
   const urlToSection: Record<string, string> = {
-    '/hjem': 'top', '/pensum': 'curriculum', '/søknad': 'pricing', '/spørsmål': 'faq',
+    '/hjem': 'top', '/pensum': 'curriculum', '/søknad': 'opptak', '/spørsmål': 'faq',
   }
 
   function scrollToSection(sectionId: string, url: string) {
@@ -247,7 +248,7 @@ export default function HomePage() {
 
   // Active section detection via IntersectionObserver
   useEffect(() => {
-    const ids = ['curriculum', 'pricing', 'faq']
+    const ids = ['curriculum', 'opptak', 'pricing', 'faq']
     const observers = ids.map(id => {
       const el = document.getElementById(id)
       if (!el) return null
@@ -355,12 +356,12 @@ export default function HomePage() {
   const navLinks: { label: string; href: string; section?: string; dropdown?: { label: string; href: string }[] }[] = [
     { label: 'Hjem',      href: '/hjem',      section: 'top' },
     { label: 'Pensum',    href: '/pensum',     section: 'curriculum', dropdown: [{ label: 'Studieplan', href: '/studieplan' }] },
-    { label: 'Søknad',    href: '/søknad',     section: 'pricing' },
+    { label: 'Søknad',    href: '/søknad',     section: 'opptak' },
     { label: 'Artikler',  href: '/artikler' },
     { label: 'Spørsmål',  href: '/spørsmål',   section: 'faq' },
   ]
 
-  // â”€â”€ Shared style tokens â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â"€â"€ Shared style tokens â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
   const pillBg = scrolled ? 'rgba(12,20,38,0.5)' : 'rgba(12,20,38,0.18)'
   const pillBorder = scrolled ? '1px solid rgba(201,168,76,0.35)' : '1px solid rgba(201,168,76,0.22)'
   const isActive = (href: string) => {
@@ -371,10 +372,10 @@ export default function HomePage() {
   return (
     <div id="top" style={{ backgroundColor: '#080c14', color: '#f1f5f9' }}>
 
-      {/* â”€â”€ SKIP LINK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ SKIP LINK â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <a href="#main-content" className="skip-link">Skip to main content</a>
 
-      {/* â”€â”€ LOADING SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ LOADING SCREEN â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       {!loadingHidden && (
         <div className={`loading-overlay${loadingDone ? ' loading-fade-out' : ''}`} aria-hidden="true">
           <div className="loading-logo">
@@ -391,7 +392,7 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* â”€â”€ NAVBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ NAVBAR â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <header
         className="fixed z-50"
         style={{
@@ -795,10 +796,10 @@ export default function HomePage() {
         )}
       </header>
 
-      {/* â”€â”€ MAIN CONTENT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ MAIN CONTENT â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <main id="main-content">
 
-      {/* â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ HERO â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <section
         className={`hero-bg${loadingHidden ? ' hero-active' : ''}`}
         aria-label="Hero"
@@ -919,7 +920,7 @@ export default function HomePage() {
 
           {/* CTA button */}
           <a
-            href="#pricing"
+            href="#opptak"
             className="hero-fade-item btn-press"
             style={{
               fontFamily: 'var(--font-montserrat)',
@@ -985,7 +986,7 @@ export default function HomePage() {
 
       </main>
 
-      {/* â”€â”€ SECTIONS BACKGROUND â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ SECTIONS BACKGROUND â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <div className="sections-bg" style={{
         backgroundImage: "url('/Background.png')",
         backgroundSize: 'cover',
@@ -1003,7 +1004,7 @@ export default function HomePage() {
           zIndex: 1,
         }} />
 
-      {/* â”€â”€ MISSION & VISION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ MISSION & VISION â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <section style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           <SectionHeading>Misjon &amp; Visjon</SectionHeading>
@@ -1113,7 +1114,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* â”€â”€ SLIK FUNGERER DET â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ SLIK FUNGERER DET â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <section style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <SectionHeading>Slik fungerer det</SectionHeading>
@@ -1191,7 +1192,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* â”€â”€ CURRICULUM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ CURRICULUM â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <section
         ref={currRef}
         id="curriculum"
@@ -1377,7 +1378,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* â”€â”€ HOW IT WORKS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ HOW IT WORKS â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <section
         ref={howRef}
         className={`reveal-section${howRevealed ? ' revealed' : ''}`}
@@ -1510,7 +1511,7 @@ export default function HomePage() {
                     ;(e.currentTarget as HTMLElement).style.background = 'transparent'
                   }}
                 >
-                  Se studieplan ←’
+                  Se studieplan ←
                 </span>
               </Link>
             ))}
@@ -1519,7 +1520,84 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* â”€â”€ PRICING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ OPPTAKSPROSESSEN â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
+      <section
+        ref={opptakRef}
+        id="opptak"
+        className={`reveal-section${opptakRevealed ? ' revealed' : ''}`}
+        style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}
+      >
+        <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+          <SectionHeading>Opptaksprosessen</SectionHeading>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: '32px',
+            marginTop: '48px',
+          }}>
+            {STEPS.map((s, i) => (
+              <div
+                key={s.num}
+                className="reveal-card"
+                style={{
+                  animationDelay: `${i * 110}ms`,
+                  backgroundColor: 'rgba(10,18,34,0.52)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(201,168,76,0.2)',
+                  borderRadius: '16px',
+                  padding: '36px 28px 32px',
+                  textAlign: 'center',
+                }}
+              >
+                <div style={{
+                  fontFamily: 'var(--font-montserrat)',
+                  fontSize: 'clamp(3.5rem, 7vw, 5.5rem)',
+                  fontWeight: 300,
+                  color: 'rgba(201,168,76,0.22)',
+                  lineHeight: 1,
+                  marginBottom: 20,
+                  letterSpacing: '0.04em',
+                  userSelect: 'none',
+                }}>
+                  {s.num}
+                </div>
+                <div style={{
+                  color: '#C9A84C',
+                  letterSpacing: '0.2em',
+                  fontSize: '0.72rem',
+                  marginBottom: 10,
+                  fontFamily: 'var(--font-montserrat)',
+                  textTransform: 'uppercase',
+                }}>
+                  Steg {s.num}
+                </div>
+                <h3 style={{
+                  fontSize: '1.05rem',
+                  fontFamily: 'var(--font-montserrat)',
+                  letterSpacing: '0.06em',
+                  fontWeight: 700,
+                  marginBottom: 14,
+                  color: '#ffffff',
+                }}>
+                  {s.title}
+                </h3>
+                <p style={{
+                  color: '#e2e8f0',
+                  fontFamily: 'var(--font-montserrat)',
+                  fontSize: '1.15rem',
+                  lineHeight: 1.75,
+                  fontWeight: 400,
+                }}>
+                  {s.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* â"€â"€ PRICING â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <section
         ref={pricingRef}
         id="pricing"
@@ -1624,97 +1702,9 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Slik søker du */}
-        <div style={{ maxWidth: '900px', margin: '64px auto 0', textAlign: 'center' }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px',
-            marginBottom: '40px',
-            justifyContent: 'center',
-          }}>
-            <div style={{ flex: 1, height: 1, background: 'rgba(201,168,76,0.12)' }} aria-hidden="true" />
-            <span style={{
-              fontFamily: 'var(--font-montserrat)',
-              fontSize: '0.6rem',
-              letterSpacing: '0.3em',
-              textTransform: 'uppercase',
-              color: 'rgba(201,168,76,0.5)',
-              whiteSpace: 'nowrap',
-            }}>
-              Slik søker du
-            </span>
-            <div style={{ flex: 1, height: 1, background: 'rgba(201,168,76,0.12)' }} aria-hidden="true" />
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: '32px',
-          }}>
-            {STEPS.map((s, i) => (
-              <div
-                key={s.num}
-                className="reveal-card"
-                style={{
-                  animationDelay: `${i * 110}ms`,
-                  backgroundColor: 'rgba(10,18,34,0.52)',
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(201,168,76,0.2)',
-                  borderRadius: '16px',
-                  padding: '36px 28px 32px',
-                  textAlign: 'center',
-                }}
-              >
-                <div style={{
-                  fontFamily: 'var(--font-montserrat)',
-                  fontSize: 'clamp(3.5rem, 7vw, 5.5rem)',
-                  fontWeight: 300,
-                  color: 'rgba(201,168,76,0.22)',
-                  lineHeight: 1,
-                  marginBottom: 20,
-                  letterSpacing: '0.04em',
-                  userSelect: 'none',
-                }}>
-                  {s.num}
-                </div>
-                <div style={{
-                  color: '#C9A84C',
-                  letterSpacing: '0.2em',
-                  fontSize: '0.72rem',
-                  marginBottom: 10,
-                  fontFamily: 'var(--font-montserrat)',
-                  textTransform: 'uppercase',
-                }}>
-                  Steg {s.num}
-                </div>
-                <h3 style={{
-                  fontSize: '1.05rem',
-                  fontFamily: 'var(--font-montserrat)',
-                  letterSpacing: '0.06em',
-                  fontWeight: 700,
-                  marginBottom: 14,
-                  color: '#ffffff',
-                }}>
-                  {s.title}
-                </h3>
-                <p style={{
-                  color: '#e2e8f0',
-                  fontFamily: 'var(--font-montserrat)',
-                  fontSize: '1.15rem',
-                  lineHeight: 1.75,
-                  fontWeight: 400,
-                }}>
-                  {s.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
-      {/* â”€â”€ FAQ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ FAQ â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <section
         ref={faqRef}
         id="faq"
@@ -1813,7 +1803,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â"€â"€ FOOTER â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <footer
         ref={footerRef}
         className={`reveal-section${footerRevealed ? ' revealed' : ''}`}
@@ -1860,7 +1850,7 @@ export default function HomePage() {
             {[
               { label: 'Hjem',      href: '/hjem',      section: 'top' },
               { label: 'Pensum',    href: '/pensum',     section: 'curriculum' },
-              { label: 'Søknad',    href: '/søknad',     section: 'pricing' },
+              { label: 'Søknad',    href: '/søknad',     section: 'opptak' },
               { label: 'Artikler',  href: '/artikler' },
               { label: 'Spørsmål',  href: '/spørsmål',   section: 'faq' },
             ].map((l) => (
