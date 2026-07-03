@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Cinzel, Cormorant_Garamond, Noto_Naskh_Arabic, Montserrat, Inter } from 'next/font/google'
 import { Suspense } from 'react'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const cinzel = Cinzel({
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             equivalent effect: one image, locked to viewport, as content scrolls over it. */}
         <div className="global-fixed-bg" aria-hidden="true" />
         <Suspense>{children}</Suspense>
+        <Analytics />
       </body>
     </html>
   )
