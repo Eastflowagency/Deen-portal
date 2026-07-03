@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase'
+import DailyVideoCall from './DailyVideoCall'
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -51,32 +52,24 @@ export default function LiveVideo({
   displayName = 'Student',
   role = 'student',
 }: LiveVideoProps) {
-  const [iframeSrc, setIframeSrc] = useState('')
+  const [dailyToken, setDailyToken] = useState('')
+  const [dailyRole, setDailyRole] = useState<'teacher' | 'viewer' | 'speaker'>('viewer')
   const [admitted, setAdmitted] = useState(false)
 
   const isDaily    = !!meetingUrl && isDailyUrl(meetingUrl)
   const isJoinOnly = !!meetingUrl && !isDaily && isJoinOnlyUrl(meetingUrl)
 
-  // Build iframe src: students get viewer token, teacher joins directly
+  // Fetch viewer token when live Daily.co meeting is available
   useEffect(() => {
-    if (!isDaily || !meetingUrl) {
-      setIframeSrc(meetingUrl || '')
-      return
-    }
-
-    if (role === 'teacher') {
-      setIframeSrc(meetingUrl)
-      return
-    }
-
-    // Student viewer token — canSend:[] means they can only watch/hear
+    if (!isDaily || !meetingUrl || role === 'teacher') return
     const room = roomNameFrom(meetingUrl)
+    setDailyRole('viewer')
     fetchDailyToken(room, 'student', displayName).then(token => {
-      setIframeSrc(token ? `${meetingUrl}?t=${token}` : meetingUrl)
+      if (token) setDailyToken(token)
     })
   }, [meetingUrl, role, isDaily, displayName])
 
-  // Listen for admit events — when teacher admits this student, upgrade to speaker token
+  // Listen for admit events — upgrade viewer → speaker token
   useEffect(() => {
     if (role !== 'student' || !isDaily || !meetingUrl) return
 
@@ -91,7 +84,8 @@ export default function LiveVideo({
       const token = await fetchDailyToken(room, 'speaker', displayName)
       if (token) {
         setAdmitted(true)
-        setIframeSrc(`${meetingUrl}?t=${token}`)
+        setDailyRole('speaker')
+        setDailyToken(token)
       }
     }).subscribe()
 
@@ -113,15 +107,13 @@ export default function LiveVideo({
         boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
       }}>
 
-        {isDaily && iframeSrc ? (
-          /* Daily.co — viewer token for students, direct for teacher */
-          <iframe
-            key={iframeSrc}
-            src={iframeSrc}
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
-            allow="camera; microphone; display-capture; fullscreen; autoplay"
-            allowFullScreen
-            title="Live klasse"
+        {isDaily && dailyToken ? (
+          /* Daily.co — custom layout: teacher always dominant */
+          <DailyVideoCall
+            meetingUrl={meetingUrl}
+            token={dailyToken}
+            displayName={displayName}
+            role={dailyRole}
           />
 
         ) : isJoinOnly ? (

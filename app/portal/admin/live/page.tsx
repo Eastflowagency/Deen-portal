@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import LiveChat from '@/app/components/live/LiveChat'
+import DailyVideoCall from '@/app/components/live/DailyVideoCall'
 import { createClient } from '@/lib/supabase'
 import type { RealtimeChannel } from '@supabase/supabase-js'
 
@@ -365,14 +366,14 @@ export default function AdminLivePage() {
               boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
               minHeight: 0,
             }}>
-              <iframe
-                key={teacherToken || form.meetingUrl}
-                src={teacherToken ? `${form.meetingUrl}?t=${teacherToken}` : form.meetingUrl}
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
-                allow="camera; microphone; display-capture; fullscreen; autoplay"
-                allowFullScreen
-                title="Live klasse"
-              />
+              {teacherToken && (
+                <DailyVideoCall
+                  meetingUrl={form.meetingUrl}
+                  token={teacherToken}
+                  displayName={form.teacher || 'Ustadh'}
+                  role="teacher"
+                />
+              )}
             </div>
 
             {/* Compact session info below the video */}
