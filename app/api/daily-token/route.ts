@@ -30,11 +30,11 @@ export async function POST(request: NextRequest) {
   if (role === 'teacher') {
     properties = { room_name: roomName, is_owner: true, user_name: nameStr, exp }
   } else if (role === 'speaker') {
-    // Admitted student — joins as visible participant with mic + camera
+    // Admitted student — joins with mic on, camera off by default
     properties = {
       room_name: roomName,
       user_name: nameStr,
-      start_video_off: false,
+      start_video_off: true,
       start_audio_off: false,
       permissions: { canSend: ['video', 'audio', 'screenVideo', 'screenAudio'], canAdmin: [] },
       exp,

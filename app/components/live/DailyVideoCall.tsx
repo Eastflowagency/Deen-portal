@@ -112,8 +112,8 @@ export default function DailyVideoCall({ meetingUrl, token, displayName, role }:
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const callRef = useRef<any>(null)
   const [participants, setParticipants] = useState<Record<string, Participant>>({})
-  const [micOn, setMicOn] = useState(true)
-  const [camOn, setCamOn] = useState(true)
+  const [micOn, setMicOn] = useState(role === 'teacher')
+  const [camOn, setCamOn] = useState(role === 'teacher')
   const [error, setError] = useState('')
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
