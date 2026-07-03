@@ -38,7 +38,7 @@ const NAV_LINKS: { label: string; href: string; dropdown?: { label: string; href
     ],
   },
   { label: 'Søknad', href: '/#opptak' },
-  { label: 'Artikler', href: '/artikler' },
+  { label: 'Les', href: '/artikler' },
   { label: 'Spørsmål', href: '/#faq' },
 ]
 
