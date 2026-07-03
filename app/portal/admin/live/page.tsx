@@ -282,30 +282,29 @@ export default function AdminLivePage() {
 
       {/* ── Admin header ───────────────────────────────────────────────────── */}
       <header style={{
-        height: '52px',
-        background: 'rgba(6,11,20,0.94)',
-        backdropFilter: 'blur(16px)',
-        borderBottom: '1px solid rgba(201,168,76,0.08)',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 24px', flexShrink: 0, zIndex: 50,
+        height: '62px',
+        position: 'relative',
+        display: 'flex', alignItems: 'center',
+        padding: '0 28px', flexShrink: 0, zIndex: 50,
       }}>
-        {/* Left: ← Admin | Live */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <Link
-            href="/portal/admin"
-            style={{ display: 'flex', alignItems: 'center', gap: '7px', textDecoration: 'none', color: 'rgba(255,255,255,0.35)', fontSize: '0.6rem', letterSpacing: '0.14em', textTransform: 'uppercase', transition: 'color 0.15s' }}
-            onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.7)'}
-            onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)'}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-            Admin
-          </Link>
-          <span style={{ width: '1px', height: '16px', background: 'rgba(255,255,255,0.07)', display: 'block' }} />
-          <span style={{ fontSize: '0.6rem', letterSpacing: '0.22em', color: '#C9A84C', textTransform: 'uppercase' }}>Live</span>
-        </div>
+        {/* Left: ← Admin */}
+        <Link
+          href="/portal/admin"
+          style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: 'rgba(255,255,255,0.55)', fontFamily: 'var(--font-montserrat)', fontSize: '0.62rem', letterSpacing: '0.12em', textTransform: 'uppercase', transition: 'color 0.15s' }}
+          onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = '#fff'}
+          onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          Admin
+        </Link>
+
+        {/* Centre: Live label */}
+        <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-montserrat)', fontSize: '0.62rem', letterSpacing: '0.32em', color: 'rgba(201,168,76,0.5)', textTransform: 'uppercase' }}>
+          Live
+        </span>
 
         {/* Right: toggle + error */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12 }}>
           {liveError && <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', color: '#ef4444' }}>{liveError}</span>}
           <button
             onClick={toggleLive}

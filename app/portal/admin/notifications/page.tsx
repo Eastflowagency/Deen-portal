@@ -167,24 +167,22 @@ export default function AdminNotificationsPage() {
 
         {/* Header */}
         <header style={{
-          height: '52px',
-          background: 'rgba(6,11,20,0.94)',
-          backdropFilter: 'blur(16px)',
-          borderBottom: '1px solid rgba(201,168,76,0.08)',
+          height: '62px',
+          position: 'relative',
           display: 'flex', alignItems: 'center',
-          padding: '0 24px', gap: '16px',
-          position: 'sticky', top: 0, zIndex: 50,
+          padding: '0 28px',
         }}>
           <Link
             href="/portal/admin"
-            style={{ display: 'flex', alignItems: 'center', gap: '7px', textDecoration: 'none', color: 'rgba(255,255,255,0.35)', fontSize: '0.6rem', letterSpacing: '0.14em', textTransform: 'uppercase', transition: 'color 0.15s' }}
-            onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.7)'}
-            onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)'}
+            style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: 'rgba(255,255,255,0.55)', fontFamily: 'var(--font-montserrat)', fontSize: '0.62rem', letterSpacing: '0.12em', textTransform: 'uppercase', transition: 'color 0.15s' }}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = '#fff'}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.55)'}
           >
             <BackIcon /> Admin
           </Link>
-          <span style={{ width: '1px', height: '16px', background: 'rgba(255,255,255,0.07)', display: 'block' }} />
-          <span style={{ fontSize: '0.6rem', letterSpacing: '0.22em', color: '#C9A84C', textTransform: 'uppercase' }}>Varsler</span>
+          <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-montserrat)', fontSize: '0.62rem', letterSpacing: '0.32em', color: 'rgba(201,168,76,0.5)', textTransform: 'uppercase' }}>
+            Varsler
+          </span>
         </header>
 
         <main style={{ maxWidth: '660px', margin: '0 auto', padding: '32px 20px 64px' }}>
