@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
@@ -62,6 +62,32 @@ const LEVELS = [
   },
 ]
 
+const SUBJECT_COLORS: Record<string, string> = {
+  aqidah: 'rgb(160,132,232)',
+  fiqh: 'rgb(56,189,248)',
+  seerah: 'rgb(251,191,36)',
+  koranvitenskaper: 'rgb(74,197,120)',
+  hadith: 'rgb(248,113,113)',
+  'adab-al-talib': 'rgb(201,168,76)',
+  arabic: 'rgb(99,179,237)',
+}
+
+function getSubjectColor(slug: string): string {
+  const key = Object.keys(SUBJECT_COLORS).find((k) => slug.startsWith(k))
+  return key ? SUBJECT_COLORS[key] : 'rgb(201,168,76)'
+}
+
+function getSubjectLabel(slug: string): string {
+  if (slug.startsWith('koranvitenskaper')) return 'Koranvitenskaper'
+  if (slug.startsWith('aqidah')) return 'Aqidah'
+  if (slug.startsWith('fiqh')) return 'Fiqh'
+  if (slug.startsWith('seerah')) return 'Seerah'
+  if (slug.startsWith('hadith')) return 'Hadith'
+  if (slug.startsWith('adab-al-talib')) return 'Adab al-Talib'
+  if (slug.startsWith('arabic')) return 'Arabisk'
+  return 'Kurs'
+}
+
 export default function StudieplanPage() {
   const params = useSearchParams()
   const nivåParam = Number(params.get('nivå'))
@@ -70,19 +96,14 @@ export default function StudieplanPage() {
 
   return (
     <div
-      className="page-bg"
       style={{
         minHeight: '100vh',
-        backgroundImage: "url('/Background.png')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-        backgroundColor: '#060b14',
+        position: 'relative',
+        zIndex: 1,
       }}
     >
       <style>{`
         @media (max-width: 767px) {
-          .page-bg { background-attachment: scroll !important; }
           .sp-content { padding: 90px 16px 60px !important; }
           .sp-tab-btn { padding: 9px 14px !important; font-size: 0.63rem !important; letter-spacing: 0.12em !important; }
           .sp-banner { gap: 12px !important; padding: 12px 16px !important; }
@@ -91,8 +112,8 @@ export default function StudieplanPage() {
           .sp-divider-text { font-size: 0.6rem !important; letter-spacing: 0.18em !important; }
         }
       `}</style>
-      {/* Dark overlay */}
-      <div style={{ position: 'fixed', inset: 0, background: 'rgba(6,11,20,0.82)', pointerEvents: 'none', zIndex: 0 }} />
+      {/* Dark overlay — matches home/artikler */}
+      <div style={{ position: 'fixed', inset: 0, background: 'rgba(6,11,20,0.72)', pointerEvents: 'none', zIndex: 0 }} />
 
       <NavBar />
 
@@ -181,45 +202,88 @@ export default function StudieplanPage() {
           </div>
 
           <div className="sp-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px,100%), 1fr))', gap: '16px' }}>
-            {current.islamic.map((course) => (
-              <Link
-                key={course.slug}
-                href={`/studieplan/${course.slug}`}
-                style={{ textDecoration: 'none' }}
-              >
-                <div
-                  style={{
-                    padding: '20px 24px',
-                    background: 'rgba(15,24,41,0.6)',
-                    border: '1px solid rgba(201,168,76,0.15)',
-                    borderRadius: '8px',
-                    backdropFilter: 'blur(12px)',
-                    transition: 'border-color 0.2s cubic-bezier(0.23,1,0.32,1), background 0.2s cubic-bezier(0.23,1,0.32,1)',
-                    cursor: 'pointer',
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLDivElement
-                    el.style.borderColor = 'rgba(201,168,76,0.45)'
-                    el.style.background = 'rgba(201,168,76,0.07)'
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLDivElement
-                    el.style.borderColor = 'rgba(201,168,76,0.15)'
-                    el.style.background = 'rgba(15,24,41,0.6)'
-                  }}
+            {current.islamic.map((course) => {
+              const accent = getSubjectColor(course.slug)
+              const label = getSubjectLabel(course.slug)
+              return (
+                <Link
+                  key={course.slug}
+                  href={`/studieplan/${course.slug}`}
+                  style={{ textDecoration: 'none' }}
                 >
-                  <h3 style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.9rem', letterSpacing: '0.1em', color: '#e2e8f0', marginBottom: '8px' }}>
-                    {course.name}
-                  </h3>
-                  <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '1rem', color: '#cbd5e1', lineHeight: 1.65, fontWeight: 400 }}>
-                    {course.desc}
-                  </p>
-                  <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.78rem', letterSpacing: '0.18em', color: '#C9A84C', marginTop: '12px', textTransform: 'uppercase' }}>
-                    Se kurs →
-                  </p>
-                </div>
-              </Link>
-            ))}
+                  <div
+                    style={{
+                      padding: '22px 24px 20px',
+                      background: 'rgba(10,16,30,0.75)',
+                      border: `1px solid rgba(255,255,255,0.07)`,
+                      borderRadius: '8px',
+                      backdropFilter: 'blur(12px)',
+                      transition: 'border-color 0.2s cubic-bezier(0.23,1,0.32,1), background 0.2s cubic-bezier(0.23,1,0.32,1)',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      minHeight: '160px',
+                    }}
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget as HTMLDivElement
+                      el.style.borderColor = accent.replace('rgb(', 'rgba(').replace(')', ', 0.35)')
+                      el.style.background = 'rgba(15,24,41,0.85)'
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLDivElement
+                      el.style.borderColor = 'rgba(255,255,255,0.07)'
+                      el.style.background = 'rgba(10,16,30,0.75)'
+                    }}
+                  >
+                    {/* Category label */}
+                    <p style={{
+                      fontFamily: 'var(--font-montserrat)',
+                      fontSize: '0.6rem',
+                      letterSpacing: '0.28em',
+                      color: accent,
+                      textTransform: 'uppercase',
+                      marginBottom: '12px',
+                      fontWeight: 700,
+                    }}>
+                      {label}
+                    </p>
+                    {/* Course name */}
+                    <h3 style={{
+                      fontFamily: 'var(--font-montserrat)',
+                      fontSize: 'clamp(1rem, 2vw, 1.15rem)',
+                      fontWeight: 700,
+                      color: '#f1f5f9',
+                      lineHeight: 1.35,
+                      marginBottom: '10px',
+                      flex: 1,
+                    }}>
+                      {course.name}
+                    </h3>
+                    {/* Description */}
+                    <p style={{
+                      fontFamily: 'var(--font-montserrat)',
+                      fontSize: '0.82rem',
+                      color: '#64748b',
+                      lineHeight: 1.6,
+                      marginBottom: '16px',
+                    }}>
+                      {course.desc}
+                    </p>
+                    {/* CTA */}
+                    <p style={{
+                      fontFamily: 'var(--font-montserrat)',
+                      fontSize: '0.65rem',
+                      letterSpacing: '0.2em',
+                      color: accent,
+                      textTransform: 'uppercase',
+                      fontWeight: 700,
+                    }}>
+                      Se kurs →
+                    </p>
+                  </div>
+                </Link>
+              )
+            })}
           </div>
         </div>
 
@@ -234,50 +298,79 @@ export default function StudieplanPage() {
           </div>
 
           <div className="sp-grid-sm" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px,100%), 1fr))', gap: '16px' }}>
-            {current.arabic.map((course) => (
-              <Link
-                key={course.slug}
-                href={`/studieplan/${course.slug}`}
-                style={{ textDecoration: 'none' }}
-              >
-                <div
-                  style={{
-                    padding: '20px 24px',
-                    background: 'rgba(15,24,41,0.6)',
-                    border: '1px solid rgba(201,168,76,0.15)',
-                    borderRadius: '8px',
-                    backdropFilter: 'blur(12px)',
-                    transition: 'border-color 0.2s cubic-bezier(0.23,1,0.32,1), background 0.2s cubic-bezier(0.23,1,0.32,1)',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLDivElement
-                    el.style.borderColor = 'rgba(201,168,76,0.45)'
-                    el.style.background = 'rgba(201,168,76,0.07)'
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLDivElement
-                    el.style.borderColor = 'rgba(201,168,76,0.15)'
-                    el.style.background = 'rgba(15,24,41,0.6)'
-                  }}
+            {current.arabic.map((course) => {
+              const accent = SUBJECT_COLORS['arabic']
+              return (
+                <Link
+                  key={course.slug}
+                  href={`/studieplan/${course.slug}`}
+                  style={{ textDecoration: 'none' }}
                 >
-                  <div>
-                    <h3 style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.9rem', letterSpacing: '0.1em', color: '#e2e8f0', marginBottom: '4px' }}>
+                  <div
+                    style={{
+                      padding: '22px 24px 20px',
+                      background: 'rgba(10,16,30,0.75)',
+                      border: '1px solid rgba(255,255,255,0.07)',
+                      borderRadius: '8px',
+                      backdropFilter: 'blur(12px)',
+                      transition: 'border-color 0.2s cubic-bezier(0.23,1,0.32,1), background 0.2s cubic-bezier(0.23,1,0.32,1)',
+                      cursor: 'pointer',
+                    }}
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget as HTMLDivElement
+                      el.style.borderColor = 'rgba(99,179,237,0.35)'
+                      el.style.background = 'rgba(15,24,41,0.85)'
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLDivElement
+                      el.style.borderColor = 'rgba(255,255,255,0.07)'
+                      el.style.background = 'rgba(10,16,30,0.75)'
+                    }}
+                  >
+                    <p style={{
+                      fontFamily: 'var(--font-montserrat)',
+                      fontSize: '0.6rem',
+                      letterSpacing: '0.28em',
+                      color: accent,
+                      textTransform: 'uppercase',
+                      marginBottom: '12px',
+                      fontWeight: 700,
+                    }}>
+                      Arabisk
+                    </p>
+                    <h3 style={{
+                      fontFamily: 'var(--font-montserrat)',
+                      fontSize: 'clamp(1rem, 2vw, 1.15rem)',
+                      fontWeight: 700,
+                      color: '#f1f5f9',
+                      marginBottom: '6px',
+                    }}>
                       {course.name}
                     </h3>
-                    <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.78rem', letterSpacing: '0.18em', color: '#94a3b8', textTransform: 'uppercase' }}>
+                    <p style={{
+                      fontFamily: 'var(--font-montserrat)',
+                      fontSize: '0.75rem',
+                      letterSpacing: '0.14em',
+                      color: '#64748b',
+                      textTransform: 'uppercase',
+                      marginBottom: '16px',
+                    }}>
                       {course.semester} semester
                     </p>
+                    <p style={{
+                      fontFamily: 'var(--font-montserrat)',
+                      fontSize: '0.65rem',
+                      letterSpacing: '0.2em',
+                      color: accent,
+                      textTransform: 'uppercase',
+                      fontWeight: 700,
+                    }}>
+                      Se kurs →
+                    </p>
                   </div>
-                  <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.78rem', letterSpacing: '0.18em', color: '#C9A84C', textTransform: 'uppercase' }}>
-                    Se kurs →
-                  </p>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              )
+            })}
           </div>
         </div>
 

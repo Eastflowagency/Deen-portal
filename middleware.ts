@@ -33,19 +33,20 @@ export async function middleware(request: NextRequest) {
     // Network error or Supabase unavailable — fail safe to login redirect
   }
 
-  if (request.nextUrl.pathname.startsWith('/student')) {
+  if (request.nextUrl.pathname.startsWith('/portal') &&
+      !request.nextUrl.pathname.startsWith('/portal/admin')) {
     if (!user) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
   }
 
-  // Protect /admin/* — redirect to /admin/login if not the designated admin email
-  if (request.nextUrl.pathname.startsWith('/admin') &&
-      !request.nextUrl.pathname.startsWith('/admin/login')) {
+  // Protect /portal/admin/* — redirect to /portal/admin/login if not admin
+  if (request.nextUrl.pathname.startsWith('/portal/admin') &&
+      !request.nextUrl.pathname.startsWith('/portal/admin/login')) {
     const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? '')
       .split(',').map(e => e.trim()).filter(Boolean)
     if (!user || !adminEmails.includes(user.email ?? '')) {
-      return NextResponse.redirect(new URL('/admin/login', request.url))
+      return NextResponse.redirect(new URL('/portal/admin/login', request.url))
     }
   }
 
@@ -53,5 +54,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/student/:path*', '/admin/:path*'],
+  matcher: ['/portal/:path*'],
 }

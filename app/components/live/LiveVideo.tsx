@@ -1,5 +1,8 @@
 'use client'
 
+import { useState, useEffect } from 'react'
+import { createClient } from '@/lib/supabase'
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function isDailyUrl(url: string): boolean {
@@ -13,6 +16,24 @@ function isJoinOnlyUrl(url: string): boolean {
   } catch { return false }
 }
 
+function roomNameFrom(url: string): string {
+  try { return new URL(url).pathname.split('/').filter(Boolean).pop() ?? '' } catch { return '' }
+}
+
+async function fetchDailyToken(roomName: string, role: 'student' | 'speaker', userName: string): Promise<string | null> {
+  try {
+    const res = await fetch('/api/daily-token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roomName, role, userName }),
+    })
+    const data = await res.json()
+    return data.token ?? null
+  } catch {
+    return null
+  }
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 
 interface LiveVideoProps {
@@ -23,9 +44,59 @@ interface LiveVideoProps {
   role?: 'teacher' | 'student'
 }
 
-export default function LiveVideo({ meetingUrl, isLive, viewerCount }: LiveVideoProps) {
-  const daily    = meetingUrl && isDailyUrl(meetingUrl)
-  const joinOnly = meetingUrl && !daily && isJoinOnlyUrl(meetingUrl)
+export default function LiveVideo({
+  meetingUrl,
+  isLive,
+  viewerCount,
+  displayName = 'Student',
+  role = 'student',
+}: LiveVideoProps) {
+  const [iframeSrc, setIframeSrc] = useState('')
+  const [admitted, setAdmitted] = useState(false)
+
+  const isDaily    = !!meetingUrl && isDailyUrl(meetingUrl)
+  const isJoinOnly = !!meetingUrl && !isDaily && isJoinOnlyUrl(meetingUrl)
+
+  // Build iframe src: students get viewer token, teacher joins directly
+  useEffect(() => {
+    if (!isDaily || !meetingUrl) {
+      setIframeSrc(meetingUrl || '')
+      return
+    }
+
+    if (role === 'teacher') {
+      setIframeSrc(meetingUrl)
+      return
+    }
+
+    // Student viewer token — canSend:[] means they can only watch/hear
+    const room = roomNameFrom(meetingUrl)
+    fetchDailyToken(room, 'student', displayName).then(token => {
+      setIframeSrc(token ? `${meetingUrl}?t=${token}` : meetingUrl)
+    })
+  }, [meetingUrl, role, isDaily, displayName])
+
+  // Listen for admit events — when teacher admits this student, upgrade to speaker token
+  useEffect(() => {
+    if (role !== 'student' || !isDaily || !meetingUrl) return
+
+    const supabase = createClient()
+    const ch = supabase.channel('live-class-admit', {
+      config: { broadcast: { self: false } },
+    })
+
+    ch.on('broadcast', { event: 'admit' }, async ({ payload }) => {
+      if (payload.student !== displayName) return
+      const room = roomNameFrom(meetingUrl)
+      const token = await fetchDailyToken(room, 'speaker', displayName)
+      if (token) {
+        setAdmitted(true)
+        setIframeSrc(`${meetingUrl}?t=${token}`)
+      }
+    }).subscribe()
+
+    return () => { supabase.removeChannel(ch) }
+  }, [role, isDaily, meetingUrl, displayName])
 
   return (
     <div style={{ position: 'relative', width: '100%' }}>
@@ -42,17 +113,18 @@ export default function LiveVideo({ meetingUrl, isLive, viewerCount }: LiveVideo
         boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
       }}>
 
-        {daily ? (
-          /* Daily.co — iframe prebuilt UI */
+        {isDaily && iframeSrc ? (
+          /* Daily.co — viewer token for students, direct for teacher */
           <iframe
-            src={meetingUrl}
+            key={iframeSrc}
+            src={iframeSrc}
             style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
             allow="camera; microphone; display-capture; fullscreen; autoplay"
             allowFullScreen
             title="Live klasse"
           />
 
-        ) : joinOnly ? (
+        ) : isJoinOnly ? (
           /* Google Meet / Zoom / Teams: can't embed — show join button */
           <div style={{
             position: 'absolute', inset: 0,
@@ -109,6 +181,21 @@ export default function LiveVideo({ meetingUrl, isLive, viewerCount }: LiveVideo
           }}>
             <div style={{ width: 7, height: 7, background: '#fff', borderRadius: '50%', animation: 'livePulse 1.4s ease-in-out infinite', flexShrink: 0 }} />
             <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', letterSpacing: '0.22em', color: '#fff', fontWeight: 700 }}>LIVE</span>
+          </div>
+        )}
+
+        {/* Admitted badge */}
+        {admitted && (
+          <div style={{
+            position: 'absolute', top: 12, left: 80, zIndex: 10,
+            display: 'flex', alignItems: 'center', gap: 5,
+            background: 'rgba(74,197,120,0.9)',
+            backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
+            padding: '5px 10px', borderRadius: 4,
+            pointerEvents: 'none',
+          }}>
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+            <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', letterSpacing: '0.18em', color: '#fff', fontWeight: 700 }}>TILLATT</span>
           </div>
         )}
 

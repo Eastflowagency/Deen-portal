@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
@@ -45,7 +45,7 @@ export default function SetPasswordPage() {
     if (updateError) {
       setError(updateError.message)
     } else {
-      router.push('/student')
+      router.push('/portal')
     }
   }
 

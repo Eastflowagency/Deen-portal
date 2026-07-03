@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -37,7 +37,7 @@ const NAV_LINKS: { label: string; href: string; dropdown?: { label: string; href
       { label: 'Studieplan', href: '/studieplan' },
     ],
   },
-  { label: 'Pris', href: '/#pricing' },
+  { label: 'Søknad', href: '/#opptak' },
   { label: 'Artikler', href: '/artikler' },
   { label: 'Spørsmål', href: '/#faq' },
 ]

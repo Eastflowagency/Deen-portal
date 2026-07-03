@@ -7,7 +7,7 @@ import type { NextRequest } from 'next/server'
 
 // In-memory fallback — used when DB table doesn't exist yet
 let memState = {
-  isLive: false, title: '', teacher: '', subject: '', meetingUrl: '', startedAt: null as string | null,
+  isLive: false, title: '', teacher: '', subject: '', meetingUrl: '', startedAt: null as string | null, time: '',
 }
 
 function makeSupabase(cookieStore: Awaited<ReturnType<typeof cookies>>) {
@@ -52,6 +52,7 @@ export async function GET() {
       subject:    data.subject,
       meetingUrl: data.meeting_url,
       startedAt:  data.started_at,
+      time:       memState.time,
     }
     // If in-memory says live but DB says not, the DB upsert likely failed (RLS/permissions).
     // Trust memState — it was set by the admin's POST in this server process.
@@ -91,6 +92,7 @@ export async function POST(request: NextRequest) {
       subject:    body.subject    ?? '',
       meetingUrl: body.meetingUrl ?? '',
       startedAt:  body.isLive ? new Date().toISOString() : null,
+      time:       body.time       ?? '',
     }
 
     // Try to persist to Supabase

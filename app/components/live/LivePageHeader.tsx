@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 
 interface LivePageHeaderProps {
   isLive: boolean
@@ -10,7 +10,7 @@ export default function LivePageHeader({ isLive, subject }: LivePageHeaderProps)
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
       {/* Breadcrumb */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <Link href="/student" style={{ textDecoration: 'none' }}>
+        <Link href="/portal" style={{ textDecoration: 'none' }}>
           <span style={{
             fontFamily: 'var(--font-montserrat)',
             fontSize: '0.6rem',

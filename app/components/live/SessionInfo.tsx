@@ -56,9 +56,8 @@ export default function SessionInfo({ session }: SessionInfoProps) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 9, flexShrink: 0 }}>
           {([
             { label: 'Lærer', value: session.teacher },
-            { label: 'Dato',  value: session.date },
-            { label: 'Tid',   value: session.startTime },
-          ] as const).map(({ label, value }) => (
+            { label: 'Dato',  value: session.startTime ? `${session.date} ${session.startTime}` : session.date },
+          ] as { label: string; value: string }[]).map(({ label, value }) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={{
                 fontFamily: 'var(--font-montserrat)',

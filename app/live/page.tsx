@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
@@ -48,8 +48,8 @@ export default function PublicLivePage() {
             teacher: data.teacher,
             subject: data.subject,
             level: '',
-            startTime: '',
-            date: new Date().toLocaleDateString('no-NO', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
+            startTime: data.time ?? '',
+            date: new Date().toLocaleDateString('no-NO', { day: 'numeric', month: 'long', year: 'numeric' }),
             description: '',
             isLive: true,
           })

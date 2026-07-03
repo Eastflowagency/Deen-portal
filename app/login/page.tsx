@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
@@ -18,11 +18,15 @@ export default function LoginPage() {
 
   useEffect(() => {
     const supabase = createClient()
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) router.replace('/student')
-      else setTimeout(() => setMounted(true), 50)
+    // getUser() validates against the server — more reliable than getSession()
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        window.location.replace('/portal')
+      } else {
+        setTimeout(() => setMounted(true), 50)
+      }
     })
-  }, [router])
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -34,8 +38,8 @@ export default function LoginPage() {
       setError('Feil e-postadresse eller passord. Prøv igjen.')
       setLoading(false)
     } else {
-      setLoading(false)
-      router.push('/student')
+      // Full page reload so middleware reads the fresh session cookie cleanly
+      window.location.replace('/portal')
     }
   }
 

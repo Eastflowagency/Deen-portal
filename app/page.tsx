@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
@@ -593,7 +593,7 @@ export default function HomePage() {
                 )
               })}
               <Link
-                href="/student"
+                href="/portal"
                 className="btn-press"
                 style={{
                   background: '#C9A84C',
@@ -770,7 +770,7 @@ export default function HomePage() {
             })}
             <div style={{ padding: '4px 8px 8px' }}>
               <Link
-                href="/student"
+                href="/portal"
                 onClick={() => setMenuOpen(false)}
                 className="btn-press"
                 style={{
@@ -1197,7 +1197,7 @@ export default function HomePage() {
         ref={currRef}
         id="curriculum"
         className={`reveal-section${currRevealed ? ' revealed' : ''}`}
-        style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}
+        style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)', scrollMarginTop: '100px' }}
       >
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <SectionHeading>Hva du vil lære</SectionHeading>
@@ -1525,7 +1525,7 @@ export default function HomePage() {
         ref={opptakRef}
         id="opptak"
         className={`reveal-section${opptakRevealed ? ' revealed' : ''}`}
-        style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}
+        style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)', scrollMarginTop: '100px' }}
       >
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
           <SectionHeading>Opptaksprosessen</SectionHeading>
@@ -1709,7 +1709,7 @@ export default function HomePage() {
         ref={faqRef}
         id="faq"
         className={`reveal-section${faqRevealed ? ' revealed' : ''}`}
-        style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}
+        style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)', scrollMarginTop: '100px' }}
       >
         <div style={{ maxWidth: '680px', margin: '0 auto' }}>
           <SectionHeading>Vanlige spørsmål</SectionHeading>
