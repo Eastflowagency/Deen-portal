@@ -283,18 +283,30 @@ export default function AdminLivePage() {
       {/* ── Admin header ───────────────────────────────────────────────────── */}
       <header style={{
         height: '52px',
-        background: 'rgba(6,11,20,0.97)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        background: 'rgba(6,11,20,0.94)',
+        backdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(201,168,76,0.08)',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '0 20px', flexShrink: 0, zIndex: 50,
+        padding: '0 24px', flexShrink: 0, zIndex: 50,
       }}>
-        {/* Left: page title */}
-        <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.14em', color: '#fff', textTransform: 'uppercase' }}>
-          Live-klasse
-        </span>
+        {/* Left: ← Admin | Live */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <Link
+            href="/portal/admin"
+            style={{ display: 'flex', alignItems: 'center', gap: '7px', textDecoration: 'none', color: 'rgba(255,255,255,0.35)', fontSize: '0.6rem', letterSpacing: '0.14em', textTransform: 'uppercase', transition: 'color 0.15s' }}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.7)'}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.35)'}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            Admin
+          </Link>
+          <span style={{ width: '1px', height: '16px', background: 'rgba(255,255,255,0.07)', display: 'block' }} />
+          <span style={{ fontSize: '0.6rem', letterSpacing: '0.22em', color: '#C9A84C', textTransform: 'uppercase' }}>Live</span>
+        </div>
 
-        {/* Right: actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        {/* Right: toggle + error */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {liveError && <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', color: '#ef4444' }}>{liveError}</span>}
           <button
             onClick={toggleLive}
             disabled={publishing}
@@ -319,17 +331,6 @@ export default function AdminLivePage() {
               <><div style={{ width: 7, height: 7, borderRadius: '50%', background: 'rgba(74,197,120,0.85)' }} />Gå LIVE</>
             )}
           </button>
-          {liveError && <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', color: '#ef4444' }}>{liveError}</span>}
-          <Link href="/portal/admin/notifications" style={{ textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: '0.62rem', color: 'rgba(255,255,255,0.7)', letterSpacing: '0.1em', transition: 'color 0.15s' }}
-            onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = '#fff'}
-            onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.7)'}>
-            Varsler
-          </Link>
-          <Link href="/portal/admin" style={{ textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontSize: '0.62rem', color: 'rgba(255,255,255,0.7)', letterSpacing: '0.1em', transition: 'color 0.15s' }}
-            onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = '#fff'}
-            onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.7)'}>
-            ← Admin
-          </Link>
         </div>
       </header>
 
