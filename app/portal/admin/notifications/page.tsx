@@ -180,7 +180,7 @@ export default function AdminNotificationsPage() {
           >
             <BackIcon /> Admin
           </Link>
-          <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-montserrat)', fontSize: '0.62rem', letterSpacing: '0.32em', color: 'rgba(201,168,76,0.5)', textTransform: 'uppercase' }}>
+          <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-montserrat)', fontSize: '0.84rem', letterSpacing: '0.32em', color: 'rgba(201,168,76,0.5)', textTransform: 'uppercase' }}>
             Varsler
           </span>
         </header>

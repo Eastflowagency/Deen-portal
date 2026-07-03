@@ -47,7 +47,25 @@ export default function AdminLivePage() {
   const [liveError, setLiveError] = useState('')
   const [generatingUrl, setGeneratingUrl] = useState(false)
   const [urlError, setUrlError] = useState('')
+  const [teacherToken, setTeacherToken] = useState('')
   const channelRef = useRef<RealtimeChannel | null>(null)
+
+  // Fetch teacher (owner) token whenever meetingUrl is set
+  useEffect(() => {
+    if (!form.meetingUrl) return
+    try {
+      const roomName = new URL(form.meetingUrl).pathname.split('/').filter(Boolean).pop() ?? ''
+      if (!roomName) return
+      fetch('/api/daily-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ roomName, role: 'teacher', userName: form.teacher || 'Ustadh' }),
+      })
+        .then(r => r.json())
+        .then(d => { if (d.token) setTeacherToken(d.token) })
+        .catch(() => {})
+    } catch {}
+  }, [form.meetingUrl, form.teacher])
 
   // Subscribe to real-time raisehand events
   useEffect(() => {
@@ -299,7 +317,7 @@ export default function AdminLivePage() {
         </Link>
 
         {/* Centre: Live label */}
-        <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-montserrat)', fontSize: '0.62rem', letterSpacing: '0.32em', color: 'rgba(201,168,76,0.5)', textTransform: 'uppercase' }}>
+        <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-montserrat)', fontSize: '0.84rem', letterSpacing: '0.32em', color: 'rgba(201,168,76,0.5)', textTransform: 'uppercase' }}>
           Live
         </span>
 
@@ -348,7 +366,8 @@ export default function AdminLivePage() {
               minHeight: 0,
             }}>
               <iframe
-                src={form.meetingUrl}
+                key={teacherToken || form.meetingUrl}
+                src={teacherToken ? `${form.meetingUrl}?t=${teacherToken}` : form.meetingUrl}
                 style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
                 allow="camera; microphone; display-capture; fullscreen; autoplay"
                 allowFullScreen
