@@ -169,8 +169,6 @@ export default function CoursePage({ params }: { params: Promise<{ niveau: strin
     if (src) { video.src = src; video.load() }
     import('plyr').then(({ default: Plyr }) => {
       if (playerRef.current) return
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
-
       playerRef.current = new Plyr(video, {
         controls: ['play', 'rewind', 'fast-forward', 'mute', 'progress', 'current-time', 'duration', 'settings', 'fullscreen'],
         settings: ['quality', 'speed'],
@@ -179,7 +177,7 @@ export default function CoursePage({ params }: { params: Promise<{ niveau: strin
         tooltips: { controls: false, seek: true },
         invertTime: false,
         i18n: { speed: 'Playback speed', normal: 'Normal', quality: 'Quality' },
-        fullscreen: { enabled: !isIOS, fallback: true, iosNative: true },
+        fullscreen: { enabled: true, fallback: true, iosNative: true },
       } as any)
 
       const player = playerRef.current
