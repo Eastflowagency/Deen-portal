@@ -185,10 +185,16 @@ export default function CoursePage({ params }: { params: Promise<{ niveau: strin
       const player = playerRef.current
 
       player.on('enterfullscreen', () => {
-        try { if (screen?.orientation?.lock) screen.orientation.lock('landscape').catch(() => {}) } catch {}
+        try {
+          const ori = screen?.orientation as { lock?: (o: string) => Promise<void> } | undefined
+          if (ori?.lock) ori.lock('landscape').catch(() => {})
+        } catch {}
       })
       player.on('exitfullscreen', () => {
-        try { if (screen?.orientation?.unlock) screen.orientation.unlock() } catch {}
+        try {
+          const ori = screen?.orientation as { unlock?: () => void } | undefined
+          if (ori?.unlock) ori.unlock()
+        } catch {}
       })
 
       player.on('ended', () => {

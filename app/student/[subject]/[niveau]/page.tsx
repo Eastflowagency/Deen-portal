@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 
-export default function OldCourseRoute({ params }: { params: { subject: string; niveau: string } }) {
-  redirect(`/portal/${params.niveau}/${params.subject}`)
+export default async function OldCourseRoute({ params }: { params: Promise<{ subject: string; niveau: string }> }) {
+  const { subject, niveau } = await params
+  redirect(`/portal/${niveau}/${subject}`)
 }

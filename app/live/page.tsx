@@ -26,13 +26,14 @@ export default function PublicLivePage() {
   const [isLive, setIsLive] = useState(false)
   const [session, setSession] = useState<LiveSession | null>(null)
   const [viewerCount, setViewerCount] = useState(0)
-  const [guestName] = useState<string>(() => {
-    if (typeof window === 'undefined') return 'Elev'
-    return getAnonName()
-  })
+  // Always start with 'Elev' on server; replace with stable guest name after mount
+  const [guestName, setGuestName] = useState('Elev')
   const [mounted, setMounted] = useState(false)
 
-  useEffect(() => { setMounted(true) }, [])
+  useEffect(() => {
+    setGuestName(getAnonName())
+    setMounted(true)
+  }, [])
 
   // Poll live status every 15s
   useEffect(() => {
