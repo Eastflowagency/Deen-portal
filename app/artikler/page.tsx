@@ -13,8 +13,8 @@ const SPOTLIGHT = {
   description:
     'En praktisk guide for å fjerne de åndelige og intellektuelle hindringene mellom enhver muslim og deres personlige, transformative forhold til Koranen — fra grunn til blad.',
   author: 'Sheikh Mohammad Elshinawy',
-  publisher: 'Yaqeen Institute',
-  href: 'https://yaqeeninstitute.org/read/paper/changed-by-the-quran',
+  publisher: 'Al Rawdah Institutt',
+  href: '#',
 }
 
 interface Book {
@@ -34,7 +34,7 @@ const BOOKS: Book[] = [
     category: 'Koran-vitenskaper',
     title: 'Koran 30 for 30: Livsleksjoner',
     author: 'Dr. Omar Suleiman & Sh. Ismail Kamdar',
-    href: 'https://yaqeeninstitute.org/read/books',
+    href: '#',
     bg: 'linear-gradient(145deg, #ece6d8 0%, #c8bfa4 100%)',
     accentColor: '#0d2a6e',
     textDark: true,
@@ -44,7 +44,7 @@ const BOOKS: Book[] = [
     category: 'Salah',
     title: 'Salahens Hemmeligheter',
     author: 'Dr. Omar Suleiman',
-    href: 'https://yaqeeninstitute.org/read/books',
+    href: '#',
     bg: 'linear-gradient(170deg, #0c0a06 0%, #241504 45%, #3a2210 100%)',
     accentColor: '#c9a84c',
   },
@@ -53,7 +53,7 @@ const BOOKS: Book[] = [
     category: 'Aqidah',
     title: 'Den Rette Sti',
     author: 'Dr. Nazir Khan',
-    href: 'https://yaqeeninstitute.org/read/books',
+    href: '#',
     bg: 'linear-gradient(145deg, #f0ede6 0%, #ddd6c8 100%)',
     accentColor: '#1a2a6e',
     textDark: true,
@@ -63,7 +63,7 @@ const BOOKS: Book[] = [
     category: 'Hadith',
     title: '40 Profetiske Hadither om Helse og Velvære',
     author: 'Dr. Hatem al-Haj',
-    href: 'https://yaqeeninstitute.org/read/books',
+    href: '#',
     bg: 'linear-gradient(145deg, #e4f0ec 0%, #bcdfd2 100%)',
     accentColor: '#145232',
     textDark: true,
@@ -73,7 +73,7 @@ const BOOKS: Book[] = [
     category: 'Koran-vitenskaper',
     title: 'Koran 30 for 30: Tematisk Tafsir',
     author: 'Dr. Omar Suleiman & Sh. Ismail Kamdar',
-    href: 'https://yaqeeninstitute.org/read/books',
+    href: '#',
     bg: 'linear-gradient(170deg, #060f1e 0%, #0d1f42 45%, #163060 100%)',
     accentColor: '#3a80c0',
   },
@@ -82,7 +82,7 @@ const BOOKS: Book[] = [
     category: 'Dhikr & Ibadah',
     title: 'Dypere inn i Dhikr',
     author: 'Dr. Omar Suleiman',
-    href: 'https://yaqeeninstitute.org/read/books',
+    href: '#',
     bg: 'linear-gradient(170deg, #060810 0%, #0e1225 50%, #181d3c 100%)',
     accentColor: '#c9a84c',
   },
@@ -136,15 +136,13 @@ function SpotlightCover() {
         <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem', fontWeight: 800, color: '#fff', letterSpacing: '0.04em' }}>NY!</span>
       </div>
 
-      {/* Publisher */}
-      <div style={{
-        position: 'absolute', top: 14, left: 14,
-        background: 'rgba(201,168,76,0.12)',
-        border: '1px solid rgba(201,168,76,0.3)',
-        borderRadius: '3px', padding: '2px 7px',
-      }}>
-        <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.42rem', letterSpacing: '0.18em', color: '#C9A84C', textTransform: 'uppercase' }}>Yaqeen</span>
-      </div>
+      {/* Publisher logo */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/logo-book.png"
+        alt="Al Rawdah Institutt"
+        style={{ position: 'absolute', top: 12, left: 12, width: '72px', objectFit: 'contain', opacity: 0.88 }}
+      />
 
       {/* Cover text */}
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px 14px' }}>
@@ -211,15 +209,13 @@ function BookCover({ book }: { book: Book }) {
           : 'linear-gradient(transparent, rgba(0,0,0,0.6))',
       }} />
 
-      {/* Publisher badge */}
-      <div style={{
-        position: 'absolute', top: 9, left: 9,
-        background: book.textDark ? 'rgba(0,0,0,0.07)' : 'rgba(255,255,255,0.07)',
-        border: `1px solid ${book.textDark ? 'rgba(0,0,0,0.13)' : 'rgba(255,255,255,0.13)'}`,
-        borderRadius: '2px', padding: '2px 6px',
-      }}>
-        <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.36rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: tc, opacity: 0.65 }}>Yaqeen</span>
-      </div>
+      {/* Publisher logo */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/logo-book.png"
+        alt="Al Rawdah Institutt"
+        style={{ position: 'absolute', top: 8, left: 8, width: '56px', objectFit: 'contain', opacity: book.textDark ? 0.7 : 0.82 }}
+      />
 
       {/* Title + author */}
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px 10px' }}>
