@@ -1,92 +1,12 @@
 import NavBar from '@/app/components/NavBar'
+import Link from 'next/link'
+import { SPOTLIGHT, BOOKS } from './_data'
+import type { Book } from './_data'
 
 export const metadata = {
   title: 'Les — Al Rawdah Institutt',
   description: 'Islamske e-bøker og ressurser. Lær om tro, fiqh, arabisk og profetens sunnah.',
 }
-
-// ── Data ──────────────────────────────────────────────────────────────────────
-
-const SPOTLIGHT = {
-  category: 'Koran-vitenskaper',
-  title: 'Forandret av Koranen',
-  description:
-    'En praktisk guide for å fjerne de åndelige og intellektuelle hindringene mellom enhver muslim og deres personlige, transformative forhold til Koranen — fra grunn til blad.',
-  author: 'Sheikh Mohammad Elshinawy',
-  publisher: 'Al Rawdah Institutt',
-  href: '#',
-}
-
-interface Book {
-  id: number
-  category: string
-  title: string
-  author: string
-  href: string
-  bg: string
-  accentColor: string
-  textDark?: boolean
-}
-
-const BOOKS: Book[] = [
-  {
-    id: 1,
-    category: 'Koran-vitenskaper',
-    title: 'Koran 30 for 30: Livsleksjoner',
-    author: 'Dr. Omar Suleiman & Sh. Ismail Kamdar',
-    href: '#',
-    bg: 'linear-gradient(145deg, #ece6d8 0%, #c8bfa4 100%)',
-    accentColor: '#0d2a6e',
-    textDark: true,
-  },
-  {
-    id: 2,
-    category: 'Salah',
-    title: 'Salahens Hemmeligheter',
-    author: 'Dr. Omar Suleiman',
-    href: '#',
-    bg: 'linear-gradient(170deg, #0c0a06 0%, #241504 45%, #3a2210 100%)',
-    accentColor: '#c9a84c',
-  },
-  {
-    id: 3,
-    category: 'Aqidah',
-    title: 'Den Rette Sti',
-    author: 'Dr. Nazir Khan',
-    href: '#',
-    bg: 'linear-gradient(145deg, #f0ede6 0%, #ddd6c8 100%)',
-    accentColor: '#1a2a6e',
-    textDark: true,
-  },
-  {
-    id: 4,
-    category: 'Hadith',
-    title: '40 Profetiske Hadither om Helse og Velvære',
-    author: 'Dr. Hatem al-Haj',
-    href: '#',
-    bg: 'linear-gradient(145deg, #e4f0ec 0%, #bcdfd2 100%)',
-    accentColor: '#145232',
-    textDark: true,
-  },
-  {
-    id: 5,
-    category: 'Koran-vitenskaper',
-    title: 'Koran 30 for 30: Tematisk Tafsir',
-    author: 'Dr. Omar Suleiman & Sh. Ismail Kamdar',
-    href: '#',
-    bg: 'linear-gradient(170deg, #060f1e 0%, #0d1f42 45%, #163060 100%)',
-    accentColor: '#3a80c0',
-  },
-  {
-    id: 6,
-    category: 'Dhikr & Ibadah',
-    title: 'Dypere inn i Dhikr',
-    author: 'Dr. Omar Suleiman',
-    href: '#',
-    bg: 'linear-gradient(170deg, #060810 0%, #0e1225 50%, #181d3c 100%)',
-    accentColor: '#c9a84c',
-  },
-]
 
 // ── Spotlight cover ───────────────────────────────────────────────────────────
 
@@ -124,31 +44,23 @@ function SpotlightCover() {
         background: 'linear-gradient(transparent, rgba(2,6,24,0.88))',
       }} />
 
-      {/* NY badge */}
+      {/* NY badge — top left */}
       <div style={{
-        position: 'absolute', top: -2, right: 22,
-        width: 50, height: 50, borderRadius: '50%',
+        position: 'absolute', top: 'clamp(6px,3%,12px)', left: 'clamp(6px,3%,12px)',
+        width: 'clamp(32px,16%,50px)', height: 'clamp(32px,16%,50px)', borderRadius: '50%',
         background: 'linear-gradient(135deg, #c97d0a, #f0a820)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         boxShadow: '0 4px 16px rgba(200,120,0,0.55)',
         zIndex: 10,
       }}>
-        <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem', fontWeight: 800, color: '#fff', letterSpacing: '0.04em' }}>NY!</span>
+        <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: 'clamp(0.36rem,0.45rem,0.52rem)', fontWeight: 800, color: '#fff', letterSpacing: '0.04em' }}>NY!</span>
       </div>
 
-      {/* Publisher logo */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/logo-book.png"
-        alt="Al Rawdah Institutt"
-        style={{ position: 'absolute', top: 12, left: 12, width: '72px', objectFit: 'contain', opacity: 0.88 }}
-      />
-
       {/* Cover text */}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px 14px' }}>
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 'clamp(8px,5%,14px)' }}>
         <p style={{
           fontFamily: 'var(--font-cormorant)',
-          fontSize: '1.45rem',
+          fontSize: 'clamp(0.85rem, 5.5vw, 1.45rem)',
           fontWeight: 700,
           fontStyle: 'italic',
           lineHeight: 1.15,
@@ -158,16 +70,24 @@ function SpotlightCover() {
         }}>
           Forandret<br />av Koranen
         </p>
-        <p style={{
-          fontFamily: 'var(--font-montserrat)',
-          fontSize: '0.42rem',
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.48)',
-          margin: 0,
-        }}>
-          Mohammad Elshinawy
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 4 }}>
+          <p style={{
+            fontFamily: 'var(--font-montserrat)',
+            fontSize: 'clamp(0.3rem, 1.2vw, 0.42rem)',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            color: 'rgba(255,255,255,0.48)',
+            margin: 0,
+          }}>
+            Sh Fulaan ibn Hebel
+          </p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo-book.png"
+            alt="Al Rawdah Institutt"
+            style={{ width: 'clamp(55px, 8vw, 100px)', objectFit: 'contain', opacity: 0.88, flexShrink: 0 }}
+          />
+        </div>
       </div>
     </div>
   )
@@ -177,7 +97,8 @@ function SpotlightCover() {
 
 function BookCover({ book }: { book: Book }) {
   const tc = book.textDark ? book.accentColor : '#fff'
-  const pat = book.textDark ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.035)'
+  const pat = book.textDark ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.025)'
+  const authorColor = book.textDark ? `${book.accentColor}99` : 'rgba(255,255,255,0.48)'
 
   return (
     <div style={{
@@ -189,58 +110,65 @@ function BookCover({ book }: { book: Book }) {
       background: book.bg,
       boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
     }}>
-      {/* Texture */}
+      {/* Grid texture */}
       <div style={{
         position: 'absolute', inset: 0,
         backgroundImage:
           `repeating-linear-gradient(0deg,transparent,transparent 26px,${pat} 26px,${pat} 27px),` +
           `repeating-linear-gradient(90deg,transparent,transparent 26px,${pat} 26px,${pat} 27px)`,
       }} />
+      {/* Light ray — dark books only */}
+      {!book.textDark && (
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'radial-gradient(ellipse 30px 120px at 50% -5%, rgba(200,220,255,0.55) 0%, rgba(180,200,255,0.15) 35%, transparent 65%)',
+        }} />
+      )}
       {/* Accent glow */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: `radial-gradient(ellipse at 50% 20%, ${book.accentColor}2e 0%, transparent 65%)`,
+        background: `radial-gradient(ellipse at 50% 20%, ${book.accentColor}2a 0%, transparent 65%)`,
       }} />
       {/* Bottom vignette */}
       <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, height: '58%',
+        position: 'absolute', bottom: 0, left: 0, right: 0, height: '65%',
         background: book.textDark
-          ? 'linear-gradient(transparent, rgba(210,200,180,0.35))'
-          : 'linear-gradient(transparent, rgba(0,0,0,0.6))',
+          ? 'linear-gradient(transparent, rgba(210,200,180,0.5))'
+          : 'linear-gradient(transparent, rgba(2,6,24,0.9))',
       }} />
 
-      {/* Publisher logo */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/logo-book.png"
-        alt="Al Rawdah Institutt"
-        style={{ position: 'absolute', top: 8, left: 8, width: '56px', objectFit: 'contain', opacity: book.textDark ? 0.7 : 0.82 }}
-      />
-
-      {/* Title + author */}
+      {/* Cover text */}
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px 10px' }}>
         <p style={{
           fontFamily: 'var(--font-cormorant)',
-          fontSize: '0.9rem',
-          fontWeight: 600,
-          lineHeight: 1.2,
+          fontSize: '1.1rem',
+          fontWeight: 700,
+          fontStyle: 'italic',
+          lineHeight: 1.15,
           color: tc,
-          margin: '0 0 3px',
+          margin: '0 0 5px',
+          textShadow: book.textDark ? 'none' : '0 2px 10px rgba(0,0,0,0.6)',
         }}>
           {book.title}
         </p>
-        <p style={{
-          fontFamily: 'var(--font-montserrat)',
-          fontSize: '0.36rem',
-          letterSpacing: '0.06em',
-          color: book.textDark ? `${book.accentColor}88` : 'rgba(255,255,255,0.45)',
-          margin: 0,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        }}>
-          {book.author}
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
+          <p style={{
+            fontFamily: 'var(--font-montserrat)',
+            fontSize: '0.38rem',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            color: authorColor,
+            margin: 0,
+          }}>
+            {book.author}
+          </p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={book.textDark ? '/logo-book-black.png' : '/logo-book.png'}
+            alt="Al Rawdah Institutt"
+            style={{ width: '60px', objectFit: 'contain', opacity: book.textDark ? 0.75 : 0.82, flexShrink: 0 }}
+          />
+        </div>
       </div>
     </div>
   )
@@ -255,20 +183,25 @@ export default function LesPage() {
       {/* ── Scoped styles (hover + responsive) ─────────────────────────── */}
       <style>{`
         .les-spotlight { display: grid; grid-template-columns: min(280px, 30%) 1fr; gap: clamp(32px,5vw,72px); align-items: center; }
-        .les-books    { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px,2.5vw,36px); }
+        .les-books    { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(16px,2vw,28px); }
         .les-card { text-decoration: none; display: block; }
         .les-card .les-cover { transition: transform 0.28s cubic-bezier(0.23,1,0.32,1), box-shadow 0.28s cubic-bezier(0.23,1,0.32,1); }
         .les-card:hover .les-cover { transform: translateY(-7px); box-shadow: 0 24px 52px rgba(0,0,0,0.72) !important; }
         .les-card-title { transition: color 0.2s; }
         .les-card:hover .les-card-title { color: #C9A84C !important; }
         .les-btn:hover { background: rgba(201,168,76,0.1) !important; border-color: rgba(201,168,76,0.65) !important; }
-        @media (max-width: 760px) {
-          .les-spotlight { grid-template-columns: 1fr; }
-          .les-spotlight .les-cover-col { max-width: 210px; margin: 0 auto; }
-          .les-books { grid-template-columns: repeat(2, 1fr); }
+        .les-spotlight-desc { display: block; }
+        @media (max-width: 900px) {
+          .les-books { grid-template-columns: repeat(3, 1fr); }
         }
-        @media (max-width: 420px) {
-          .les-books { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        @media (max-width: 760px) {
+          .les-spotlight { grid-template-columns: min(160px,40%) 1fr; gap: 20px; align-items: start; }
+          .les-books { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+          .les-spotlight-desc { display: none; }
+        }
+        @media (max-width: 480px) {
+          .les-books { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+          .les-spotlight { grid-template-columns: min(130px,38%) 1fr; gap: 14px; }
         }
       `}</style>
 
@@ -302,8 +235,7 @@ export default function LesPage() {
             color: '#fff',
             margin: '0 0 36px',
           }}>
-            Islamske E-bøker<br />
-            <span style={{ color: 'rgba(255,255,255,0.38)' }}>og Ressurser</span>
+            Islamske E-bøker
           </h1>
           <div style={{
             height: '1px',
@@ -317,17 +249,6 @@ export default function LesPage() {
           margin: '0 auto',
           padding: 'clamp(48px,6vw,80px) clamp(20px,5vw,60px)',
         }}>
-          <p style={{
-            fontFamily: 'var(--font-montserrat)',
-            fontSize: '0.55rem',
-            letterSpacing: '0.3em',
-            textTransform: 'uppercase',
-            color: 'rgba(201,168,76,0.5)',
-            margin: '0 0 44px',
-          }}>
-            I Fokus
-          </p>
-
           <div className="les-spotlight">
             {/* Cover */}
             <div className="les-cover-col">
@@ -346,7 +267,7 @@ export default function LesPage() {
                 color: '#C9A84C',
                 margin: '0 0 14px',
               }}>
-                {SPOTLIGHT.category}
+                Bok i Fokus
               </p>
               <div style={{ width: '34px', height: '1px', background: 'rgba(201,168,76,0.55)', marginBottom: '20px' }} />
 
@@ -363,7 +284,7 @@ export default function LesPage() {
                 {SPOTLIGHT.title}
               </h2>
 
-              <p style={{
+              <p className="les-spotlight-desc" style={{
                 fontFamily: 'var(--font-inter)',
                 fontSize: 'clamp(0.78rem,1.4vw,0.9rem)',
                 lineHeight: 1.8,
@@ -394,10 +315,8 @@ export default function LesPage() {
                 {SPOTLIGHT.publisher}
               </p>
 
-              <a
-                href={SPOTLIGHT.href}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href={`/les/${SPOTLIGHT.slug}`}
                 className="les-btn"
                 style={{
                   display: 'inline-flex',
@@ -421,7 +340,7 @@ export default function LesPage() {
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -453,11 +372,9 @@ export default function LesPage() {
 
           <div className="les-books">
             {BOOKS.map(book => (
-              <a
+              <Link
                 key={book.id}
-                href={book.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`/les/${book.slug}`}
                 className="les-card"
               >
                 {/* Cover */}
@@ -498,7 +415,7 @@ export default function LesPage() {
                 }}>
                   {book.author}
                 </p>
-              </a>
+              </Link>
             ))}
           </div>
         </section>

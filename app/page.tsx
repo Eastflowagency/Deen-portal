@@ -357,7 +357,7 @@ export default function HomePage() {
     { label: 'Hjem',      href: '/hjem',      section: 'top' },
     { label: 'Pensum',    href: '/pensum',     section: 'curriculum', dropdown: [{ label: 'Studieplan', href: '/studieplan' }] },
     { label: 'Søknad',    href: '/søknad',     section: 'opptak' },
-    { label: 'Les',  href: '/artikler' },
+    { label: 'Les',  href: '/les' },
     { label: 'Spørsmål',  href: '/spørsmål',   section: 'faq' },
   ]
 
@@ -1851,7 +1851,7 @@ export default function HomePage() {
               { label: 'Hjem',      href: '/hjem',      section: 'top' },
               { label: 'Pensum',    href: '/pensum',     section: 'curriculum' },
               { label: 'Søknad',    href: '/søknad',     section: 'opptak' },
-              { label: 'Les',  href: '/artikler' },
+              { label: 'Les',  href: '/les' },
               { label: 'Spørsmål',  href: '/spørsmål',   section: 'faq' },
             ].map((l) => (
               <a

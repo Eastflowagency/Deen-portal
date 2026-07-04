@@ -66,7 +66,7 @@ const SUBJECT_COLORS: Record<string, string> = {
   aqidah: 'rgb(160,132,232)',
   fiqh: 'rgb(56,189,248)',
   seerah: 'rgb(251,191,36)',
-  koranvitenskaper: 'rgb(74,197,120)',
+  koranvitenskaper: 'rgb(201,168,76)',
   hadith: 'rgb(248,113,113)',
   'adab-al-talib': 'rgb(201,168,76)',
   arabic: 'rgb(99,179,237)',
