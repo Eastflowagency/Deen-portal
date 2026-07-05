@@ -437,26 +437,76 @@ body {
   }
 }
 
-/* ── Hero mobile fix ─────────────────────────────────────────────────────── */
+/* ── Hero mobile — fluid across all phone sizes (320px → 767px) ──────────── */
 @media (max-width: 767px) {
-  .hero-content-flex {
-    justify-content: center !important;
-    gap: 20px !important;
-    padding-top: 80px !important;
-    padding-bottom: 80px !important;
+  /* Use small viewport height so iOS Safari address bar doesn't cut content */
+  .hero-bg {
+    height: 100svh !important;
+    min-height: 560px !important;
   }
-  /* On mobile, strip per-element background images so the global-fixed-bg div
-     (added in layout.tsx) provides the single viewport-locked background. */
+
+  /* Strip background so global-fixed-bg div handles the parallax */
   .hero-bg, .sections-bg, .page-bg {
     background-image: none !important;
     background-attachment: scroll !important;
   }
-  /* Scale hero heading for readability on phone */
-  .hero-content-flex h1 {
-    font-size: clamp(1.5rem, 6.5vw, 2.6rem) !important;
+
+  /* Flex container: center content vertically, fluid gap & padding */
+  .hero-content-flex {
+    justify-content: center !important;
+    gap: clamp(12px, 3.2vw, 20px) !important;
+    padding: clamp(70px, 13svh, 100px) clamp(16px, 5vw, 28px) clamp(56px, 10svh, 80px) !important;
   }
+
+  /* Heading: scale from 320px (small iPhone SE) to 430px (Pro Max) */
+  .hero-content-flex h1 {
+    font-size: clamp(1.35rem, 7.8vw, 2.5rem) !important;
+    line-height: 1.06 !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  /* Body text */
   .hero-content-flex p {
-    font-size: 1rem !important;
-    max-width: 32ch !important;
+    font-size: clamp(0.88rem, 4vw, 1.05rem) !important;
+    max-width: 30ch !important;
+    line-height: 1.68 !important;
+  }
+
+  /* CTA button: natural width, not full-bleed */
+  .hero-cta {
+    padding: clamp(12px, 3vw, 16px) clamp(32px, 8vw, 52px) !important;
+    font-size: clamp(0.68rem, 2.8vw, 0.8rem) !important;
+    letter-spacing: 0.18em !important;
+    width: auto !important;
+    align-self: center !important;
+    border-radius: 2px !important;
+  }
+
+  /* Stats row: keep on one line, no wrapping */
+  .hero-stats {
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+    gap: clamp(8px, 2vw, 14px) !important;
+    font-size: clamp(0.55rem, 2.6vw, 0.7rem) !important;
+    letter-spacing: 0.16em !important;
+  }
+}
+
+/* Extra-small phones (≤ 360px: iPhone SE 1st gen, older Androids) */
+@media (max-width: 360px) {
+  .hero-content-flex {
+    gap: 10px !important;
+    padding: 68px 14px 52px !important;
+  }
+  .hero-content-flex h1 {
+    font-size: 1.3rem !important;
+  }
+  .hero-cta {
+    padding: 11px 26px !important;
+    font-size: 0.65rem !important;
+  }
+  .hero-stats {
+    font-size: 0.52rem !important;
+    gap: 6px !important;
   }
 }

@@ -925,7 +925,7 @@ export default function HomePage() {
           {/* CTA button */}
           <a
             href="#opptak"
-            className="hero-fade-item btn-press"
+            className="hero-fade-item btn-press hero-cta"
             style={{
               fontFamily: 'var(--font-montserrat)',
               fontSize: '0.82rem',
@@ -962,7 +962,7 @@ export default function HomePage() {
 
           {/* Stats */}
           <div
-            className="hero-fade-item"
+            className="hero-fade-item hero-stats"
             style={{
               display: 'flex',
               gap: 'clamp(20px, 4vw, 36px)',
