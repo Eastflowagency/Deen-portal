@@ -482,29 +482,41 @@ body {
     border-radius: 2px !important;
   }
 
-  /* Stats: 2-row layout on mobile
-     Row 1: 10–15 ÅR · 30 PLASSER
-     Row 2:      SEPTEMBER 2026        */
-  .hero-stats {
-    flex-wrap: wrap !important;
-    white-space: nowrap !important;
+  /* Stats: 2-row layout aligned to button width
+     Row 1: 10–15 ÅR  ·  30 PLASSER  (space-between, full width)
+     Row 2:       SEPTEMBER 2026       (centred)                  */
+  .hero-cta {
+    width: 100% !important;
     justify-content: center !important;
-    column-gap: clamp(6px, 1.8vw, 12px) !important;
-    row-gap: clamp(8px, 2svh, 14px) !important;
+  }
+  .hero-stats {
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: clamp(8px, 2svh, 14px) !important;
     font-size: clamp(0.58rem, 2.6vw, 0.72rem) !important;
     letter-spacing: 0.15em !important;
   }
-  /* Hide the middle separator — date moves to its own row */
+  /* Top row: spread 10-15 ÅR and 30 PLASSER to button edges */
+  .hero-stats-top {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  /* Hide desktop-only middle dot between row and date */
   .hero-stat-dot-mid {
     display: none !important;
   }
-  /* Date fills full row width → sits centred on its own line */
+  /* Date sits centred on its own line */
   .hero-stat-date {
-    flex-basis: 100% !important;
     text-align: center !important;
-    padding-top: 0 !important;
-    margin-top: 0 !important;
   }
+}
+
+/* Desktop: hero-stats-top is invisible to parent flex — children act as direct siblings */
+.hero-stats-top {
+  display: contents;
 }
 
 /* Extra-small phones (≤ 360px: iPhone SE 1st gen, older Androids) */
@@ -522,6 +534,5 @@ body {
   }
   .hero-stats {
     font-size: 0.54rem !important;
-    column-gap: 6px !important;
   }
 }
