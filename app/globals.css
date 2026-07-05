@@ -440,9 +440,9 @@ body {
 /* ── Hero mobile fix ─────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
   .hero-content-flex {
-    justify-content: center !important;
-    gap: 20px !important;
-    padding-top: 90px !important;
+    justify-content: flex-start !important;
+    gap: 16px !important;
+    padding-top: 120px !important;
     padding-bottom: 44px !important;
   }
   /* On mobile, strip per-element background images so the global-fixed-bg div
@@ -451,9 +451,9 @@ body {
     background-image: none !important;
     background-attachment: scroll !important;
   }
-  /* Scale up hero heading and subtitle for readability on phone */
+  /* Scale hero heading for readability on phone */
   .hero-content-flex h1 {
-    font-size: clamp(1.6rem, 7.5vw, 3rem) !important;
+    font-size: clamp(1.5rem, 6.5vw, 2.6rem) !important;
   }
   .hero-content-flex p {
     font-size: 1rem !important;

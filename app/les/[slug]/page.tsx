@@ -107,10 +107,10 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
 
       <NavBar />
 
-      <main style={{ maxWidth: '1100px', margin: '0 auto', padding: 'clamp(52px,8vw,100px) clamp(20px,5vw,60px) clamp(72px,10vw,140px)' }}>
+      <main style={{ maxWidth: '1100px', margin: '0 auto', padding: 'clamp(90px,8vw,110px) clamp(20px,5vw,60px) clamp(72px,10vw,140px)' }}>
 
         {/* Back link */}
-        <Link href="/les" style={{
+        <Link href="/les/bøker" style={{
           display: 'inline-flex', alignItems: 'center', gap: 8,
           fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem',
           letterSpacing: '0.18em', textTransform: 'uppercase',
@@ -121,7 +121,7 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
-          Tilbake til bøker
+          Tilbake til e-bøker
         </Link>
 
         <div className="book-layout">

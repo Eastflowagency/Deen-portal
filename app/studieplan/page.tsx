@@ -35,7 +35,7 @@ const LEVELS = [
       { name: 'Fiqh 2', slug: 'fiqh-2', desc: 'Fordypning i fiqh-kapitler med fokus på bevis fra Koranen og Sunnah.' },
       { name: 'Seerah 2', slug: 'seerah-2', desc: 'Profeten Muhammads ﷺ liv i Madinah og de store hendelsene.' },
       { name: 'Hadith 2', slug: 'hadith-2', desc: 'Studium av Sahih al-Bukhari og Muslim med forklaringer.' },
-      { name: 'Adab al-Talib 2', slug: 'adab-al-talib-2', desc: 'Dypere studium av lærernes metoder og kunnskapens verdier.' },
+      { name: 'Tazkiyah 1', slug: 'tazkiyah-1', desc: 'Renselse av sjelen og dens sykdommer — basert på klassiske verk om tazkiyah.' },
     ],
     arabic: [
       { name: 'Arabic 2a', slug: 'arabic-2a', semester: 'Høst' },
@@ -53,7 +53,7 @@ const LEVELS = [
       { name: 'Fiqh 3', slug: 'fiqh-3', desc: 'Sammenlignende fiqh og ulikheter mellom de fire madhhabene.' },
       { name: 'Seerah 3', slug: 'seerah-3', desc: 'Dybdestudie av seerahkilder og den profetiske metodikkens relevans i dag.' },
       { name: 'Hadith 3', slug: 'hadith-3', desc: 'Selvstendige hadithstudier med original arabisk tekst.' },
-      { name: 'Adab al-Talib 3', slug: 'adab-al-talib-3', desc: 'Avanserte verker om læringskultur og islamsk etikk i praksis.' },
+      { name: 'Tazkiyah 2', slug: 'tazkiyah-2', desc: 'Avansert tazkiyah med primærkilder og praktisk anvendelse av sjelens renselse.' },
     ],
     arabic: [
       { name: 'Arabic 3a', slug: 'arabic-3a', semester: 'Høst' },
@@ -65,10 +65,11 @@ const LEVELS = [
 const SUBJECT_COLORS: Record<string, string> = {
   aqidah: 'rgb(160,132,232)',
   fiqh: 'rgb(56,189,248)',
-  seerah: 'rgb(251,191,36)',
+  seerah: 'rgb(251,146,60)',
   koranvitenskaper: 'rgb(201,168,76)',
   hadith: 'rgb(248,113,113)',
-  'adab-al-talib': 'rgb(201,168,76)',
+  'adab-al-talib': 'rgb(52,211,153)',
+  tazkiyah: 'rgb(52,211,153)',
   arabic: 'rgb(99,179,237)',
 }
 
@@ -83,7 +84,8 @@ function getSubjectLabel(slug: string): string {
   if (slug.startsWith('fiqh')) return 'Fiqh'
   if (slug.startsWith('seerah')) return 'Seerah'
   if (slug.startsWith('hadith')) return 'Hadith'
-  if (slug.startsWith('adab-al-talib')) return 'Adab al-Talib'
+  if (slug.startsWith('adab-al-talib')) return 'Adab og Tazkiyah'
+  if (slug.startsWith('tazkiyah')) return 'Adab og Tazkiyah'
   if (slug.startsWith('arabic')) return 'Arabisk'
   return 'Kurs'
 }
@@ -103,6 +105,14 @@ export default function StudieplanPage() {
       }}
     >
       <style>{`
+        .sp-card-link { text-decoration: none; display: block; }
+        .sp-card-inner {
+          transition: border-color 0.22s cubic-bezier(0.23,1,0.32,1), background 0.22s cubic-bezier(0.23,1,0.32,1), transform 0.22s cubic-bezier(0.23,1,0.32,1), box-shadow 0.22s cubic-bezier(0.23,1,0.32,1);
+        }
+        .sp-card-link:hover .sp-card-inner {
+          transform: translateY(-3px);
+          box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+        }
         @media (max-width: 767px) {
           .sp-content { padding: 90px 16px 60px !important; }
           .sp-tab-btn { padding: 9px 14px !important; font-size: 0.63rem !important; letter-spacing: 0.12em !important; }
@@ -118,18 +128,18 @@ export default function StudieplanPage() {
       <NavBar />
 
       {/* Content */}
-      <div className="sp-content" style={{ position: 'relative', zIndex: 1, maxWidth: '1100px', margin: '0 auto', padding: '130px 24px 80px' }}>
+      <div className="sp-content" style={{ position: 'relative', zIndex: 1, maxWidth: '1240px', margin: '0 auto', padding: 'clamp(90px,8vw,110px) clamp(20px,5vw,60px) clamp(60px,8vw,100px)' }}>
 
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '56px' }}>
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.75rem', letterSpacing: '0.3em', color: '#C9A84C', marginBottom: '16px', textTransform: 'uppercase' }}>
-            — AL RAWDAH INSTITUTT —
+        <div style={{ marginBottom: '56px' }}>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', letterSpacing: '0.26em', textTransform: 'uppercase', color: '#C9A84C', margin: '0 0 18px' }}>
+            STUDIEPLAN /
           </p>
-          <h1 style={{ fontFamily: 'var(--font-montserrat)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 700, color: '#fff', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '16px' }}>
-            Studieplan
+          <h1 style={{ fontFamily: 'var(--font-cormorant)', fontSize: 'clamp(2.6rem, 7vw, 5.2rem)', fontWeight: 700, fontStyle: 'italic', lineHeight: 1.04, letterSpacing: '-0.01em', color: '#fff', margin: '0 0 24px' }}>
+            Islamske Vitenskaper
           </h1>
-          <div style={{ width: '56px', height: '1px', background: 'linear-gradient(to right, transparent, #C9A84C, transparent)', margin: '0 auto 20px' }} />
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '1.05rem', color: '#94a3b8', fontWeight: 400, maxWidth: '520px', margin: '0 auto', lineHeight: 1.65 }}>
+          <div style={{ height: '1px', background: 'linear-gradient(to right, rgba(201,168,76,0.45), rgba(201,168,76,0.08) 55%, transparent)', marginBottom: '20px' }} />
+          <p style={{ fontFamily: 'var(--font-inter)', fontSize: 'clamp(0.75rem,1.4vw,0.9rem)', color: 'rgba(203,213,225,0.6)', lineHeight: 1.75, maxWidth: '480px' }}>
             Tre år med islamske vitenskaper og arabisk — fra grunnivå til viderenivå.
           </p>
         </div>
@@ -209,16 +219,16 @@ export default function StudieplanPage() {
                 <Link
                   key={course.slug}
                   href={`/studieplan/${course.slug}`}
-                  style={{ textDecoration: 'none' }}
+                  className="sp-card-link"
                 >
                   <div
+                    className="sp-card-inner"
                     style={{
                       padding: '22px 24px 20px',
                       background: 'rgba(10,16,30,0.75)',
                       border: `1px solid rgba(255,255,255,0.07)`,
                       borderRadius: '8px',
                       backdropFilter: 'blur(12px)',
-                      transition: 'border-color 0.2s cubic-bezier(0.23,1,0.32,1), background 0.2s cubic-bezier(0.23,1,0.32,1)',
                       cursor: 'pointer',
                       display: 'flex',
                       flexDirection: 'column',
@@ -240,7 +250,7 @@ export default function StudieplanPage() {
                       fontFamily: 'var(--font-montserrat)',
                       fontSize: '0.6rem',
                       letterSpacing: '0.28em',
-                      color: accent,
+                      color: '#C9A84C',
                       textTransform: 'uppercase',
                       marginBottom: '12px',
                       fontWeight: 700,
@@ -304,16 +314,16 @@ export default function StudieplanPage() {
                 <Link
                   key={course.slug}
                   href={`/studieplan/${course.slug}`}
-                  style={{ textDecoration: 'none' }}
+                  className="sp-card-link"
                 >
                   <div
+                    className="sp-card-inner"
                     style={{
                       padding: '22px 24px 20px',
                       background: 'rgba(10,16,30,0.75)',
                       border: '1px solid rgba(255,255,255,0.07)',
                       borderRadius: '8px',
                       backdropFilter: 'blur(12px)',
-                      transition: 'border-color 0.2s cubic-bezier(0.23,1,0.32,1), background 0.2s cubic-bezier(0.23,1,0.32,1)',
                       cursor: 'pointer',
                     }}
                     onMouseEnter={(e) => {
@@ -331,7 +341,7 @@ export default function StudieplanPage() {
                       fontFamily: 'var(--font-montserrat)',
                       fontSize: '0.6rem',
                       letterSpacing: '0.28em',
-                      color: accent,
+                      color: '#C9A84C',
                       textTransform: 'uppercase',
                       marginBottom: '12px',
                       fontWeight: 700,

@@ -3,6 +3,13 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  // Rewrite /les/bøker → /les/boker (Windows filesystem can't use ø in folder names)
+  if (decodeURIComponent(request.nextUrl.pathname) === '/les/bøker') {
+    const url = request.nextUrl.clone()
+    url.pathname = '/les/boker'
+    return NextResponse.rewrite(url)
+  }
+
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
@@ -54,5 +61,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/portal/:path*'],
+  matcher: ['/portal/:path*', '/les/:path*'],
 }

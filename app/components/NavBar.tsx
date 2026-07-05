@@ -1,6 +1,7 @@
 ﻿'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -29,7 +30,7 @@ const IconChevronDown = () => (
   </svg>
 )
 
-const NAV_LINKS: { label: string; href: string; dropdown?: { label: string; href: string }[] }[] = [
+const NAV_LINKS: { label: string; href: string; activePrefix?: string; dropdown?: { label: string; href: string }[] }[] = [
   { label: 'Hjem', href: '/' },
   {
     label: 'Pensum', href: '/#curriculum',
@@ -38,11 +39,17 @@ const NAV_LINKS: { label: string; href: string; dropdown?: { label: string; href
     ],
   },
   { label: 'Søknad', href: '/#opptak' },
-  { label: 'Les', href: '/les' },
+  {
+    label: 'Les', href: '/les', activePrefix: '/les',
+    dropdown: [
+      { label: 'E-bøker', href: '/les/bøker' },
+    ],
+  },
   { label: 'Spørsmål', href: '/#faq' },
 ]
 
 export default function NavBar() {
+  const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [navOpacity, setNavOpacity] = useState(0)
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null)
@@ -110,6 +117,7 @@ export default function NavBar() {
           >
             {NAV_LINKS.map((l) => {
               const isOpen = dropdownOpen === l.label
+              const isActive = l.activePrefix ? pathname.startsWith(l.activePrefix) : false
 
               if (l.dropdown) {
                 return (
@@ -122,7 +130,7 @@ export default function NavBar() {
                     <Link
                       href={l.href}
                       style={{
-                        color: isOpen ? '#C9A84C' : '#e2e8f0',
+                        color: isOpen || isActive ? '#C9A84C' : '#e2e8f0',
                         fontSize: '0.8rem',
                         fontFamily: 'var(--font-montserrat)',
                         letterSpacing: '0.1em',
@@ -136,8 +144,8 @@ export default function NavBar() {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '5px',
-                        background: isOpen ? 'rgba(201,168,76,0.12)' : 'transparent',
-                        fontWeight: isOpen ? 600 : 400,
+                        background: isOpen || isActive ? 'rgba(201,168,76,0.12)' : 'transparent',
+                        fontWeight: isOpen || isActive ? 600 : 400,
                       }}
                     >
                       {l.label}
@@ -310,6 +318,7 @@ export default function NavBar() {
           {NAV_LINKS.map((l) => {
             if (l.dropdown) {
               const isExpanded = mobileDropdownOpen === l.label
+              const isMobileActive = l.activePrefix ? pathname.startsWith(l.activePrefix) : false
               return (
                 <div key={l.label}>
                   <button
@@ -319,7 +328,7 @@ export default function NavBar() {
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       width: '100%',
-                      color: isExpanded ? '#C9A84C' : '#cbd5e1',
+                      color: isExpanded || isMobileActive ? '#C9A84C' : '#cbd5e1',
                       background: isExpanded ? 'rgba(201,168,76,0.08)' : 'transparent',
                       border: 'none',
                       fontSize: '0.88rem',

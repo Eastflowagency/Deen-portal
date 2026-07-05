@@ -195,6 +195,7 @@ export default function HomePage() {
   const { ref: howRef, revealed: howRevealed } = useReveal()
   const { ref: opptakRef, revealed: opptakRevealed } = useReveal()
   const { ref: pricingRef, revealed: pricingRevealed } = useReveal()
+  const { ref: lesTeaserRef, revealed: lesTeaserRevealed } = useReveal()
   const { ref: faqRef, revealed: faqRevealed } = useReveal()
   const { ref: footerRef, revealed: footerRevealed } = useReveal()
 
@@ -215,10 +216,10 @@ export default function HomePage() {
 
   // Clean URL ←" section ID maps
   const sectionToUrl: Record<string, string> = {
-    top: '/hjem', curriculum: '/pensum', opptak: '/søknad', faq: '/spørsmål',
+    top: '/hjem', curriculum: '/pensum', opptak: '/søknad', faq: '/spørsmål', les: '/les',
   }
   const urlToSection: Record<string, string> = {
-    '/hjem': 'top', '/pensum': 'curriculum', '/søknad': 'opptak', '/spørsmål': 'faq',
+    '/hjem': 'top', '/pensum': 'curriculum', '/søknad': 'opptak', '/spørsmål': 'faq', '/les': 'les', '/les/bøker': 'les',
   }
 
   function scrollToSection(sectionId: string, url: string) {
@@ -226,7 +227,10 @@ export default function HomePage() {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
       const el = document.getElementById(sectionId)
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 88
+        window.scrollTo({ top, behavior: 'smooth' })
+      }
     }
     window.history.replaceState(null, '', url)
     setActiveSection(sectionId)
@@ -248,7 +252,7 @@ export default function HomePage() {
 
   // Active section detection via IntersectionObserver
   useEffect(() => {
-    const ids = ['curriculum', 'opptak', 'pricing', 'faq']
+    const ids = ['curriculum', 'opptak', 'pricing', 'faq', 'les']
     const observers = ids.map(id => {
       const el = document.getElementById(id)
       if (!el) return null
@@ -357,7 +361,7 @@ export default function HomePage() {
     { label: 'Hjem',      href: '/hjem',      section: 'top' },
     { label: 'Pensum',    href: '/pensum',     section: 'curriculum', dropdown: [{ label: 'Studieplan', href: '/studieplan' }] },
     { label: 'Søknad',    href: '/søknad',     section: 'opptak' },
-    { label: 'Les',  href: '/les' },
+    { label: 'Les',       href: '/les',        section: 'les', dropdown: [{ label: 'E-bøker', href: '/les/bøker' }] },
     { label: 'Spørsmål',  href: '/spørsmål',   section: 'faq' },
   ]
 
@@ -1704,6 +1708,84 @@ export default function HomePage() {
 
       </section>
 
+      {/* ── LES TEASER ─────────────────────────────────────────────────────── */}
+      <section
+        id="les"
+        ref={lesTeaserRef}
+        className={`reveal-section${lesTeaserRevealed ? ' revealed' : ''}`}
+        style={{ padding: 'clamp(72px, 10vw, 112px) clamp(20px, 5vw, 48px)' }}
+      >
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+
+          {/* Header */}
+          <SectionHeading>Les</SectionHeading>
+
+          {/* Book grid — 4 cols desktop, 2 cols mobile */}
+          <style>{`.les-teaser-books{display:grid;grid-template-columns:repeat(4,1fr);}@media(max-width:600px){.les-teaser-books{grid-template-columns:repeat(2,1fr);}}`}</style>
+          <div className="les-teaser-books" style={{ gap: 'clamp(14px,2.5vw,24px)', marginBottom: 'clamp(28px,3.5vw,36px)' }}>
+            {[
+              { slug: 'forandret-av-koranen', title: 'Forandret av Koranen', author: 'Sh Fulaan ibn Hebel', bg: 'linear-gradient(170deg, #04081e 0%, #091a5a 35%, #1235a8 65%, #1f4fd4 100%)', accentColor: '#3a6fd4', dark: false, spotlight: true },
+              { slug: 'koran-30-for-30-livsleksjoner', title: 'Koran 30 for 30: Livsleksjoner', author: 'Sh Fulaan ibn Hebel', bg: 'linear-gradient(145deg, #ece6d8 0%, #c8bfa4 100%)', accentColor: '#0d2a6e', dark: true, spotlight: false },
+              { slug: 'salahens-hemmeligheter', title: 'Salahens Hemmeligheter', author: 'Sh Fulaan ibn Hebel', bg: 'linear-gradient(170deg, #0c0a06 0%, #241504 45%, #3a2210 100%)', accentColor: '#c9a84c', dark: false, spotlight: false },
+              { slug: 'den-rette-sti', title: 'Den Rette Sti', author: 'Sh Fulaan ibn Hebel', bg: 'linear-gradient(145deg, #f0ede6 0%, #ddd6c8 100%)', accentColor: '#1a2a6e', dark: true, spotlight: false },
+            ].map((book) => (
+              <Link key={book.slug} href={`/les/${book.slug}`} style={{ textDecoration: 'none', display: 'block' }}>
+                <div
+                  style={{ position: 'relative', width: '100%', aspectRatio: '2/3', borderRadius: '9px', overflow: 'hidden', background: book.bg, boxShadow: '0 10px 32px rgba(0,0,0,0.5)', transition: 'transform 0.26s cubic-bezier(0.23,1,0.32,1), box-shadow 0.26s cubic-bezier(0.23,1,0.32,1)' }}
+                  onMouseEnter={(e) => { const el = e.currentTarget as HTMLDivElement; el.style.transform = 'translateY(-6px)'; el.style.boxShadow = '0 24px 56px rgba(0,0,0,0.68)' }}
+                  onMouseLeave={(e) => { const el = e.currentTarget as HTMLDivElement; el.style.transform = 'none'; el.style.boxShadow = '0 10px 32px rgba(0,0,0,0.5)' }}
+                >
+                  {/* Grid texture */}
+                  <div style={{ position: 'absolute', inset: 0, backgroundImage: book.dark ? 'repeating-linear-gradient(0deg,transparent,transparent 26px,rgba(0,0,0,0.05) 26px,rgba(0,0,0,0.05) 27px),repeating-linear-gradient(90deg,transparent,transparent 26px,rgba(0,0,0,0.05) 26px,rgba(0,0,0,0.05) 27px)' : 'repeating-linear-gradient(0deg,transparent,transparent 26px,rgba(255,255,255,0.025) 26px,rgba(255,255,255,0.025) 27px),repeating-linear-gradient(90deg,transparent,transparent 26px,rgba(255,255,255,0.025) 26px,rgba(255,255,255,0.025) 27px)' }} />
+                  {/* Light ray for dark covers */}
+                  {!book.dark && <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 30px 120px at 50% -5%, rgba(200,220,255,0.55) 0%, rgba(180,200,255,0.15) 35%, transparent 65%)' }} />}
+                  {/* Accent glow */}
+                  <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 50% 20%, ${book.accentColor}2a 0%, transparent 65%)` }} />
+                  {/* Bottom fade */}
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '65%', background: book.dark ? 'linear-gradient(transparent, rgba(210,200,180,0.55))' : 'linear-gradient(transparent, rgba(2,6,24,0.9))' }} />
+                  {/* NY badge on spotlight */}
+                  {book.spotlight && (
+                    <div style={{ position: 'absolute', top: 9, left: 9, width: 38, height: 38, borderRadius: '50%', background: 'linear-gradient(135deg,#c97d0a,#f0a820)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 14px rgba(200,120,0,0.55)', zIndex: 10 }}>
+                      <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.38rem', fontWeight: 800, color: '#fff' }}>NY!</span>
+                    </div>
+                  )}
+                  {/* Cover text */}
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px 10px' }}>
+                    <p style={{ fontFamily: 'var(--font-cormorant)', fontSize: '1.1rem', fontWeight: 700, fontStyle: 'italic', lineHeight: 1.15, color: book.dark ? book.accentColor : '#fff', margin: '0 0 5px', textShadow: book.dark ? 'none' : '0 2px 8px rgba(0,0,0,0.6)' }}>
+                      {book.title}
+                    </p>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
+                      <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.38rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: book.dark ? `${book.accentColor}99` : 'rgba(255,255,255,0.48)', margin: 0 }}>
+                        {book.author}
+                      </p>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={book.dark ? '/logo-book-black.png' : '/logo-book.png'}
+                        alt="Al Rawdah Institutt"
+                        style={{ width: '60px', objectFit: 'contain', opacity: book.dark ? 0.75 : 0.82, flexShrink: 0 }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* CTA — left-aligned */}
+          <a
+            href="/les/bøker"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase', color: '#C9A84C', textDecoration: 'none', border: '1px solid rgba(201,168,76,0.3)', borderRadius: '6px', padding: '12px 26px', transition: 'background 0.22s cubic-bezier(0.23,1,0.32,1), border-color 0.22s cubic-bezier(0.23,1,0.32,1)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(201,168,76,0.1)'; e.currentTarget.style.borderColor = 'rgba(201,168,76,0.65)' }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(201,168,76,0.3)' }}
+          >
+            Utforsk alle bøker
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </section>
+
       {/* â"€â"€ FAQ â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
       <section
         ref={faqRef}
@@ -1851,7 +1933,7 @@ export default function HomePage() {
               { label: 'Hjem',      href: '/hjem',      section: 'top' },
               { label: 'Pensum',    href: '/pensum',     section: 'curriculum' },
               { label: 'Søknad',    href: '/søknad',     section: 'opptak' },
-              { label: 'Les',  href: '/les' },
+              { label: 'Les',  href: '/les/bøker', section: 'les' },
               { label: 'Spørsmål',  href: '/spørsmål',   section: 'faq' },
             ].map((l) => (
               <a
