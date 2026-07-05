@@ -498,12 +498,20 @@ body {
     font-size: clamp(0.58rem, 2.6vw, 0.72rem) !important;
     letter-spacing: 0.15em !important;
   }
-  /* Top row spans full button width, items at each edge */
+  /* Top row spans button width; outer items' CENTRES sit at button edges */
   .hero-stats-top {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
     width: 100% !important;
+    overflow: visible !important;
+  }
+  /* Shift each outer stat by half its own width so its centre = button edge */
+  .hero-stats-top > span:first-child {
+    transform: translateX(-50%) !important;
+  }
+  .hero-stats-top > span:last-child {
+    transform: translateX(50%) !important;
   }
   /* Hide desktop-only middle dot */
   .hero-stat-dot-mid {
