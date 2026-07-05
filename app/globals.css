@@ -440,10 +440,10 @@ body {
 /* ── Hero mobile fix ─────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
   .hero-content-flex {
-    justify-content: flex-start !important;
-    gap: 16px !important;
-    padding-top: 120px !important;
-    padding-bottom: 44px !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
   }
   /* On mobile, strip per-element background images so the global-fixed-bg div
      (added in layout.tsx) provides the single viewport-locked background. */
