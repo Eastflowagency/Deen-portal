@@ -922,7 +922,8 @@ export default function HomePage() {
             Et treårig program for ungdom mellom 10 og 15 år. Lær Islam direkte fra de klassiske kildene.
           </p>
 
-          {/* CTA button */}
+          {/* CTA + Stats — grouped so stats aligns to button width on mobile */}
+          <div className="hero-cta-group">
           <a
             href="#opptak"
             className="hero-fade-item btn-press hero-cta"
@@ -987,6 +988,7 @@ export default function HomePage() {
             <span aria-hidden="true" className="hero-stat-dot-mid" style={{ color: 'rgba(201,168,76,0.35)', fontSize: '1.2em' }}>·</span>
             <span className="hero-stat-date">September 2026</span>
           </div>
+          </div>{/* /hero-cta-group */}
         </div>
       </section>
 

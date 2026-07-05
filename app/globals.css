@@ -482,34 +482,43 @@ body {
     border-radius: 2px !important;
   }
 
-  /* Stats: 2-row layout aligned to button width
-     Row 1: 10–15 ÅR  ·  30 PLASSER  (space-between, full width)
-     Row 2:       SEPTEMBER 2026       (centred)                  */
+  /* Group: column, button sets width, stats stretches to match */
+  .hero-cta-group {
+    display: inline-flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: clamp(12px, 3vw, 18px) !important;
+  }
+  /* Stats container fills group width */
   .hero-stats {
     flex-direction: column !important;
     align-items: center !important;
-    width: auto !important;
-    gap: clamp(8px, 2svh, 14px) !important;
+    width: 100% !important;
+    gap: clamp(8px, 2svh, 12px) !important;
     font-size: clamp(0.58rem, 2.6vw, 0.72rem) !important;
     letter-spacing: 0.15em !important;
   }
-  /* Top row: centred with gap */
+  /* Top row spans full button width, items at each edge */
   .hero-stats-top {
     display: flex !important;
-    justify-content: center !important;
+    justify-content: space-between !important;
     align-items: center !important;
-    gap: clamp(8px, 2.5vw, 16px) !important;
+    width: 100% !important;
   }
-  /* Hide desktop-only middle dot between row and date */
+  /* Hide desktop-only middle dot */
   .hero-stat-dot-mid {
     display: none !important;
   }
-  /* Date sits centred on its own line */
+  /* Date centred below */
   .hero-stat-date {
     text-align: center !important;
   }
 }
 
+/* Desktop: group is invisible — button and stats remain direct flex children */
+.hero-cta-group {
+  display: contents;
+}
 /* Desktop: hero-stats-top is invisible to parent flex — children act as direct siblings */
 .hero-stats-top {
   display: contents;
