@@ -482,44 +482,16 @@ body {
     border-radius: 2px !important;
   }
 
-  /* Group: column, button sets width, stats stretches to match */
-  .hero-cta-group {
-    display: inline-flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: clamp(12px, 3vw, 18px) !important;
-  }
-  /* Stats container fills group width */
+  /* Stats: single centred row — all three on one line */
   .hero-stats {
-    flex-direction: column !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
     align-items: center !important;
-    width: 100% !important;
-    gap: clamp(8px, 2svh, 12px) !important;
-    font-size: clamp(0.58rem, 2.6vw, 0.72rem) !important;
-    letter-spacing: 0.15em !important;
-  }
-  /* Top row spans button width; outer items' CENTRES sit at button edges */
-  .hero-stats-top {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    width: 100% !important;
-    overflow: visible !important;
-  }
-  /* Shift each outer stat by half its own width so its centre = button edge */
-  .hero-stats-top > span:first-child {
-    transform: translateX(-50%) !important;
-  }
-  .hero-stats-top > span:last-child {
-    transform: translateX(50%) !important;
-  }
-  /* Hide desktop-only middle dot */
-  .hero-stat-dot-mid {
-    display: none !important;
-  }
-  /* Date centred below */
-  .hero-stat-date {
-    text-align: center !important;
+    gap: clamp(6px, 2vw, 12px) !important;
+    font-size: clamp(0.52rem, 2.3vw, 0.68rem) !important;
+    letter-spacing: 0.13em !important;
+    white-space: nowrap !important;
   }
 }
 
