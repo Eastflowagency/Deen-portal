@@ -482,25 +482,24 @@ body {
     border-radius: 2px !important;
   }
 
-  /* Stats: single centred row — all three on one line */
+  /* Stats: 3-col grid so 30 PLASSER sits at exact screen centre */
   .hero-stats {
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: clamp(6px, 2vw, 12px) !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
+    width: 100% !important;
+    text-align: center !important;
+    gap: 0 !important;
     font-size: clamp(0.52rem, 2.3vw, 0.68rem) !important;
     letter-spacing: 0.13em !important;
-    white-space: nowrap !important;
+  }
+  /* Hide dots — grid spacing handles visual separation */
+  .hero-stat-sep {
+    display: none !important;
   }
 }
 
 /* Desktop: group is invisible — button and stats remain direct flex children */
 .hero-cta-group {
-  display: contents;
-}
-/* Desktop: hero-stats-top is invisible to parent flex — children act as direct siblings */
-.hero-stats-top {
   display: contents;
 }
 

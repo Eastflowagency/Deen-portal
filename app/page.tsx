@@ -980,13 +980,11 @@ export default function HomePage() {
               alignItems: 'center',
             }}
           >
-            <div className="hero-stats-top">
-              <span>10–15 År</span>
-              <span aria-hidden="true" style={{ color: 'rgba(201,168,76,0.35)', fontSize: '1.2em' }}>·</span>
-              <span>30 Plasser</span>
-            </div>
-            <span aria-hidden="true" className="hero-stat-dot-mid" style={{ color: 'rgba(201,168,76,0.35)', fontSize: '1.2em' }}>·</span>
-            <span className="hero-stat-date">September 2026</span>
+            <span>10–15 År</span>
+            <span aria-hidden="true" className="hero-stat-sep" style={{ color: 'rgba(201,168,76,0.35)', fontSize: '1.2em' }}>·</span>
+            <span>30 Plasser</span>
+            <span aria-hidden="true" className="hero-stat-sep" style={{ color: 'rgba(201,168,76,0.35)', fontSize: '1.2em' }}>·</span>
+            <span>September 2026</span>
           </div>
           </div>{/* /hero-cta-group */}
         </div>
