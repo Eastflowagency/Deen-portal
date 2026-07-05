@@ -485,24 +485,20 @@ body {
   /* Stats: 2-row layout aligned to button width
      Row 1: 10–15 ÅR  ·  30 PLASSER  (space-between, full width)
      Row 2:       SEPTEMBER 2026       (centred)                  */
-  .hero-cta {
-    width: 100% !important;
-    justify-content: center !important;
-  }
   .hero-stats {
     flex-direction: column !important;
     align-items: center !important;
-    width: 100% !important;
+    width: auto !important;
     gap: clamp(8px, 2svh, 14px) !important;
     font-size: clamp(0.58rem, 2.6vw, 0.72rem) !important;
     letter-spacing: 0.15em !important;
   }
-  /* Top row: spread 10-15 ÅR and 30 PLASSER to button edges */
+  /* Top row: centred with gap */
   .hero-stats-top {
     display: flex !important;
-    justify-content: space-between !important;
+    justify-content: center !important;
     align-items: center !important;
-    width: 100% !important;
+    gap: clamp(8px, 2.5vw, 16px) !important;
   }
   /* Hide desktop-only middle dot between row and date */
   .hero-stat-dot-mid {
