@@ -482,7 +482,7 @@ body {
     border-radius: 2px !important;
   }
 
-  /* Stats: equal space between all three items */
+  /* Stats: equal space between all three items, shifted left so 30 PLASSER centres */
   .hero-stats {
     display: flex !important;
     flex-direction: row !important;
@@ -493,6 +493,7 @@ body {
     font-size: clamp(0.52rem, 2.3vw, 0.68rem) !important;
     letter-spacing: 0.13em !important;
     white-space: nowrap !important;
+    transform: translateX(-5vw) !important;
   }
   /* Hide dots — space-evenly handles separation */
   .hero-stat-sep {
