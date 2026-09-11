@@ -8,8 +8,8 @@ import { createClient } from '@/lib/supabase'
 import LiveVideo from '@/app/components/live/LiveVideo'
 import LiveChat from '@/app/components/live/LiveChat'
 import RaiseHandButton from '@/app/components/live/RaiseHandButton'
-import SessionInfo, { LiveSession } from '@/app/components/live/SessionInfo'
-import LivePageHeader from '@/app/components/live/LivePageHeader'
+import type { LiveSession } from '@/app/components/live/SessionInfo'
+import styles from '@/app/components/live/LiveRoom.module.css'
 
 // ── Portal shell ──────────────────────────────────────────────────────────────
 
@@ -77,135 +77,38 @@ function PortalLiveUI({ firstName, onSignOut, onLiveEnded }: { firstName: string
   }, [onLiveEnded])
 
   return (
-    <div style={{ minHeight: '100vh', background: '#060b14', display: 'flex', flexDirection: 'column' }}>
-
-      {/* ── Top nav ─────────────────────────────────────────────────────────── */}
-      <header style={{
-        height: '62px',
-        background: 'rgba(6,11,20,0.96)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(201,168,76,0.08)',
-        display: 'flex', alignItems: 'center',
-        padding: '0 20px', gap: '16px',
-        position: 'sticky', top: 0, zIndex: 50, flexShrink: 0,
-      }}>
-        <Link href="/portal" style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
-          <Image src="/logo-cropped.png" alt="Al Rawdah" width={988} height={374}
-            style={{ height: '40px', width: 'auto', objectFit: 'contain' }} priority />
-        </Link>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flex: 1, overflowX: 'auto', scrollbarWidth: 'none' }}>
-          {['Islamske Vitenskaper', 'Arabic', 'Kalender', 'Timeplan'].map((tab) => (
-            <div key={tab} title="Kommer snart" style={{
-              padding: '6px 14px', borderRadius: '20px',
-              fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem',
-              letterSpacing: '0.14em', color: '#1e2d42',
-              textTransform: 'uppercase', cursor: 'not-allowed',
-              whiteSpace: 'nowrap', userSelect: 'none',
-            }}>
-              {tab}
-            </div>
-          ))}
-          <div style={{
-            padding: '6px 14px',
-            background: 'rgba(220,38,38,0.1)',
-            border: '1px solid rgba(220,38,38,0.28)',
-            borderRadius: '20px',
-            fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem',
-            letterSpacing: '0.14em', color: '#ef4444',
-            textTransform: 'uppercase', whiteSpace: 'nowrap',
-            display: 'flex', alignItems: 'center', gap: 5,
-          }}>
-            <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#ef4444', animation: 'livePulse 1.4s infinite', flexShrink: 0 }} />
-            Live
-          </div>
-        </div>
-
-        <button onClick={onSignOut} title="Logg ut" style={{
-          width: '34px', height: '34px', borderRadius: '50%',
-          background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.28)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: '#C9A84C', fontFamily: 'var(--font-montserrat)',
-          fontSize: '0.7rem', fontWeight: 700, cursor: 'pointer', flexShrink: 0,
-        }}>
-          {firstName.charAt(0)}
-        </button>
+    <div className={styles.room}>
+      <header className={styles.header}>
+        <Link href="/portal" className={styles.brand}><Image src="/logo-cropped.png" alt="Al Rawdah" width={988} height={374} priority /></Link>
+        <Link href="/portal" className={styles.back}>Tilbake til portalen</Link>
+        <button onClick={onSignOut} className={styles.avatar} aria-label="Logg ut" title="Logg ut">{firstName.charAt(0)}</button>
       </header>
-
-      {/* ── Main content ─────────────────────────────────────────────────────── */}
-      <main style={{ flex: 1, padding: 'clamp(20px, 3vw, 32px) clamp(16px, 3vw, 32px)', minWidth: 0 }}>
-
-        <div style={{ marginBottom: '20px' }}>
-          <LivePageHeader isLive={isLive} subject={session?.subject ?? ''} />
-        </div>
-
-        <div className="live-layout" style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-
-          {/* LEFT: video + controls + session info */}
-          <div style={{ flex: '1 1 0', minWidth: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-
-            <LiveVideo
-              meetingUrl={meetingUrl}
-              isLive={isLive}
-              viewerCount={viewerCount}
-              displayName={firstName}
-              role="student"
-            />
-
-            {/* Controls bar */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-              <RaiseHandButton userName={firstName} />
-              <button
-                onClick={handleShare}
-                title="Del lenke til live-klassen"
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 6,
-                  padding: '0 14px', height: 38, borderRadius: 8,
-                  background: copied ? 'rgba(74,197,120,0.12)' : 'rgba(201,168,76,0.08)',
-                  border: `1px solid ${copied ? 'rgba(74,197,120,0.3)' : 'rgba(201,168,76,0.2)'}`,
-                  color: copied ? 'rgba(74,197,120,0.9)' : '#C9A84C',
-                  fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem',
-                  letterSpacing: '0.14em', fontWeight: 700, textTransform: 'uppercase',
-                  cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all 0.2s',
-                }}
-              >
-                {copied ? (
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                ) : (
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                )}
-                {copied ? 'Kopiert!' : 'Del lenke'}
-              </button>
+      <main className={styles.layout}>
+        <div className={styles.stage}>
+          <LiveVideo meetingUrl={meetingUrl} isLive={isLive} viewerCount={viewerCount} displayName={firstName} role="student" />
+          <section className={styles.session} aria-label="Om denne klassen">
+            <div className={styles.sessionTop}>
+              <span className={isLive ? styles.liveBadge : styles.waitingBadge}>{isLive ? 'LIVE' : 'Venter p\u00e5 l\u00e6rer'}</span>
+              <div className={styles.actions}>
+                {isLive && <RaiseHandButton userName={firstName} />}
+                <button className={styles.share} onClick={handleShare}>{copied ? 'Lenke kopiert' : 'Del klasse'}</button>
+              </div>
             </div>
-
-            {session && <SessionInfo session={session} />}
-          </div>
-
-          {/* RIGHT: chat panel */}
-          <div className="live-chat-col" style={{ flexShrink: 0, width: '380px', minHeight: '620px', display: 'flex', flexDirection: 'column' }}>
-            <LiveChat
-              channelName="live-class"
-              userName={firstName}
-              isTeacher={false}
-              onParticipantCountChange={setViewerCount}
-            />
-          </div>
+            <h1>{session?.title || 'Velkommen til direkteklassen'}</h1>
+            {session ? <div className={styles.details}>
+              <h2>Om denne klassen</h2>
+              <p>{[session.teacher, session.subject, session.startTime].filter(Boolean).join(' \u00b7 ')}</p>
+              {session.description && <p>{session.description}</p>}
+            </div> : <p className={styles.waitingText}>Video og informasjon vises her n&#229;r l&#230;reren starter klassen.</p>}
+          </section>
         </div>
+        <aside className={styles.chatColumn} aria-label="Klassechat">
+          <LiveChat channelName="live-class" userName={firstName} isTeacher={false} onParticipantCountChange={setViewerCount} />
+        </aside>
       </main>
-
-      <style>{`
-        @keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-        @media (max-width: 920px) {
-          .live-layout { flex-direction: column !important; }
-          .live-chat-col { width: 100% !important; min-height: 420px !important; }
-        }
-      `}</style>
     </div>
   )
 }
-
-// ── Auth wrapper ──────────────────────────────────────────────────────────────
 
 export default function StudentLivePage() {
   const router = useRouter()

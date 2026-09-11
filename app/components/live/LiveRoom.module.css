@@ -1,0 +1,38 @@
+.room { min-height: 100svh; background: #080d15; color: #f5f8fa; font-family: var(--font-inter), sans-serif; position: relative; z-index: 1; }
+.chat { min-height: 0; font-family: var(--font-inter), sans-serif; }
+.chatMessage { position: relative; padding-left: 42px; display: flex; flex-direction: column; gap: 5px; }
+.chatAvatar { position: absolute; left: 0; top: 2px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 600; color: #e3f2f7; background: #315e70; border: 1px solid #ffffff18; }
+.chat button:focus-visible, .chat input:focus-visible { outline: 2px solid #9cdaee; outline-offset: -2px; }
+.chat button:active { transform: scale(.97); }
+@media (prefers-reduced-motion: reduce) { .chat *, .room * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+.header { height: 72px; display: flex; align-items: center; gap: 24px; padding: 0 clamp(16px, 3vw, 48px); border-bottom: 1px solid #ffffff0d; }
+.brand img { width: auto; height: 42px; }
+.back { margin-left: auto; color: #adbdc6; font-size: 13px; text-decoration: none; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #c9a84c50; background: #c9a84c15; color: #c9a84c; cursor: pointer; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 27%); gap: clamp(20px, 2vw, 32px); padding: 28px clamp(16px, 3vw, 48px) 40px; max-width: 2000px; margin: auto; align-items: start; }
+.stage { min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+.session { background: #1d414e; border: 1px solid #ffffff0d; border-radius: 20px; padding: clamp(22px, 2vw, 32px); }
+.sessionTop { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.liveBadge, .waitingBadge { font-size: 12px; font-weight: 700; letter-spacing: .08em; border-radius: 20px; padding: 5px 10px; }
+.liveBadge { color: #ff757e; background: #ee495020; border: 1px solid #ee495050; }
+.waitingBadge { color: #c0d2da; background: #ffffff0a; }
+.session h1 { font-size: clamp(24px, 2.5vw, 42px); line-height: 1.18; letter-spacing: -.035em; font-weight: 700; margin: 16px 0 0; text-wrap: balance; overflow-wrap: anywhere; }
+.actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.actions > button { border-radius: 24px !important; font-family: inherit !important; letter-spacing: normal !important; text-transform: none !important; font-size: 13px !important; color: #dcebf0; }
+.share { background: transparent; border: 0; padding: 10px; cursor: pointer; color: #bcd1db; }
+.details { border-top: 1px solid #ffffff12; margin-top: 24px; padding-top: 22px; }
+.details h2 { font-size: 17px; font-weight: 600; margin: 0 0 10px; }
+.details p, .waitingText { font-size: 14px; color: #bcd0d9; line-height: 1.7; margin: 10px 0 0; }
+.chatColumn { height: calc(100svh - 128px); min-height: 480px; max-height: 1000px; position: sticky; top: 24px; min-width: 0; }
+.room button:focus-visible, .room a:focus-visible { outline: 2px solid #9cdaee; outline-offset: 4px; }
+@media (max-width: 960px) {
+  .layout { grid-template-columns: minmax(0, 1fr); padding-top: 20px; }
+  .chatColumn { position: static; height: 520px; min-height: 0; max-height: 70svh; }
+}
+@media (max-width: 480px) {
+  .header { height: 62px; gap: 14px; }
+  .brand img { height: 32px; }
+  .back { font-size: 11px; }
+  .session { border-radius: 16px; padding: 20px; }
+  .sessionTop { gap: 10px; }
+}
