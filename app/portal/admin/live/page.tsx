@@ -5,6 +5,7 @@ import Link from 'next/link'
 import LiveChat from '@/app/components/live/LiveChat'
 import DailyVideoCall from '@/app/components/live/DailyVideoCall'
 import { createClient } from '@/lib/supabase'
+import { osloInput } from '@/lib/classroom'
 import type { RealtimeChannel } from '@supabase/supabase-js'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -38,8 +39,8 @@ export default function AdminLivePage() {
     description: 'Studiet av de guddommelige attributtene slik de er beskrevet i Koranen og Sunnah.',
     teacher:     'Sheikh Abdullah',
     subject:     'Aqidah',
-    date:        '2026-06-22',
-    time:        '19:00',
+    date:        '',
+    time:        '',
     meetingUrl:  '',
     isLive:      false,
   })
@@ -51,6 +52,11 @@ export default function AdminLivePage() {
   const [urlError, setUrlError] = useState('')
   const [teacherToken, setTeacherToken] = useState('')
   const channelRef = useRef<RealtimeChannel | null>(null)
+
+  useEffect(() => {
+    const [date, time] = osloInput(new Date().toISOString()).split('T')
+    setForm(prev => ({ ...prev, date, time }))
+  }, [])
 
   // Fetch teacher (owner) token whenever meetingUrl is set
   useEffect(() => {
@@ -88,21 +94,30 @@ export default function AdminLivePage() {
 
   // Load existing live state into form on mount
   useEffect(() => {
+    let cancelled = false
     fetch('/api/live-status', { cache: 'no-store' })
-      .then(r => r.json())
-      .then(data => {
+      .then(r => {
+        if (!r.ok) throw new Error('Kunne ikke hente live-status.')
+        return r.json()
+      })
+      .then(async data => {
+        if (cancelled) return
         if (data.meetingUrl || data.isLive) {
           setForm(prev => ({
             ...prev,
             title:      data.title      || prev.title,
             teacher:    data.teacher    || prev.teacher,
             subject:    data.subject    || prev.subject,
-            meetingUrl: data.meetingUrl || prev.meetingUrl,
+            meetingUrl: data.isLive ? data.meetingUrl || '' : '',
             isLive:     !!data.isLive,
           }))
         }
+        if (!data.isLive) {
+          await generateDailyUrl(osloInput(new Date().toISOString()).split('T')[0], data.subject || 'Aqidah')
+        }
       })
-      .catch(() => {})
+      .catch(() => { if (!cancelled) setUrlError('Kunne ikke hente live-status. Last siden på nytt for å opprette en lenke.') })
+    return () => { cancelled = true }
   }, [])
 
   function handleField(key: keyof SessionForm, value: string | boolean) {
@@ -139,15 +154,12 @@ export default function AdminLivePage() {
     setPublishing(false)
   }, [form])
 
-  async function generateDailyUrl() {
+  async function generateDailyUrl(date = form.date, selectedSubject = form.subject) {
     setGeneratingUrl(true)
     setUrlError('')
     try {
-      const d = form.date ? new Date(form.date) : new Date()
-      const day   = String(d.getDate()).padStart(2, '0')
-      const month = String(d.getMonth() + 1).padStart(2, '0')
-      const year  = d.getFullYear()
-      const subject = (form.subject || 'Klasse').replace(/\s+/g, '')
+      const [year, month, day] = (date || osloInput(new Date().toISOString()).split('T')[0]).split('-')
+      const subject = (selectedSubject || 'Klasse').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 50) || 'Klasse'
       const roomName = `AlRawdah-${subject}-${day}-${month}-${year}`
       const res = await fetch('/api/create-daily-room', {
         method: 'POST',
@@ -155,7 +167,8 @@ export default function AdminLivePage() {
         body: JSON.stringify({ name: roomName }),
       })
       const data = await res.json()
-      if (data.url) {
+      if (res.ok && data.url) {
+        setTeacherToken('')
         handleField('meetingUrl', data.url)
       } else {
         setUrlError(data.error ?? 'Kunne ikke opprette Daily.co-rom')
@@ -487,25 +500,43 @@ export default function AdminLivePage() {
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                 <div>
-                  <label style={labelStyle}>Dato</label>
-                  <input type="date" value={form.date} onChange={(e) => handleField('date', e.target.value)}
-                    style={{ ...inputStyle, colorScheme: 'dark' }}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.42)' }}
-                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }} />
+                  <label htmlFor="live-date" style={labelStyle}>Dato</label>
+                  <div style={{ ...inputStyle, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                    onFocusCapture={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.42)' }}
+                    onBlurCapture={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }}>
+                    <span aria-hidden="true">{form.date ? form.date.split('-').reverse().join('.') : 'DD.MM.ÅÅÅÅ'}</span>
+                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>
+                    <input id="live-date" type="date" lang="nb-NO" value={form.date}
+                      onChange={(e) => handleField('date', e.target.value)}
+                      onClick={(e) => { try { e.currentTarget.showPicker() } catch { /* Native input remains available when showPicker is unsupported. */ } }}
+                      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer', colorScheme: 'dark' }} />
+                  </div>
                 </div>
                 <div>
-                  <label style={labelStyle}>Klokkeslett</label>
-                  <input type="time" value={form.time} onChange={(e) => handleField('time', e.target.value)}
-                    style={{ ...inputStyle, colorScheme: 'dark' }}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.42)' }}
-                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }} />
+                  <label htmlFor="live-hour" style={labelStyle}>Klokkeslett</label>
+                  <div role="group" aria-label="Klokkeslett i 24-timersformat"
+                    style={{ ...inputStyle, display: 'flex', alignItems: 'center', gap: 2 }}
+                    onFocusCapture={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.42)' }}
+                    onBlurCapture={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }}>
+                    <select id="live-hour" aria-label="Timer" value={form.time.split(':')[0] || '00'}
+                      onChange={(e) => handleField('time', `${e.target.value}:${form.time.split(':')[1] || '00'}`)}
+                      style={{ ...inputStyle, colorScheme: 'dark', width: '3ch', padding: 0, border: 'none', borderRadius: 0, background: 'transparent', appearance: 'none', cursor: 'pointer' }}>
+                      {Array.from({ length: 24 }, (_, hour) => String(hour).padStart(2, '0')).map(hour => <option key={hour} value={hour} style={{ background: '#0f1829', color: '#f8fafc' }}>{hour}</option>)}
+                    </select>
+                    <span aria-hidden="true" style={{ color: '#f8fafc' }}>:</span>
+                    <select aria-label="Minutter" value={form.time.split(':')[1] || '00'}
+                      onChange={(e) => handleField('time', `${form.time.split(':')[0] || '00'}:${e.target.value}`)}
+                      style={{ ...inputStyle, colorScheme: 'dark', width: '3ch', padding: 0, border: 'none', borderRadius: 0, background: 'transparent', appearance: 'none', cursor: 'pointer' }}>
+                      {Array.from({ length: 60 }, (_, minute) => String(minute).padStart(2, '0')).map(minute => <option key={minute} value={minute} style={{ background: '#0f1829', color: '#f8fafc' }}>{minute}</option>)}
+                    </select>
+                  </div>
                 </div>
               </div>
 
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 7 }}>
                   <label style={{ ...labelStyle, marginBottom: 0 }}>Møtelenke</label>
-                  <button type="button" onClick={generateDailyUrl} disabled={generatingUrl}
+                  <button type="button" onClick={() => generateDailyUrl()} disabled={generatingUrl}
                     style={{
                       fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem', letterSpacing: '0.12em',
                       textTransform: 'uppercase', color: '#f8fafc', background: 'rgba(255,255,255,0.06)',
