@@ -1,123 +1,34 @@
+import { adminSession, classSession, classAdmin, classFailure, jsonBody, ClassError } from '@/lib/class-server'
+import { activeLive, roomFromUrl, daily } from '@/lib/live-server'
 export const dynamic = 'force-dynamic'
-
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
-import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-
-// In-memory fallback — used when DB table doesn't exist yet
-let memState = {
-  isLive: false, title: '', teacher: '', subject: '', meetingUrl: '', startedAt: null as string | null, time: '',
+function state(row: Record<string, unknown> | null) {
+  return { isLive: row?.is_live ?? false, title: row?.title ?? '', teacher: row?.teacher ?? '', subject: row?.subject ?? '', meetingUrl: row?.meeting_url ?? '', startedAt: row?.started_at ?? null, time: row?.time ?? '' }
 }
-
-function makeSupabase(cookieStore: Awaited<ReturnType<typeof cookies>>) {
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return cookieStore.getAll() },
-        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
-          } catch { /* read-only in Route Handlers */ }
-        },
-      },
-    }
-  )
-}
-
 export async function GET() {
-  try {
-    const cookieStore = await cookies()
-    const supabase = makeSupabase(cookieStore)
-
-    const { data, error } = await supabase
-      .from('live_status')
-      .select('*')
-      .eq('id', 1)
-      .single()
-
-    if (error || !data) {
-      // Table not created yet — return in-memory state
-      return NextResponse.json(memState)
-    }
-
-    const dbState = {
-      isLive:     data.is_live,
-      title:      data.title,
-      teacher:    data.teacher,
-      subject:    data.subject,
-      meetingUrl: data.meeting_url,
-      startedAt:  data.started_at,
-      time:       memState.time,
-    }
-    // If in-memory says live but DB says not, the DB upsert likely failed (RLS/permissions).
-    // Trust memState — it was set by the admin's POST in this server process.
-    if (memState.isLive && !dbState.isLive) {
-      return NextResponse.json(memState)
-    }
-    return NextResponse.json(dbState)
-  } catch {
-    return NextResponse.json(memState)
-  }
+  try { await classSession(); return Response.json(state(await activeLive()), { headers: { 'Cache-Control': 'no-store' } }) }
+  catch (e) { return classFailure(e) }
 }
-
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const cookieStore = await cookies()
-    const supabase = makeSupabase(cookieStore)
-
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-
-    if (authError || !user) {
-      console.error('[live-status POST] auth error:', authError?.message ?? 'no user')
-      return NextResponse.json({ error: 'Not authenticated — are you logged in as admin?' }, { status: 401 })
+    await adminSession()
+    const body = await jsonBody(request) as Record<string, unknown> | null
+    if (!body || typeof body.isLive !== 'boolean' || ['title','teacher','subject','meetingUrl','time'].some(k => body[k] !== undefined && (typeof body[k] !== 'string' || (body[k] as string).length > 500))) throw new ClassError(400, 'Kontroller feltene for undervisningen.')
+    if (body.isLive) {
+      let url: URL
+      try { url = new URL(String(body.meetingUrl || '')) } catch { throw new ClassError(400, 'Skriv en gyldig møtelenke.') }
+      if (url.protocol !== 'https:' || url.username || url.password) throw new ClassError(400, 'Bruk en HTTPS-møtelenke.')
+      if (url.hostname.endsWith('.daily.co')) {
+        const name = roomFromUrl(url.href)
+        const room = await daily(`rooms/${encodeURIComponent(name)}`, { privacy: 'private' })
+        if (new URL(room.url).origin !== url.origin) throw new ClassError(400, 'Rommet tilhører ikke denne live-tjenesten.')
+      }
     }
-
-    const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? '')
-      .split(',').map(e => e.trim()).filter(Boolean)
-    if (adminEmails.length > 0 && !adminEmails.includes(user.email ?? '')) {
-      console.error('[live-status POST] unauthorized:', user.email)
-      return NextResponse.json({ error: `Unauthorized — ${user.email} is not an admin` }, { status: 401 })
-    }
-
-    const body = await request.json()
-    const nextState = {
-      isLive:     body.isLive     ?? false,
-      title:      body.title      ?? '',
-      teacher:    body.teacher    ?? '',
-      subject:    body.subject    ?? '',
-      meetingUrl: body.meetingUrl ?? '',
-      startedAt:  body.isLive ? new Date().toISOString() : null,
-      time:       body.time       ?? '',
-    }
-
-    // Try to persist to Supabase
-    const { error: dbError } = await supabase
-      .from('live_status')
-      .upsert({ id: 1,
-        is_live:     nextState.isLive,
-        title:       nextState.title,
-        teacher:     nextState.teacher,
-        subject:     nextState.subject,
-        meeting_url: nextState.meetingUrl,
-        started_at:  nextState.startedAt,
-      }, { onConflict: 'id' })
-
-    if (dbError) {
-      // Table not set up — fall back to in-memory so live still works
-      console.warn('[live-status POST] DB not available, using memory:', dbError.message)
-      memState = nextState
-    } else {
-      memState = nextState
-    }
-
-    return NextResponse.json({ success: true, ...nextState })
-  } catch (err) {
-    console.error('[live-status POST] unhandled error:', err)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-  }
+    const row = { id: 1, is_live: body.isLive, title: body.title ?? '', teacher: body.teacher ?? '', subject: body.subject ?? '', meeting_url: body.meetingUrl ?? '', time: body.time ?? '', started_at: body.isLive ? new Date().toISOString() : null }
+    const db = classAdmin()
+    const { error: grantError } = await db.from('live_speakers').delete().neq('room_name', '')
+    if (grantError) throw new ClassError(503, 'Taletilgang kunne ikke nullstilles.')
+    const { error } = await db.from('live_status').upsert(row, { onConflict: 'id' })
+    if (error) throw new ClassError(503, 'Live-status ble ikke lagret. Kontroller databaseoppdateringen.')
+    return Response.json({ success: true, ...state(row) }, { headers: { 'Cache-Control': 'no-store' } })
+  } catch (e) { return classFailure(e) }
 }

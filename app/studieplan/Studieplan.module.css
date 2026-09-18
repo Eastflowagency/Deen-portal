@@ -1,0 +1,331 @@
+.page {
+  --navy-950: #070d18;
+  --navy-900: #0b1424;
+  --navy-850: #0f1829;
+  --navy-800: #142036;
+  --white: #f8fafc;
+  --slate: #94a3b8;
+  min-height: 100vh;
+  position: relative;
+  isolation: isolate;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: rgba(5, 10, 18, 0.86);
+}
+
+.content {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: clamp(100px, 9vw, 132px) 0 clamp(64px, 8vw, 104px);
+}
+
+.header {
+  max-width: 720px;
+  margin-bottom: 40px;
+}
+
+.eyebrow,
+.sectionHeader p,
+.category,
+.summaryLabel {
+  font-family: var(--font-montserrat);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-size: 0.7rem;
+}
+
+.header h1 {
+  margin: 0;
+  color: var(--white);
+  font-family: var(--font-montserrat);
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  font-weight: 750;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+}
+
+.intro {
+  max-width: 580px;
+  margin: 20px 0 0;
+  color: #aeb9c9;
+  font-family: var(--font-inter);
+  font-size: clamp(0.92rem, 1.6vw, 1.05rem);
+  line-height: 1.7;
+}
+
+.levelPicker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  padding: 6px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background: rgba(11, 20, 36, 0.94);
+}
+
+.levelButton {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 9px;
+  min-height: 52px;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--slate);
+  cursor: pointer;
+  font-family: var(--font-montserrat);
+  transition: color 180ms ease, background-color 180ms ease, transform 150ms ease;
+}
+
+.levelButton span {
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.levelButton small {
+  font-size: 0.72rem;
+  color: inherit;
+}
+
+.levelButtonActive {
+  color: var(--navy-950);
+  background: var(--white);
+}
+
+.levelButton:focus-visible,
+.courseLink:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.levelButton:active {
+  transform: scale(0.97);
+}
+
+.levelSummary {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 20px 24px;
+  margin-bottom: clamp(50px, 7vw, 76px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background: rgba(15, 24, 41, 0.9);
+}
+
+.levelSummary > div:not(.summaryDivider) {
+  display: grid;
+  gap: 6px;
+}
+
+.summaryLabel {
+  color: #718096;
+  font-size: 0.6rem;
+}
+
+.levelSummary strong {
+  color: var(--white);
+  font-family: var(--font-montserrat);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.summaryDivider {
+  align-self: stretch;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.program + .program {
+  margin-top: clamp(56px, 8vw, 88px);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sectionHeader > span {
+  padding-top: 2px;
+  color: #6f7e93;
+  font-family: var(--font-montserrat);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.sectionHeader p {
+  margin: 0 0 5px;
+  color: var(--slate);
+  font-size: 0.58rem;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  color: var(--white);
+  font-family: var(--font-montserrat);
+  font-size: clamp(1.25rem, 2.6vw, 1.65rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.courseGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.arabicGrid {
+  grid-template-columns: 1fr;
+}
+
+.courseLink {
+  display: block;
+  height: 100%;
+  border-radius: 16px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.courseCard {
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  height: 100%;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background: rgba(15, 24, 41, 0.92);
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.arabicCard {
+  min-height: 190px;
+}
+
+.category {
+  margin: 0 0 16px;
+  color: var(--slate);
+  font-size: 0.6rem;
+}
+
+.courseCard h3 {
+  margin: 0 0 10px;
+  color: var(--white);
+  font-family: var(--font-montserrat);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.description {
+  flex: 1;
+  margin: 0 0 22px;
+  color: var(--slate);
+  font-family: var(--font-inter);
+  font-size: 0.84rem;
+  line-height: 1.65;
+}
+
+.cardAction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--white);
+  font-family: var(--font-montserrat);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.cardAction span {
+  font-size: 1rem;
+  transition: transform 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .levelButton:not(.levelButtonActive):hover {
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .courseLink:hover .courseCard {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.24);
+    background: var(--navy-800);
+  }
+
+  .courseLink:hover .cardAction span {
+    transform: translateX(3px);
+  }
+}
+
+@media (max-width: 860px) {
+  .courseGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .arabicGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .content {
+    width: min(100% - 28px, 1180px);
+    padding-top: 92px;
+  }
+
+  .header {
+    margin-bottom: 30px;
+  }
+
+  .levelPicker {
+    grid-template-columns: 1fr;
+  }
+
+  .levelButton {
+    justify-content: space-between;
+  }
+
+  .levelSummary {
+    gap: 16px;
+    padding: 18px;
+  }
+
+  .courseGrid,
+  .arabicGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .courseCard,
+  .arabicCard {
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .levelButton,
+  .courseCard,
+  .cardAction span {
+    transition: none;
+  }
+}

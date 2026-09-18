@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254" fill="none">
+  <defs>
+    <linearGradient id="gold" x1="300" y1="320" x2="960" y2="950" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe54d"/><stop offset=".45" stop-color="#f7c533"/><stop offset="1" stop-color="#c38f13"/>
+    </linearGradient>
+  </defs>
+  <path fill="#000" d="M0 0h1254v1254H0z"/>
+  <g stroke="url(#gold)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M505 454v-69q0-29 29-29h482q22 0 22 29v240q0 28-28 28H534q-29 0-29-29v-39"/>
+    <path d="M700 454h240M684 525h256M586 501l66-40"/>
+  </g>
+  <g fill="url(#gold)">
+    <circle cx="360" cy="388" r="68"/>
+    <path d="M305 469q-23 0-40 19l-69 79q-17 19-1 39l55 59q17 17 33 0l-22 230q-3 31 27 38 28 6 36-22l25-143 26 143q5 27 33 24 29-4 26-32l-11-360 107 14q34 5 42-26 7-28-23-36l-126-21zM294 548l-1 77-30-33z" fill-rule="evenodd"/>
+    <circle cx="560" cy="750" r="54"/><circle cx="758" cy="750" r="54"/><circle cx="958" cy="750" r="54"/>
+    <path d="M461 908q0-94 95-94t95 94q0 25-25 25H487q-26 0-26-25ZM661 908q0-94 95-94t95 94q0 25-25 25H687q-26 0-26-25ZM861 908q0-94 95-94t95 94q0 25-25 25H887q-26 0-26-25Z"/>
+  </g>
+</svg>

@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -9,11 +9,15 @@ import { createClient } from '@/lib/supabase'
 export default function AdminHubPage() {
   const router = useRouter()
   const [checking, setChecking] = useState(true)
+  const [role, setRole] = useState('teacher')
 
   useEffect(() => {
     const supabase = createClient()
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) { router.replace('/portal/admin/login'); return }
+      const response = await fetch('/api/account', { cache: 'no-store' })
+      if (!response.ok) { router.replace('/login'); return }
+      setRole((await response.json()).role)
       setChecking(false)
     })
   }, [router])
@@ -21,9 +25,11 @@ export default function AdminHubPage() {
   if (checking) return null
 
   const cards = [
+    { href: '/portal/admin/accounts', src: '/Klasse symbol.svg', alt: 'Brukere', title: 'BRUKERE', action: 'Administrer brukere' },
     { href: '/portal/admin/live',          src: '/Live symbol.png',    alt: 'Live',    title: 'LIVE',    action: 'Start klasse →' },
+    { href: '/portal/admin/klasse',        src: '/Klasse symbol.svg',  alt: 'Klasse',  title: 'KLASSE',  action: 'Åpne klasse →' },
     { href: '/portal/admin/notifications', src: '/Varsler symbol.png', alt: 'Varsler', title: 'VARSLER', action: 'Send varsel →'  },
-  ]
+  ].filter(card => role === 'admin' || card.title === 'KLASSE')
 
   return (
     <>
@@ -66,13 +72,7 @@ export default function AdminHubPage() {
           Admin
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '24px',
-          width: '100%',
-          maxWidth: '640px',
-        }}>
+        <div className="admin-hub-cards">
           {cards.map(({ href, src, alt, title, action }) => (
             <Link key={href} href={href} style={{ textDecoration: 'none', display: 'block' }}>
               <div className="flip-wrap">
@@ -104,6 +104,18 @@ export default function AdminHubPage() {
       </div>
 
       <style>{`
+        .admin-hub-cards {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 24px;
+          width: 100%;
+          max-width: 980px;
+        }
+        .admin-hub-cards > a:focus-visible {
+          outline: 2px solid #fff;
+          outline-offset: 5px;
+          border-radius: 18px;
+        }
         .flip-wrap {
           perspective: 900px;
           height: 360px;
@@ -175,6 +187,7 @@ export default function AdminHubPage() {
           font-family: var(--font-montserrat);
         }
         @media (max-width: 540px) {
+          .admin-hub-cards { grid-template-columns: 1fr; max-width: 340px; padding-top: 48px; }
           .flip-wrap { height: 260px; }
           .flip-title { font-size: 1.15rem; }
         }

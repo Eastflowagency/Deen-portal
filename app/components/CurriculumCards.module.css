@@ -1,0 +1,26 @@
+.section { margin-bottom: 64px; }
+.heading { margin-bottom: 26px; }
+.eyebrow { margin: 0 0 12px; color: #94a3b8; font-size: .7rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.heading h2 { margin: 0; color: #f8fafc; font-size: clamp(1.8rem, 4vw, 2.4rem); }
+.semester { margin: 10px 0 0; color: #aeb9c9; font-size: .9rem; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.card { min-width: 0; display: block; overflow: hidden; border-radius: 14px; border: 1px solid #ffffff14; background: #080d18; color: #f8fafc; text-decoration: none; }
+.card:focus-visible { outline: 3px solid #e2e8f0; outline-offset: 5px; }
+.art { height: 220px; position: relative; overflow: hidden; display: grid; place-items: center; background: linear-gradient(0deg, #04060c 0%, transparent 80%), repeating-linear-gradient(60deg, transparent 0 43px, #ffffff04 43px 44px), repeating-linear-gradient(120deg, transparent 0 43px, #ffffff04 43px 44px), linear-gradient(145deg, #080a15, var(--art-background)); }
+.symbol { position: absolute; right: -12px; bottom: -58px; color: rgba(var(--accent), .09); font-family: serif; font-size: 210px; line-height: 1.3; }
+.roman { color: rgba(var(--accent), .17); font-size: 88px; font-weight: 800; line-height: 1; }
+.level, .coming { position: absolute; top: 16px; padding: 10px 14px; border: 1px solid #ffffff24; background: #080b18e6; border-radius: 9px; font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.level { right: 16px; }
+.coming { left: 16px; display: flex; align-items: center; gap: 8px; }
+.coming svg { width: 13px; height: 13px; }
+.body { padding: 20px; }
+.meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: #94a3b8; font-size: .65rem; font-weight: 800; letter-spacing: .06em; }
+.badge { padding: 8px 11px; background: #ffffff08; border: 1px solid #ffffff24; border-radius: 6px; color: #cbd5e1; text-transform: uppercase; }
+.body h3 { margin: 16px 0 4px; font-size: 1.25rem; line-height: 1.3; }
+.body p { margin: 0; color: #a5b0c1; font-size: .85rem; line-height: 1.5; }
+.action { display: block; margin-top: 28px; color: rgb(var(--accent)); font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.upcoming .roman, .upcoming .symbol { opacity: .45; }
+.upcoming .body h3, .upcoming .action { color: #94a3b8; }
+@media (hover: hover) { a.card:hover { border-color: rgba(var(--accent), .6); } }
+@media (max-width: 1050px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .grid { grid-template-columns: minmax(0, 1fr); gap: 20px; } .section { margin-bottom: 44px; } .art { height: 210px; } }

@@ -139,9 +139,9 @@ export default function LiveChat({
     <div className={styles.chat} style={{
       display: 'flex', flexDirection: 'column',
       height: '100%',
-      background: '#1d414e',
+      background: '#0F1829',
       backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-      border: '1px solid rgba(201,168,76,0.14)',
+      border: '1px solid rgba(255,255,255,0.1)',
       borderRadius: '20px', overflow: 'hidden',
     }}>
 
@@ -161,7 +161,7 @@ export default function LiveChat({
                 borderBottom: activeTab === tab ? '2px solid #ffffff' : '2px solid transparent',
                 fontFamily: 'var(--font-inter)', fontSize: '0.85rem', fontWeight: 600,
                 letterSpacing: 'normal',
-                color: activeTab === tab ? '#ffffff' : '#a8c0ca',
+                color: activeTab === tab ? '#ffffff' : '#94a3b8',
                 cursor: 'pointer', transition: 'color 0.2s', marginBottom: '-1px',
                 whiteSpace: 'nowrap',
               }}
@@ -176,11 +176,11 @@ export default function LiveChat({
       <div ref={listRef} onScroll={e => { const el = e.currentTarget; followLatest.current = el.scrollHeight - el.scrollTop - el.clientHeight < 64 }} style={{
         minHeight: 0, overflowWrap: 'anywhere', flex: 1, overflowY: 'auto', padding: '16px',
         display: 'flex', flexDirection: 'column', gap: '14px',
-        scrollbarWidth: 'thin', scrollbarColor: 'rgba(201,168,76,0.12) transparent',
+        scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.14) transparent',
       }}>
         {activeTab === 'chat' ? (
           messages.length === 0 ? (
-            <p style={{ fontFamily: 'var(--font-inter)', fontSize: '0.72rem', color: '#9fbac6', textAlign: 'center', margin: 'auto 0' }}>
+            <p style={{ fontFamily: 'var(--font-inter)', fontSize: '0.72rem', color: '#64748b', textAlign: 'center', margin: 'auto 0' }}>
               Ingen meldinger ennå
             </p>
           ) : (
@@ -188,19 +188,19 @@ export default function LiveChat({
               <div key={msg.id} className={styles.chatMessage}>
                 <span className={styles.chatAvatar} aria-hidden="true">{msg.user.charAt(0).toUpperCase()}</span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 7, flexWrap: 'wrap' }}>
-                  <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.82rem', fontWeight: 700, color: msg.isTeacher ? '#C9A84C' : '#e2e8f0' }}>
+                  <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.82rem', fontWeight: 700, color: '#f8fafc' }}>
                     {msg.user}
                   </span>
                   {msg.isTeacher && (
-                    <span style={{ fontSize: '0.52rem', letterSpacing: '0.12em', background: 'rgba(201,168,76,0.12)', color: '#C9A84C', padding: '1px 6px', borderRadius: 3, fontFamily: 'var(--font-inter)', fontWeight: 700 }}>
+                    <span style={{ fontSize: '0.52rem', letterSpacing: '0.12em', background: 'rgba(255,255,255,0.08)', color: '#e2e8f0', padding: '1px 6px', borderRadius: 3, fontFamily: 'var(--font-inter)', fontWeight: 700 }}>
                       LÆRER
                     </span>
                   )}
-                  <span style={{ fontSize: '0.7rem', color: '#9fbac6', fontFamily: 'var(--font-inter)', marginLeft: 'auto' }}>
+                  <span style={{ fontSize: '0.7rem', color: '#64748b', fontFamily: 'var(--font-inter)', marginLeft: 'auto' }}>
                     {msg.time}
                   </span>
                 </div>
-                <p style={{ fontFamily: 'var(--font-inter)', fontSize: '0.9rem', color: msg.isTeacher ? '#e2e8f0' : '#d3e2e8', lineHeight: 1.55, margin: 0, fontWeight: 400 }}>
+                <p style={{ fontFamily: 'var(--font-inter)', fontSize: '0.9rem', color: msg.isTeacher ? '#e2e8f0' : '#cbd5e1', lineHeight: 1.55, margin: 0, fontWeight: 400 }}>
                   {msg.message}
                 </p>
               </div>
@@ -208,7 +208,7 @@ export default function LiveChat({
           )
         ) : (
           qna.length === 0 ? (
-            <p style={{ fontFamily: 'var(--font-inter)', fontSize: '0.72rem', color: '#9fbac6', textAlign: 'center', margin: 'auto 0' }}>
+            <p style={{ fontFamily: 'var(--font-inter)', fontSize: '0.72rem', color: '#64748b', textAlign: 'center', margin: 'auto 0' }}>
               Ingen spørsmål ennå
             </p>
           ) : (
@@ -220,14 +220,14 @@ export default function LiveChat({
               }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
                   <div style={{ flex: 1 }}>
-                    <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.58rem', letterSpacing: '0.1em', color: '#9fbac6' }}>
+                    <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.58rem', letterSpacing: '0.1em', color: '#64748b' }}>
                       {item.user}
                     </span>
                     <p style={{ fontFamily: 'var(--font-inter)', fontSize: '0.9rem', color: '#94a3b8', margin: '5px 0 0', lineHeight: 1.5, fontWeight: 400 }}>
                       {item.question}
                     </p>
                   </div>
-                  <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.82rem', color: 'rgba(201,168,76,0.7)', fontWeight: 700, flexShrink: 0 }}>
+                  <span style={{ fontFamily: 'var(--font-inter)', fontSize: '0.82rem', color: '#cbd5e1', fontWeight: 700, flexShrink: 0 }}>
                     ↑{item.votes}
                   </span>
                 </div>
@@ -259,15 +259,15 @@ export default function LiveChat({
             style={{
               minWidth: 0, flex: 1,
               background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(201,168,76,0.12)',
+              border: '1px solid rgba(255,255,255,0.14)',
               borderRadius: 12, padding: '14px 13px',
               color: '#f1f5f9', fontFamily: 'var(--font-inter)',
               fontSize: '0.9rem', outline: 'none', fontWeight: 400,
               transition: 'border-color 0.2s',
               opacity: connected ? 1 : 0.5,
             }}
-            onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.35)' }}
-            onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.12)' }}
+            onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.42)' }}
+            onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)' }}
           />
           <button
             onClick={() => { followLatest.current = true; void send() }}
@@ -276,9 +276,9 @@ export default function LiveChat({
             className="btn-press"
             style={{
               padding: '10px 16px',
-              background: connected && input.trim() ? '#C9A84C' : 'rgba(201,168,76,0.2)',
+              background: connected && input.trim() ? '#f8fafc' : 'rgba(255,255,255,0.06)',
               border: 'none', borderRadius: 7,
-              color: connected && input.trim() ? '#0F1829' : '#a8c0ca',
+              color: connected && input.trim() ? '#0F1829' : '#64748b',
               fontFamily: 'var(--font-inter)', fontSize: '0.6rem',
               letterSpacing: '0.14em', fontWeight: 700,
               cursor: connected && input.trim() ? 'pointer' : 'not-allowed',

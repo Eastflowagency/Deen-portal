@@ -1,56 +1,24 @@
-import { NextRequest, NextResponse } from 'next/server'
 import twilio from 'twilio'
-
-const ADMIN_EMAILS = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? '').split(',').map(e => e.trim())
-
-export async function POST(req: NextRequest) {
-  // Verify admin via Supabase session header
-  const authHeader = req.headers.get('x-admin-email') ?? ''
-  if (!ADMIN_EMAILS.includes(authHeader)) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
-  const { to, message } = await req.json()
-
-  if (!to || !message) {
-    return NextResponse.json({ error: 'Missing to or message' }, { status: 400 })
-  }
-
-  const sid = process.env.TWILIO_ACCOUNT_SID
-  const token = process.env.TWILIO_AUTH_TOKEN
-  // Use alphanumeric sender ID if set, otherwise fall back to the phone number
-  const from = process.env.TWILIO_SENDER_ID || process.env.TWILIO_FROM_NUMBER
-
-  if (!sid || !token || !from) {
-    return NextResponse.json({ error: 'Twilio not configured' }, { status: 500 })
-  }
-
-  const client = twilio(sid, token)
-
-  // to can be a single number string or array of numbers
-  const rawRecipients: string[] = Array.isArray(to) ? to : [to]
-
-  // Normalize Norwegian numbers: 47XXXXXXXX → +47XXXXXXXX, 0047... → +47...
-  function normalizeNumber(n: string): string {
-    const digits = n.replace(/[\s\-().]/g, '')
-    if (digits.startsWith('+')) return digits
-    if (digits.startsWith('0047')) return '+47' + digits.slice(4)
-    if (digits.startsWith('47') && digits.length === 10) return '+' + digits
-    return digits
-  }
-
-  const recipients = rawRecipients.map(normalizeNumber)
-
-  const results = await Promise.allSettled(
-    recipients.map(number =>
-      client.messages.create({ body: message, from, to: number })
-    )
-  )
-
-  const sent = results.filter(r => r.status === 'fulfilled').length
-  const errors = results
-    .filter((r): r is PromiseRejectedResult => r.status === 'rejected')
-    .map(r => (r.reason as { message?: string })?.message ?? String(r.reason))
-
-  return NextResponse.json({ sent, failed: errors.length, errors })
+import { adminSession, classFailure, jsonBody, ClassError } from '@/lib/class-server'
+export async function POST(request: Request) {
+  try {
+    await adminSession()
+    const body = await jsonBody(request) as { to?: unknown; message?: unknown } | null
+    const raw: unknown[] = Array.isArray(body?.to) ? body.to : [body?.to]
+    if (!raw.length || raw.length > 100 || raw.some(n => typeof n !== 'string') || typeof body?.message !== 'string' || !body.message.trim() || body.message.length > 1600) throw new ClassError(400, 'Skriv melding og 1-100 gyldige telefonnumre.')
+    const recipients = [...new Set((raw as string[]).map(n => {
+      const value = n.replace(/[\s\-().]/g, '')
+      if (value.startsWith('00')) return '+' + value.slice(2)
+      if (/^47\d{8}$/.test(value)) return '+' + value
+      return value
+    }))]
+    if (recipients.some(n => !/^\+[1-9]\d{7,14}$/.test(n))) throw new ClassError(400, 'Bruk telefonnummer med landskode, for eksempel +47.')
+    const sid = process.env.TWILIO_ACCOUNT_SID, token = process.env.TWILIO_AUTH_TOKEN
+    const from = process.env.TWILIO_SENDER_ID || process.env.TWILIO_FROM_NUMBER
+    if (!sid || !token || !from) throw new ClassError(503, 'SMS er ikke konfigurert.')
+    const client = twilio(sid, token)
+    const results = await Promise.allSettled(recipients.map(to => client.messages.create({ body: body.message as string, from, to })))
+    const sent = results.filter(r => r.status === 'fulfilled').length
+    return Response.json({ sent, failed: results.length - sent, errors: results.filter(r => r.status === 'rejected').map(() => 'SMS kunne ikke leveres. Kontroller nummeret og Twilio-status.') }, { headers: { 'Cache-Control': 'no-store' } })
+  } catch (e) { return classFailure(e) }
 }

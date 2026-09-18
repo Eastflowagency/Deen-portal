@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
@@ -22,23 +22,25 @@ export default function AdminLoginPage() {
     e.preventDefault()
     setError(null)
     setLoading(true)
-
-    const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? '')
-      .split(',').map(e => e.trim().toLowerCase()).filter(Boolean)
-    if (!adminEmails.includes(email.toLowerCase())) {
-      setError('Denne kontoen har ikke admin-tilgang.')
-      setLoading(false)
-      return
-    }
-
+    try {
     const supabase = createClient()
     const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
     if (authError) {
       setError('Feil e-post eller passord.')
       setLoading(false)
     } else {
-      router.replace('/portal')
+      const response = await fetch('/api/account', { cache: 'no-store' })
+      const access = await response.json()
+      if (!response.ok || !['admin','teacher'].includes(access.role)) {
+        await supabase.auth.signOut()
+        setError(access.error || 'Denne kontoen har ikke administratortilgang.')
+        setLoading(false)
+        return
+      }
+      window.location.replace('/portal/admin')
     }
+    } catch { setError('Nettverksfeil. Prøv igjen.') }
+    finally { setLoading(false) }
   }
 
   return (

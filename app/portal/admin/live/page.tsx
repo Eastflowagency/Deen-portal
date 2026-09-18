@@ -23,6 +23,7 @@ interface SessionForm {
 interface RaisedHand {
   id: number
   student: string
+  userId: string
   raisedAt: string
 }
 
@@ -78,7 +79,7 @@ export default function AdminLivePage() {
       setHands(prev => {
         // Ignore if same student already has hand raised
         if (prev.some(h => h.student === payload.student)) return prev
-        return [...prev, { id: payload.id, student: payload.student, raisedAt: payload.raisedAt }]
+        return [...prev, { id: payload.id, student: payload.student, userId: payload.userId, raisedAt: payload.raisedAt }]
       })
     }).subscribe()
     channelRef.current = ch
@@ -170,11 +171,16 @@ export default function AdminLivePage() {
   }
 
   async function admitStudent(hand: RaisedHand) {
+    try {
+      const response = await fetch('/api/live-speakers', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: hand.userId }) })
+      if (!response.ok) { const data = await response.json(); alert(data.error || 'Kunne ikke gi taletilgang.'); return }
+    } catch { alert('Nettverksfeil. Prøv igjen.'); return }
+
     // Broadcast on the dedicated admit channel so the student's LiveVideo hears it
     const supabase = createClient()
     const admitCh = supabase.channel('live-class-admit', { config: { broadcast: { self: false } } })
     await admitCh.subscribe()
-    await admitCh.send({ type: 'broadcast', event: 'admit', payload: { student: hand.student } })
+    await admitCh.send({ type: 'broadcast', event: 'admit', payload: { userId: hand.userId } })
     // Give Supabase a moment to deliver before unsubscribing
     setTimeout(() => supabase.removeChannel(admitCh), 2000)
     dismissHand(hand.id)
@@ -184,7 +190,7 @@ export default function AdminLivePage() {
     width: '100%',
     boxSizing: 'border-box',
     background: 'rgba(6,11,20,0.7)',
-    border: '1px solid rgba(201,168,76,0.14)',
+    border: '1px solid rgba(255,255,255,0.12)',
     borderRadius: 8,
     padding: '11px 14px',
     color: '#f1f5f9',
@@ -200,7 +206,7 @@ export default function AdminLivePage() {
     fontSize: '0.58rem',
     letterSpacing: '0.18em',
     textTransform: 'uppercase',
-    color: '#334155',
+    color: '#94a3b8',
     display: 'block',
     marginBottom: 7,
   }
@@ -211,7 +217,7 @@ export default function AdminLivePage() {
     <div style={{
       background: 'rgba(10,16,32,0.75)',
       backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-      border: '1px solid rgba(201,168,76,0.12)',
+      border: '1px solid rgba(255,255,255,0.1)',
       borderRadius: 12,
       padding: compact ? '14px 16px' : '24px',
       display: 'flex', flexDirection: 'column', gap: compact ? '10px' : '16px',
@@ -219,13 +225,13 @@ export default function AdminLivePage() {
       overflow: 'hidden',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
-        <h2 style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', letterSpacing: '0.22em', color: 'rgba(201,168,76,0.7)', textTransform: 'uppercase', margin: 0 }}>
+        <h2 style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', letterSpacing: '0.22em', color: '#f8fafc', textTransform: 'uppercase', margin: 0 }}>
           Hevede hender
         </h2>
         <span style={{
           fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', fontWeight: 700,
           background: hands.length > 0 ? 'rgba(220,38,38,0.12)' : 'rgba(255,255,255,0.04)',
-          color: hands.length > 0 ? '#ef4444' : '#334155',
+          color: hands.length > 0 ? '#ef4444' : '#64748b',
           border: hands.length > 0 ? '1px solid rgba(220,38,38,0.3)' : '1px solid rgba(255,255,255,0.06)',
           borderRadius: 20, padding: '2px 9px',
         }}>
@@ -234,7 +240,7 @@ export default function AdminLivePage() {
       </div>
       <div style={{ overflowY: 'auto', flex: 1, minHeight: 0 }}>
         {hands.length === 0 ? (
-          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.78rem', color: '#1e2d42', textAlign: 'center', padding: compact ? '8px 0' : '20px 0', margin: 0 }}>
+          <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.78rem', color: '#64748b', textAlign: 'center', padding: compact ? '8px 0' : '20px 0', margin: 0 }}>
             Ingen hevede hender
           </p>
         ) : (
@@ -318,7 +324,7 @@ export default function AdminLivePage() {
         </Link>
 
         {/* Centre: Live label */}
-        <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-montserrat)', fontSize: '0.84rem', letterSpacing: '0.32em', color: 'rgba(201,168,76,0.5)', textTransform: 'uppercase' }}>
+        <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-montserrat)', fontSize: '0.84rem', letterSpacing: '0.32em', color: 'rgba(255,255,255,0.72)', textTransform: 'uppercase' }}>
           Live
         </span>
 
@@ -362,7 +368,7 @@ export default function AdminLivePage() {
             <div style={{
               flex: 1, position: 'relative', background: '#000611',
               borderRadius: '12px', overflow: 'hidden',
-              border: '1px solid rgba(201,168,76,0.18)',
+              border: '1px solid rgba(255,255,255,0.1)',
               boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
               minHeight: 0,
             }}>
@@ -380,11 +386,11 @@ export default function AdminLivePage() {
             <div style={{
               flexShrink: 0, padding: '10px 16px',
               background: 'rgba(10,16,32,0.8)', backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(201,168,76,0.1)', borderRadius: '8px',
+              border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px',
               display: 'flex', alignItems: 'center', gap: '16px',
             }}>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', letterSpacing: '0.14em', color: 'rgba(201,168,76,0.6)', textTransform: 'uppercase', marginBottom: 3 }}>
+                <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', letterSpacing: '0.14em', color: 'rgba(255,255,255,0.68)', textTransform: 'uppercase', marginBottom: 3 }}>
                   {form.subject} · {form.teacher}
                 </div>
                 <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.88rem', color: '#e2e8f0', fontWeight: 600, lineHeight: 1.3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -393,7 +399,7 @@ export default function AdminLivePage() {
               </div>
               <a href="/live" target="_blank" rel="noopener noreferrer"
                 style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', letterSpacing: '0.14em', color: '#334155', textTransform: 'uppercase', textDecoration: 'none', flexShrink: 0, transition: 'color 0.18s' }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#C9A84C' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#f8fafc' }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#334155' }}
               >
                 Forhåndsvis →
@@ -427,7 +433,7 @@ export default function AdminLivePage() {
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: 'clamp(24px, 4vw, 40px) clamp(16px, 3vw, 32px)' }}>
 
           <div style={{ marginBottom: '32px' }}>
-            <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', letterSpacing: '0.24em', color: 'rgba(201,168,76,0.6)', textTransform: 'uppercase', margin: '0 0 6px' }}>
+            <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', letterSpacing: '0.24em', color: 'rgba(255,255,255,0.68)', textTransform: 'uppercase', margin: '0 0 6px' }}>
               Administrasjon
             </p>
             <h1 style={{ fontFamily: 'var(--font-montserrat)', fontSize: 'clamp(1.2rem, 2.5vw, 1.7rem)', fontWeight: 700, color: '#fff', margin: 0, letterSpacing: '0.04em' }}>
@@ -441,34 +447,34 @@ export default function AdminLivePage() {
             {/* Col 1: Session form */}
             <div style={{
               background: 'rgba(10,16,32,0.75)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-              border: '1px solid rgba(201,168,76,0.12)', borderRadius: 12, padding: '28px',
+              border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: '28px',
               display: 'flex', flexDirection: 'column', gap: '20px',
             }}>
-              <h2 style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', letterSpacing: '0.22em', color: 'rgba(201,168,76,0.7)', textTransform: 'uppercase', margin: 0 }}>
+              <h2 style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', letterSpacing: '0.22em', color: '#f8fafc', textTransform: 'uppercase', margin: 0 }}>
                 Øktinnstillinger
               </h2>
 
               <div>
                 <label style={labelStyle}>Tittel</label>
                 <input value={form.title} onChange={(e) => handleField('title', e.target.value)} style={inputStyle}
-                  onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)' }}
-                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.14)' }} />
+                  onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.42)' }}
+                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }} />
               </div>
 
               <div>
                 <label style={labelStyle}>Beskrivelse</label>
                 <textarea value={form.description} onChange={(e) => handleField('description', e.target.value)} rows={3}
                   style={{ ...inputStyle, resize: 'vertical', lineHeight: 1.55 }}
-                  onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)' }}
-                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.14)' }} />
+                  onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.42)' }}
+                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }} />
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                 <div>
                   <label style={labelStyle}>Lærer</label>
                   <input value={form.teacher} onChange={(e) => handleField('teacher', e.target.value)} style={inputStyle}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)' }}
-                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.14)' }} />
+                    onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.42)' }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }} />
                 </div>
                 <div>
                   <label style={labelStyle}>Fag</label>
@@ -484,15 +490,15 @@ export default function AdminLivePage() {
                   <label style={labelStyle}>Dato</label>
                   <input type="date" value={form.date} onChange={(e) => handleField('date', e.target.value)}
                     style={{ ...inputStyle, colorScheme: 'dark' }}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)' }}
-                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.14)' }} />
+                    onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.42)' }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }} />
                 </div>
                 <div>
                   <label style={labelStyle}>Klokkeslett</label>
                   <input type="time" value={form.time} onChange={(e) => handleField('time', e.target.value)}
                     style={{ ...inputStyle, colorScheme: 'dark' }}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)' }}
-                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.14)' }} />
+                    onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.42)' }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }} />
                 </div>
               </div>
 
@@ -502,20 +508,20 @@ export default function AdminLivePage() {
                   <button type="button" onClick={generateDailyUrl} disabled={generatingUrl}
                     style={{
                       fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem', letterSpacing: '0.12em',
-                      textTransform: 'uppercase', color: '#C9A84C', background: 'rgba(201,168,76,0.08)',
-                      border: '1px solid rgba(201,168,76,0.2)', borderRadius: 5, padding: '4px 10px',
+                      textTransform: 'uppercase', color: '#f8fafc', background: 'rgba(255,255,255,0.06)',
+                      border: '1px solid rgba(255,255,255,0.12)', borderRadius: 5, padding: '4px 10px',
                       cursor: generatingUrl ? 'wait' : 'pointer', opacity: generatingUrl ? 0.6 : 1, transition: 'background 0.18s',
                     }}
-                    onMouseEnter={(e) => { if (!generatingUrl) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.16)' }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.08)' }}
+                    onMouseEnter={(e) => { if (!generatingUrl) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.1)' }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.06)' }}
                   >
                     {generatingUrl ? 'Oppretter…' : '+ Generer ny lenke'}
                   </button>
                 </div>
                 <input value={form.meetingUrl} onChange={(e) => handleField('meetingUrl', e.target.value)}
                   placeholder="https://alrawdah.daily.co/AlRawdah-Aqidah-20-06-2026" style={inputStyle}
-                  onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.4)' }}
-                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.14)' }} />
+                  onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.42)' }}
+                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)' }} />
                 <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.62rem', color: '#334155', margin: '6px 0 0', lineHeight: 1.5 }}>
                   Klikk «Generer ny lenke» for å opprette et Daily.co-rom — nytt rom per fag og dato.
                 </p>
@@ -547,7 +553,7 @@ export default function AdminLivePage() {
           <div style={{ marginTop: 24, textAlign: 'center' }}>
             <Link href="/live" style={{ textDecoration: 'none' }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', letterSpacing: '0.18em', color: '#334155', textTransform: 'uppercase', transition: 'color 0.18s' }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#C9A84C' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = '#f8fafc' }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = '#334155' }}
               >
                 Forhåndsvis studentvisning →

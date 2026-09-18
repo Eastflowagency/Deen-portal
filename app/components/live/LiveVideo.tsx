@@ -7,7 +7,7 @@ import DailyVideoCall from './DailyVideoCall'
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function isDailyUrl(url: string): boolean {
-  try { return new URL(url).hostname.includes('daily.co') } catch { return false }
+  try { return new URL(url).hostname.endsWith('.daily.co') } catch { return false }
 }
 
 function isJoinOnlyUrl(url: string): boolean {
@@ -61,12 +61,16 @@ export default function LiveVideo({
 
   // Fetch viewer token when live Daily.co meeting is available
   useEffect(() => {
-    if (!isDaily || !meetingUrl || role === 'teacher') return
-    const room = roomNameFrom(meetingUrl)
+    setDailyToken('')
+    setAdmitted(false)
     setDailyRole('viewer')
+    if (!isDaily || !meetingUrl || role === 'teacher') return
+    let cancelled = false
+    const room = roomNameFrom(meetingUrl)
     fetchDailyToken(room, 'student', displayName).then(token => {
-      if (token) setDailyToken(token)
+      if (token && !cancelled) setDailyToken(token)
     })
+    return () => { cancelled = true }
   }, [meetingUrl, role, isDaily, displayName])
 
   // Listen for admit events — upgrade viewer → speaker token
@@ -79,7 +83,8 @@ export default function LiveVideo({
     })
 
     ch.on('broadcast', { event: 'admit' }, async ({ payload }) => {
-      if (payload.student !== displayName) return
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user || payload.userId !== user.id) return
       const room = roomNameFrom(meetingUrl)
       const token = await fetchDailyToken(room, 'speaker', displayName)
       if (token) {

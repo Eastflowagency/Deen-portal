@@ -1,3 +1,4 @@
+import { readAccess } from '@/lib/access'
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
@@ -40,20 +41,19 @@ export async function middleware(request: NextRequest) {
     // Network error or Supabase unavailable — fail safe to login redirect
   }
 
-  if (request.nextUrl.pathname.startsWith('/portal') &&
-      !request.nextUrl.pathname.startsWith('/portal/admin')) {
-    if (!user) {
-      return NextResponse.redirect(new URL('/login', request.url))
+  const path = request.nextUrl.pathname
+  if (path.startsWith('/portal') && path !== '/portal/admin/login') {
+    if (!user) return NextResponse.redirect(new URL('/login', request.url))
+    let access
+    try { access = await readAccess(supabase, user.id) } catch {
+      return NextResponse.redirect(new URL('/login?access=unavailable', request.url))
     }
-  }
-
-  // Protect /portal/admin/* — redirect to /portal/admin/login if not admin
-  if (request.nextUrl.pathname.startsWith('/portal/admin') &&
-      !request.nextUrl.pathname.startsWith('/portal/admin/login')) {
-    const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? '')
-      .split(',').map(e => e.trim()).filter(Boolean)
-    if (!user || !adminEmails.includes(user.email ?? '')) {
-      return NextResponse.redirect(new URL('/portal/admin/login', request.url))
+    if (!access || access.status !== 'active') return NextResponse.redirect(new URL('/login?access=suspended', request.url))
+    if (path.startsWith('/portal/admin')) {
+      const teacherArea = path === '/portal/admin' || path === '/portal/admin/klasse' || path.startsWith('/portal/admin/klasse/')
+      if (access.role !== 'admin' && !(access.role === 'teacher' && teacherArea)) {
+        return NextResponse.redirect(new URL('/portal', request.url))
+      }
     }
   }
 

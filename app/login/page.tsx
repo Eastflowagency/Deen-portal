@@ -1,10 +1,11 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
+import { loginEmail } from '@/lib/student-login'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -19,28 +20,43 @@ export default function LoginPage() {
   useEffect(() => {
     const supabase = createClient()
     // getUser() validates against the server — more reliable than getSession()
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (user) {
-        window.location.replace('/portal')
+        const response = await fetch('/api/account', { cache: 'no-store' })
+        if (response.ok) { window.location.replace('/portal'); return }
+        const data = await response.json()
+        setError(data.error || 'Kontotilgang er ikke tilgjengelig.')
+        setMounted(true)
       } else {
         setTimeout(() => setMounted(true), 50)
       }
-    })
+    }).catch(() => { setError('Kunne ikke kontrollere innloggingen. Prøv igjen.'); setMounted(true) })
   }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
     setLoading(true)
+    try {
     const supabase = createClient()
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
+    const { error: authError } = await supabase.auth.signInWithPassword({ email: loginEmail(email), password })
     if (authError) {
-      setError('Feil e-postadresse eller passord. Prøv igjen.')
+      setError('Feil brukernavn, e-postadresse eller passord. Prøv igjen.')
       setLoading(false)
     } else {
       // Full page reload so middleware reads the fresh session cookie cleanly
+      const response = await fetch('/api/account', { cache: 'no-store' })
+      if (!response.ok) {
+        const data = await response.json()
+        await supabase.auth.signOut()
+        setError(data.error || 'Kontotilgang er ikke tilgjengelig.')
+        setLoading(false)
+        return
+      }
       window.location.replace('/portal')
     }
+    } catch { setError('Nettverksfeil. Prøv igjen.') }
+    finally { setLoading(false) }
   }
 
   return (
@@ -132,15 +148,18 @@ export default function LoginPage() {
                 transition: 'color 0.2s',
               }}
             >
-              E-postadresse
+              Brukernavn eller e-postadresse
             </label>
             <input
               id="email"
-              type="email"
+              type="text"
+              autoComplete="username"
+              autoCapitalize="none"
+              spellCheck={false}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder="student@eksempel.no"
+              placeholder="Brukernavn eller e-postadresse"
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
               style={{
@@ -302,4 +321,3 @@ export default function LoginPage() {
     </div>
   )
 }
-

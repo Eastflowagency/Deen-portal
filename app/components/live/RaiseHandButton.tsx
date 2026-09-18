@@ -53,6 +53,8 @@ export default function RaiseHandButton({
   }, [channelName])
 
   async function toggle() {
+    const { data: { user } } = await createClient().auth.getUser()
+    if (!user) return
     const next = !raised
     setRaised(next)
     if (next && channelRef.current) {
@@ -61,6 +63,7 @@ export default function RaiseHandButton({
         event: 'raisehand',
         payload: {
           id: Date.now(),
+          userId: user.id,
           student: userName,
           raisedAt: new Date().toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' }),
         },

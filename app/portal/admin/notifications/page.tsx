@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useId } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
+import styles from './Notifications.module.css'
 
 interface Notification {
   id: string
@@ -54,7 +55,6 @@ function formatDate(iso: string) {
 export default function AdminNotificationsPage() {
   const router = useRouter()
   const [checking, setChecking] = useState(true)
-  const [adminEmail, setAdminEmail] = useState('')
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [activeTab, setActiveTab] = useState<'varsel' | 'sms'>('varsel')
 
@@ -76,49 +76,39 @@ export default function AdminNotificationsPage() {
     const supabase = createClient()
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) { router.replace('/portal/admin/login'); return }
-      setAdminEmail(session.user.email ?? '')
       await load()
       setChecking(false)
     })
   }, [router])
 
+  async function notificationRequest(body?: object) {
+    const response = await fetch('/api/admin/notifications', { method: body ? 'POST' : 'GET', cache: 'no-store', ...(body ? { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {}) })
+    const data = await response.json()
+    if (!response.ok) throw new Error(data.error || 'Kunne ikke fullføre.')
+    return data
+  }
   async function load() {
-    const supabase = createClient()
-    const { data } = await supabase
-      .from('notifications')
-      .select('id, title, message, created_at, is_active')
-      .order('created_at', { ascending: false })
-    if (data) setNotifications(data)
+    try { setNotifications((await notificationRequest()).notifications) }
+    catch (e) { setStatusMsg('error:' + (e instanceof Error ? e.message : 'Kunne ikke hente varsler.')) }
   }
-
   async function publish() {
-    if (!title.trim() || !message.trim()) return
+    if (saving || !title.trim() || !message.trim()) return
     setSaving(true); setStatusMsg('')
-    const supabase = createClient()
-    const { error } = await supabase.from('notifications').insert({ title: title.trim(), message: message.trim(), is_active: true })
-    setSaving(false)
-    if (!error) {
-      setTitle(''); setMessage('')
-      setStatusMsg('published')
-      await load()
-      setTimeout(() => setStatusMsg(''), 3000)
-    } else {
-      setStatusMsg('error:' + error.message)
-    }
+    try {
+      await notificationRequest({ action: 'publish', title: title.trim(), message: message.trim() })
+      setTitle(''); setMessage(''); setStatusMsg('published'); await load()
+    } catch (e) { setStatusMsg('error:' + (e instanceof Error ? e.message : 'Kunne ikke publisere.')) }
+    finally { setSaving(false) }
   }
-
   async function toggleActive(id: string, current: boolean) {
-    const supabase = createClient()
-    await supabase.from('notifications').update({ is_active: !current }).eq('id', id)
-    await load()
+    try { await notificationRequest({ action: 'toggle', id, active: !current }); await load() }
+    catch (e) { setStatusMsg('error:' + (e instanceof Error ? e.message : 'Kunne ikke lagre.')) }
   }
-
   async function remove(id: string) {
     setDeletingId(id)
-    const supabase = createClient()
-    await supabase.from('notifications').delete().eq('id', id)
-    await load()
-    setDeletingId(null)
+    try { await notificationRequest({ action: 'delete', id }); await load() }
+    catch (e) { setStatusMsg('error:' + (e instanceof Error ? e.message : 'Kunne ikke slette.')) }
+    finally { setDeletingId(null) }
   }
 
   async function sendSms() {
@@ -127,7 +117,7 @@ export default function AdminNotificationsPage() {
     const numbers = smsTo.split(',').map(n => n.trim()).filter(Boolean)
     const res = await fetch('/api/send-sms', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-admin-email': adminEmail },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ to: numbers, message: smsMsg.trim() }),
     })
     const data = await res.json()
@@ -163,7 +153,7 @@ export default function AdminNotificationsPage() {
   return (
     <>
       <div className="global-fixed-bg" />
-      <div style={{ minHeight: '100vh', position: 'relative', zIndex: 1, color: '#e2e8f0', fontFamily: 'var(--font-montserrat)' }}>
+      <div className={styles.page} style={{ minHeight: '100vh', position: 'relative', zIndex: 1, color: '#e2e8f0', fontFamily: 'var(--font-montserrat)' }}>
 
         {/* Header */}
         <header style={{
@@ -180,7 +170,7 @@ export default function AdminNotificationsPage() {
           >
             <BackIcon /> Admin
           </Link>
-          <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-montserrat)', fontSize: '0.84rem', letterSpacing: '0.32em', color: 'rgba(201,168,76,0.5)', textTransform: 'uppercase' }}>
+          <span style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-montserrat)', fontSize: '0.84rem', letterSpacing: '0.32em', color: 'rgba(255,255,255,0.72)', textTransform: 'uppercase' }}>
             Varsler
           </span>
         </header>
@@ -190,8 +180,8 @@ export default function AdminNotificationsPage() {
           {/* Tab switcher */}
           <div style={{
             display: 'flex',
-            background: 'rgba(10,16,32,0.6)',
-            border: '1px solid rgba(201,168,76,0.1)',
+            background: '#0f1829',
+            border: '1px solid #263246',
             borderRadius: '10px',
             padding: '4px',
             marginBottom: '20px',
@@ -204,12 +194,12 @@ export default function AdminNotificationsPage() {
                   onClick={() => setActiveTab(tab)}
                   style={{
                     flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '7px',
-                    padding: '9px 0', borderRadius: '7px', border: 'none', cursor: 'pointer',
-                    background: active ? 'rgba(201,168,76,0.12)' : 'transparent',
-                    color: active ? '#C9A84C' : 'rgba(255,255,255,0.28)',
+                    padding: '12px 0', minHeight: '44px', borderRadius: '7px', border: 'none', cursor: 'pointer',
+                    background: active ? '#243248' : 'transparent',
+                    color: active ? '#f8fafc' : '#aeb9c9',
                     fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem',
                     letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 600,
-                    transition: 'all 0.18s',
+                    transition: 'background-color 0.18s, color 0.18s',
                   }}
                 >
                   {tab === 'varsel' ? <BellIcon /> : <SmsIcon />}
@@ -222,8 +212,8 @@ export default function AdminNotificationsPage() {
           {/* Compose: Varsel */}
           {activeTab === 'varsel' && (
             <div style={{
-              background: 'rgba(10,16,32,0.55)',
-              border: '1px solid rgba(201,168,76,0.12)',
+              background: '#0f1829',
+              border: '1px solid #263246',
               borderRadius: '12px', padding: '22px',
             }}>
               <Field
@@ -231,7 +221,6 @@ export default function AdminNotificationsPage() {
                 value={title}
                 onChange={setTitle}
                 placeholder="Emne for varselet…"
-                accent="#C9A84C"
                 bold
               />
               <Field
@@ -239,13 +228,12 @@ export default function AdminNotificationsPage() {
                 value={message}
                 onChange={setMessage}
                 placeholder="Skriv meldingen som studentene skal se…"
-                accent="#C9A84C"
                 textarea
                 style={{ marginTop: '10px' }}
               />
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '14px' }}>
                 <StatusBadge msg={statusMsg} />
-                <GoldButton
+                <PrimaryButton
                   onClick={publish}
                   disabled={saving || !isVarselReady}
                   loading={saving}
@@ -259,8 +247,8 @@ export default function AdminNotificationsPage() {
           {/* Compose: SMS */}
           {activeTab === 'sms' && (
             <div style={{
-              background: 'rgba(10,16,32,0.55)',
-              border: '1px solid rgba(56,189,248,0.12)',
+              background: '#0f1829',
+              border: '1px solid #263246',
               borderRadius: '12px', padding: '22px',
             }}>
               <Field
@@ -268,21 +256,19 @@ export default function AdminNotificationsPage() {
                 value={smsTo}
                 onChange={setSmsTo}
                 placeholder="+47 xxx xx xxx  ·  kommaseparer for flere"
-                accent="rgb(56,189,248)"
               />
               <Field
                 label="Melding"
                 value={smsMsg}
                 onChange={setSmsMsg}
                 placeholder="Skriv SMS-melding…"
-                accent="rgb(56,189,248)"
                 textarea
                 maxLength={160}
                 style={{ marginTop: '10px' }}
               />
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '14px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <span style={{ fontSize: '0.58rem', color: smsMsg.length > 140 ? '#f59e0b' : 'rgba(255,255,255,0.2)', fontVariantNumeric: 'tabular-nums' }}>
+                  <span style={{ fontSize: '0.58rem', color: smsMsg.length > 140 ? '#f59e0b' : '#94a3b8', fontVariantNumeric: 'tabular-nums' }}>
                     {smsMsg.length}/160
                   </span>
                   {parsedSms && (
@@ -291,7 +277,7 @@ export default function AdminNotificationsPage() {
                     </span>
                   )}
                 </div>
-                <BlueButton
+                <PrimaryButton
                   onClick={sendSms}
                   disabled={smsSending || !isSmsReady}
                   loading={smsSending}
@@ -308,11 +294,11 @@ export default function AdminNotificationsPage() {
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               marginBottom: '12px',
             }}>
-              <span style={{ fontSize: '0.57rem', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: '0.57rem', letterSpacing: '0.2em', color: '#94a3b8', textTransform: 'uppercase' }}>
                 Publiserte varsler
               </span>
               {notifications.length > 0 && (
-                <span style={{ fontSize: '0.57rem', color: 'rgba(255,255,255,0.18)', letterSpacing: '0.06em' }}>
+                <span style={{ fontSize: '0.57rem', color: '#94a3b8', letterSpacing: '0.06em' }}>
                   {notifications.length}
                 </span>
               )}
@@ -321,7 +307,7 @@ export default function AdminNotificationsPage() {
             {notifications.length === 0 ? (
               <div style={{
                 textAlign: 'center', padding: '52px 0',
-                color: 'rgba(255,255,255,0.1)', fontSize: '0.78rem', letterSpacing: '0.04em',
+                color: '#94a3b8', fontSize: '0.78rem', letterSpacing: '0.04em',
               }}>
                 Ingen varsler ennå
               </div>
@@ -348,26 +334,26 @@ export default function AdminNotificationsPage() {
 /* ── Sub-components ─────────────────────────────────── */
 
 function Field({
-  label, value, onChange, placeholder, accent, bold, textarea, maxLength, style: extraStyle,
+  label, value, onChange, placeholder, bold, textarea, maxLength, style: extraStyle,
 }: {
   label: string
   value: string
   onChange: (v: string) => void
   placeholder?: string
-  accent: string
   bold?: boolean
   textarea?: boolean
   maxLength?: number
   style?: React.CSSProperties
 }) {
   const [focused, setFocused] = useState(false)
+  const id = useId()
   const base: React.CSSProperties = {
     width: '100%', boxSizing: 'border-box',
-    background: 'rgba(6,11,20,0.6)',
-    border: `1px solid ${focused ? accent + '55' : 'rgba(255,255,255,0.07)'}`,
+    background: '#0b1322',
+    border: `1px solid ${focused ? '#f8fafc' : '#46556c'}`,
     borderRadius: '8px', padding: textarea ? '11px 13px' : '10px 13px',
     color: '#e2e8f0', fontFamily: 'var(--font-montserrat)',
-    fontSize: '0.83rem', outline: 'none', lineHeight: 1.6,
+    fontSize: '1rem', outline: 'none', lineHeight: 1.6,
     fontWeight: bold ? 600 : 400,
     transition: 'border-color 0.15s',
     resize: textarea ? 'vertical' : undefined,
@@ -375,9 +361,9 @@ function Field({
 
   return (
     <div style={extraStyle}>
-      <label style={{
+      <label htmlFor={id} style={{
         display: 'block', fontSize: '0.55rem', letterSpacing: '0.18em',
-        color: focused ? accent : 'rgba(255,255,255,0.3)',
+        color: focused ? '#f8fafc' : '#cbd5e1',
         textTransform: 'uppercase', marginBottom: '6px',
         transition: 'color 0.15s',
       }}>
@@ -385,6 +371,7 @@ function Field({
       </label>
       {textarea ? (
         <textarea
+          id={id}
           value={value}
           onChange={e => onChange(e.target.value)}
           placeholder={placeholder}
@@ -396,6 +383,7 @@ function Field({
         />
       ) : (
         <input
+          id={id}
           type="text"
           value={value}
           onChange={e => onChange(e.target.value)}
@@ -418,49 +406,11 @@ function StatusBadge({ msg }: { msg: string }) {
   )
 }
 
-function GoldButton({ onClick, disabled, loading, label, loadingLabel }: {
+function PrimaryButton({ onClick, disabled, loading, label, loadingLabel }: {
   onClick: () => void; disabled: boolean; loading: boolean; label: string; loadingLabel: string
 }) {
   return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      style={{
-        padding: '9px 22px', borderRadius: '7px', border: 'none',
-        background: disabled ? 'rgba(201,168,76,0.15)' : '#C9A84C',
-        color: disabled ? 'rgba(255,255,255,0.2)' : '#0F1829',
-        fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem',
-        letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        transition: 'all 0.18s',
-      }}
-      onMouseEnter={e => { if (!disabled) (e.currentTarget as HTMLElement).style.background = '#d4b15a' }}
-      onMouseLeave={e => { if (!disabled) (e.currentTarget as HTMLElement).style.background = '#C9A84C' }}
-    >
-      {loading ? loadingLabel : label}
-    </button>
-  )
-}
-
-function BlueButton({ onClick, disabled, loading, label, loadingLabel }: {
-  onClick: () => void; disabled: boolean; loading: boolean; label: string; loadingLabel: string
-}) {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      style={{
-        padding: '9px 22px', borderRadius: '7px', border: 'none',
-        background: disabled ? 'rgba(56,189,248,0.08)' : 'rgb(56,189,248)',
-        color: disabled ? 'rgba(255,255,255,0.2)' : '#0a0e1a',
-        fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem',
-        letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        transition: 'all 0.18s',
-      }}
-      onMouseEnter={e => { if (!disabled) (e.currentTarget as HTMLElement).style.background = 'rgb(100,210,255)' }}
-      onMouseLeave={e => { if (!disabled) (e.currentTarget as HTMLElement).style.background = 'rgb(56,189,248)' }}
-    >
+    <button className={styles.primaryButton} onClick={onClick} disabled={disabled}>
       {loading ? loadingLabel : label}
     </button>
   )
@@ -472,40 +422,38 @@ function NotifRow({ n, deleting, onToggle, onDelete }: {
   const [hoverDel, setHoverDel] = useState(false)
   return (
     <div style={{
-      background: 'rgba(10,16,32,0.5)',
-      border: `1px solid ${n.is_active ? 'rgba(201,168,76,0.1)' : 'rgba(255,255,255,0.04)'}`,
+      background: '#0f1829',
+      border: `1px solid ${n.is_active ? '#334155' : '#263246'}`,
       borderRadius: '10px', padding: '13px 14px',
       display: 'flex', alignItems: 'flex-start', gap: '12px',
-      opacity: n.is_active ? 1 : 0.4,
-      transition: 'opacity 0.2s, border-color 0.2s',
+      transition: 'border-color 0.2s',
     }}>
       {/* Status dot */}
       <div style={{
         width: '7px', height: '7px', borderRadius: '50%', marginTop: '5px', flexShrink: 0,
-        background: n.is_active ? '#C9A84C' : 'rgba(255,255,255,0.15)',
-        boxShadow: n.is_active ? '0 0 6px rgba(201,168,76,0.5)' : 'none',
-        transition: 'all 0.2s',
+        background: n.is_active ? '#f8fafc' : '#64748b',
+        transition: 'background-color 0.2s',
       }} />
 
       {/* Content */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <p style={{
           margin: '0 0 3px', fontSize: '0.78rem', fontWeight: 700,
-          color: n.is_active ? '#e2e8f0' : '#475569', lineHeight: 1.4,
+          color: n.is_active ? '#e2e8f0' : '#aeb9c9', lineHeight: 1.4,
           whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
         }}>
           {n.title}
         </p>
         <p style={{
           margin: '0 0 7px', fontSize: '0.78rem',
-          color: n.is_active ? 'rgba(226,232,240,0.65)' : '#334155',
+          color: n.is_active ? '#cbd5e1' : '#94a3b8',
           lineHeight: 1.5,
           display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
           overflow: 'hidden',
         }}>
           {n.message}
         </p>
-        <span style={{ fontSize: '0.57rem', color: 'rgba(255,255,255,0.18)', letterSpacing: '0.04em' }}>
+        <span style={{ fontSize: '0.57rem', color: '#94a3b8', letterSpacing: '0.04em' }}>
           {formatDate(n.created_at)}
         </span>
       </div>
@@ -518,11 +466,11 @@ function NotifRow({ n, deleting, onToggle, onDelete }: {
           title={n.is_active ? 'Skjul for studenter' : 'Vis for studenter'}
           style={{
             padding: '5px 11px', borderRadius: '20px', border: 'none', cursor: 'pointer',
-            background: n.is_active ? 'rgba(74,197,120,0.12)' : 'rgba(255,255,255,0.05)',
-            color: n.is_active ? 'rgba(74,197,120,0.8)' : 'rgba(255,255,255,0.25)',
+            background: n.is_active ? '#243248' : 'rgba(255,255,255,0.05)',
+            color: n.is_active ? '#f8fafc' : '#aeb9c9',
             fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem',
             letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600,
-            transition: 'all 0.15s',
+            transition: 'background-color 0.15s, color 0.15s',
           }}
         >
           {n.is_active ? 'Aktiv' : 'Skjult'}
@@ -536,12 +484,12 @@ function NotifRow({ n, deleting, onToggle, onDelete }: {
           onMouseEnter={() => setHoverDel(true)}
           onMouseLeave={() => setHoverDel(false)}
           style={{
-            width: '28px', height: '28px', borderRadius: '7px', border: 'none',
+            width: '36px', height: '36px', borderRadius: '7px', border: 'none',
             background: hoverDel ? 'rgba(239,68,68,0.18)' : 'rgba(239,68,68,0.07)',
-            color: hoverDel ? '#ef4444' : 'rgba(239,68,68,0.45)',
+            color: hoverDel ? '#fecaca' : '#fca5a5',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: deleting ? 'not-allowed' : 'pointer',
-            transition: 'all 0.15s',
+            transition: 'background-color 0.15s, color 0.15s',
           }}
         >
           <TrashIcon />

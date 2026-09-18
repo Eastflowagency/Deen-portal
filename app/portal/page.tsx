@@ -1,355 +1,18 @@
-﻿'use client'
+'use client'
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase'
+import { studentUsername } from '@/lib/student-login'
+import CurriculumCards from '@/app/components/CurriculumCards'
 
 // â"€â"€ Subject data â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
-const SUBJECTS = [
-  {
-    id: 'aqidah',
-    name: 'Aqidah',
-    arabic: 'العقيدة',
-    desc: 'Islamsk tro og troslære',
-    gradient: 'linear-gradient(150deg, #130a24 0%, #221040 50%, #180c30 100%)',
-    accentRgb: '160,132,232',
-    symbol: 'ع',
-    slugPrefix: 'aqidah',
-  },
-  {
-    id: 'fiqh',
-    name: 'Fiqh',
-    arabic: 'الفقه',
-    desc: 'Islamsk rettsvitenskap',
-    gradient: 'linear-gradient(150deg, #071624 0%, #0f2a40 50%, #0a1e34 100%)',
-    accentRgb: '56,189,248',
-    symbol: 'ف',
-    slugPrefix: 'fiqh',
-  },
-  {
-    id: 'seerah',
-    name: 'Seerah',
-    arabic: 'السيرة',
-    desc: 'Profetens ﷺ biografi',
-    gradient: 'linear-gradient(150deg, #1e0e00 0%, #3a1e00 50%, #2a1400 100%)',
-    accentRgb: '251,191,36',
-    symbol: 'س',
-    slugPrefix: 'seerah',
-  },
-  {
-    id: 'koranvitenskaper',
-    name: 'Koranvitenskaper',
-    arabic: 'علوم القرآن',
-    desc: 'Tajweed, Tafseer og Koranvitenskapene',
-    gradient: 'linear-gradient(150deg, #071a0e 0%, #0e2d18 50%, #0a2010 100%)',
-    accentRgb: '74,197,120',
-    symbol: 'آ',
-    slugPrefix: 'koranvitenskaper',
-  },
-  {
-    id: 'hadith',
-    name: 'Hadith',
-    arabic: 'الحديث',
-    desc: 'Profetiske overleveringer',
-    gradient: 'linear-gradient(150deg, #180808 0%, #301414 50%, #200c0c 100%)',
-    accentRgb: '248,113,113',
-    symbol: 'ح',
-    slugPrefix: 'hadith',
-  },
-  {
-    id: 'adab-al-talib',
-    name: 'Adab al-Talib',
-    arabic: 'أدب الطالب',
-    desc: 'Kunnskapssøkerens etikk og egenskaper',
-    gradient: 'linear-gradient(150deg, #0a1320 0%, #152438 50%, #0d1a2c 100%)',
-    accentRgb: '201,168,76',
-    symbol: 'أ',
-    slugPrefix: 'adab-al-talib',
-  },
-]
-
-const LEVELS = [
-  { label: 'Grunnivå', num: 1, year: '2026✓2027', color: 'rgba(74,197,120,0.75)', bg: 'rgba(74,197,120,0.08)', locked: false, startsYear: null },
-  { label: 'Mellomnivå', num: 2, year: '2027✓2028', color: '#C9A84C', bg: 'rgba(201,168,76,0.08)', locked: true, startsYear: '2027' },
-  { label: 'Viderenivå', num: 3, year: '2028✓2029', color: 'rgba(167,139,250,0.85)', bg: 'rgba(167,139,250,0.08)', locked: true, startsYear: '2028' },
-]
-
-// â"€â"€ Components â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
-
-function IntroCard({ subject }: { subject: typeof SUBJECTS[0] }) {
-  const [hovered, setHovered] = useState(false)
-
-  return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        flexShrink: 0,
-        width: '210px',
-        borderRadius: '10px',
-        overflow: 'hidden',
-        border: hovered ? `1px solid rgba(${subject.accentRgb},0.45)` : '1px solid rgba(255,255,255,0.09)',
-        cursor: 'pointer',
-        transition: 'transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease',
-        transform: hovered ? 'translateY(-5px)' : 'none',
-        boxShadow: hovered ? `0 20px 48px rgba(0,0,0,0.65)` : '0 2px 14px rgba(0,0,0,0.4)',
-        background: subject.gradient,
-      }}
-    >
-      {/* Thumbnail */}
-      <div style={{ position: 'relative', height: '158px', overflow: 'hidden' }}>
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: 'repeating-linear-gradient(60deg, rgba(255,255,255,0.022) 0, rgba(255,255,255,0.022) 1px, transparent 1px, transparent 44px), repeating-linear-gradient(120deg, rgba(255,255,255,0.022) 0, rgba(255,255,255,0.022) 1px, transparent 1px, transparent 44px)',
-        }} />
-        {/* Decorative symbol ✓ background only, very subtle */}
-        <div style={{
-          position: 'absolute', right: '-10px', bottom: '-16px',
-          fontFamily: 'serif', fontSize: '8rem', lineHeight: 1,
-          color: `rgba(${subject.accentRgb},0.07)`, userSelect: 'none', pointerEvents: 'none',
-        }}>
-          {subject.symbol}
-        </div>
-        <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse 80% 80% at 15% 85%, rgba(${subject.accentRgb},0.14) 0%, transparent 70%)` }} />
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '70%', background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)' }} />
-        {/* Text */}
-        <div style={{ position: 'absolute', bottom: '13px', left: '14px', right: '14px' }}>
-          <div style={{
-            fontFamily: 'var(--font-montserrat)',
-            fontSize: '0.6rem',
-            letterSpacing: '0.24em',
-            color: 'rgba(255,255,255,0.42)',
-            textTransform: 'uppercase',
-            marginBottom: '5px',
-          }}>FAG</div>
-          <div style={{
-            fontFamily: 'var(--font-montserrat)',
-            fontSize: '1rem',
-            fontWeight: 700,
-            color: '#ffffff',
-            letterSpacing: '0.02em',
-            lineHeight: 1.2,
-            textShadow: '0 2px 10px rgba(0,0,0,0.6)',
-          }}>{subject.name}</div>
-        </div>
-      </div>
-      {/* Bottom panel */}
-      <div style={{ padding: '11px 14px 13px', background: 'rgba(0,0,0,0.38)', backdropFilter: 'blur(6px)' }}>
-        <div style={{
-          fontFamily: 'var(--font-montserrat)',
-          fontSize: '0.92rem',
-          color: 'rgba(255,255,255,0.6)',
-          lineHeight: 1.45,
-        }}>{subject.desc}</div>
-      </div>
-    </div>
-  )
-}
-
-function LevelCard({ subject, level }: { subject: typeof SUBJECTS[0]; level: typeof LEVELS[0] }) {
-  const [hovered, setHovered] = useState(false)
-  const slug = `${subject.slugPrefix}-${level.num}`
-  const isLocked = level.locked
-
-  const cardInner = (
-    <div style={{
-      borderRadius: '10px',
-      overflow: 'hidden',
-      border: isLocked
-        ? '1px solid rgba(255,255,255,0.06)'
-        : hovered ? `1px solid rgba(${subject.accentRgb},0.4)` : '1px solid rgba(255,255,255,0.09)',
-      cursor: isLocked ? 'default' : 'pointer',
-      transition: 'transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease',
-      transform: !isLocked && hovered ? 'translateY(-5px)' : 'none',
-      boxShadow: !isLocked && hovered ? `0 20px 52px rgba(0,0,0,0.65)` : '0 2px 14px rgba(0,0,0,0.4)',
-      background: 'rgba(8,14,26,0.75)',
-      backdropFilter: 'blur(12px)',
-    }}>
-
-      {/* â"€â"€ Thumbnail â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
-      <div style={{ position: 'relative', height: '190px', background: subject.gradient, overflow: 'hidden' }}>
-        {/* Grid texture */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: 'repeating-linear-gradient(60deg, rgba(255,255,255,0.025) 0, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 44px), repeating-linear-gradient(120deg, rgba(255,255,255,0.025) 0, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 44px)',
-        }} />
-        {/* Arabic watermark */}
-        <div style={{
-          position: 'absolute', right: '-18px', bottom: '-22px',
-          fontFamily: 'serif', fontSize: '12rem', lineHeight: 1,
-          color: `rgba(${subject.accentRgb},${isLocked ? '0.04' : '0.09'})`,
-          userSelect: 'none', pointerEvents: 'none',
-        }}>
-          {subject.symbol}
-        </div>
-        {/* Glow */}
-        <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse 70% 70% at 18% 82%, rgba(${subject.accentRgb},${isLocked ? '0.06' : '0.18'}) 0%, transparent 65%)` }} />
-        {/* Lock overlay */}
-        {isLocked && (
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(4,7,16,0.58)' }} />
-        )}
-        {/* Bottom fade */}
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '60%', background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, transparent 100%)' }} />
-
-        {/* â"€â"€ Lock badge top-left â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
-        {isLocked && (
-          <div style={{
-            position: 'absolute', top: '13px', left: '13px',
-            display: 'flex', alignItems: 'center', gap: '7px',
-            padding: '6px 13px',
-            background: 'rgba(6,10,22,0.85)',
-            backdropFilter: 'blur(10px)',
-            borderRadius: '7px',
-            border: '1px solid rgba(255,255,255,0.14)',
-          }}>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="#ffffff" opacity={0.8} aria-hidden="true">
-              <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
-            </svg>
-            <span style={{
-              fontFamily: 'var(--font-montserrat)',
-              fontSize: '0.62rem',
-              letterSpacing: '0.16em',
-              color: '#ffffff',
-              fontWeight: 600,
-              textTransform: 'uppercase',
-            }}>Kommende</span>
-          </div>
-        )}
-
-        {/* â"€â"€ Nivå badge top-right â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
-        <div style={{
-          position: 'absolute', top: '13px', right: '13px',
-          padding: '5px 13px',
-          background: 'rgba(6,10,22,0.82)',
-          backdropFilter: 'blur(8px)',
-          borderRadius: '7px',
-          fontFamily: 'var(--font-montserrat)',
-          fontSize: '0.62rem',
-          letterSpacing: '0.14em',
-          fontWeight: 700,
-          color: isLocked ? 'rgba(255,255,255,0.3)' : '#ffffff',
-          border: `1px solid ${isLocked ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.18)'}`,
-          textTransform: 'uppercase',
-        }}>
-          Nivå {level.num}
-        </div>
-
-        {/* Level number centered in thumbnail */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          pointerEvents: 'none',
-        }}>
-          <span style={{
-            fontFamily: 'var(--font-montserrat)',
-            fontSize: '5rem',
-            fontWeight: 800,
-            color: `rgba(${subject.accentRgb},${isLocked ? '0.06' : '0.12'})`,
-            letterSpacing: '-0.02em',
-            userSelect: 'none',
-          }}>
-            {level.num === 1 ? 'I' : level.num === 2 ? 'II' : 'III'}
-          </span>
-        </div>
-      </div>
-
-      {/* â"€â"€ Bottom info â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
-      <div style={{ padding: '14px 16px 17px', background: 'rgba(6,10,20,0.6)' }}>
-        {/* Level chip + year */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '9px' }}>
-          <span style={{
-            display: 'inline-flex', alignItems: 'center',
-            padding: '4px 11px',
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.14)',
-            borderRadius: '5px',
-            fontFamily: 'var(--font-montserrat)',
-            fontSize: '0.62rem',
-            letterSpacing: '0.14em',
-            fontWeight: 600,
-            color: isLocked ? 'rgba(255,255,255,0.28)' : 'rgba(255,255,255,0.75)',
-            textTransform: 'uppercase',
-          }}>
-            {level.label}
-          </span>
-          <span style={{
-            fontFamily: 'var(--font-montserrat)',
-            fontSize: '0.6rem',
-            letterSpacing: '0.1em',
-            color: isLocked ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.4)',
-          }}>
-            {level.year}
-          </span>
-        </div>
-
-        {/* Course name */}
-        <div style={{
-          fontFamily: 'var(--font-montserrat)',
-          fontSize: '1rem',
-          fontWeight: 800,
-          color: isLocked ? 'rgba(255,255,255,0.28)' : '#ffffff',
-          letterSpacing: '0.01em',
-          marginBottom: '10px',
-          lineHeight: 1.3,
-        }}>
-          {subject.name}
-          <span style={{ display: 'block', fontSize: '0.78rem', fontWeight: 800, color: isLocked ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.5)', marginTop: '2px' }}>
-            {level.label}
-          </span>
-        </div>
-
-        {/* CTA or start date */}
-        {isLocked ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round">
-              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-            </svg>
-            <span style={{
-              fontFamily: 'var(--font-montserrat)',
-              fontSize: '0.62rem',
-              letterSpacing: '0.15em',
-              color: 'rgba(255,255,255,0.35)',
-              textTransform: 'uppercase',
-            }}>Starter {level.startsYear}</span>
-          </div>
-        ) : (
-          <span style={{
-            display: 'inline-flex', alignItems: 'center', gap: '6px',
-            fontFamily: 'var(--font-montserrat)',
-            fontSize: '0.62rem',
-            letterSpacing: '0.16em',
-            color: `rgba(${subject.accentRgb},0.85)`,
-            textTransform: 'uppercase',
-            fontWeight: 600,
-          }}>
-            Åpne kurset
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </span>
-        )}
-      </div>
-    </div>
-  )
-
-  if (isLocked) return <div>{cardInner}</div>
-
-  return (
-    <Link
-      href={`/portal/nivå${level.num}/${subject.id}`}
-      style={{ textDecoration: 'none' }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {cardInner}
-    </Link>
-  )
-}
-
-// â"€â"€ Portal UI â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
-
 function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName: string; email: string; onSignOut: () => void; isLive: boolean; isAdmin: boolean }) {
+  const username = studentUsername(email)
+  const identityLabel = username ? `Brukernavn: ${username}` : email
   const [showMenu, setShowMenu] = useState(false)
   const [showDrawer, setShowDrawer] = useState(false)
   const [showAccount, setShowAccount] = useState(false)
@@ -546,25 +209,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
             Islamske Vitenskaper
           </div>
           {/* Inactive tabs - coming soon */}
-          {['Arabisk', 'Kalender', 'Timeplan'].map((tab) => (
-            <div
-              key={tab}
-              title="Kommer snart"
-              style={{
-                padding: '6px 16px',
-                borderRadius: '20px',
-                fontFamily: 'Inter, var(--font-montserrat), sans-serif',
-                fontSize: '0.72rem',
-                fontWeight: 400,
-                color: '#99A5B8',
-                cursor: 'not-allowed',
-                whiteSpace: 'nowrap',
-                userSelect: 'none',
-              }}
-            >
-              {tab}
-            </div>
-          ))}
+          <Link href="/portal/klasse" style={{ padding: '6px 16px', borderRadius: '20px', color: '#f8fafc', fontSize: '0.72rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>Min klasse</Link>
           {/* Live tab ✓ only shown when admin has an active session */}
           {isLive && (
             <Link href="/portal/live" style={{ textDecoration: 'none' }}>
@@ -745,7 +390,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
                           {displayName}
                         </div>
                         <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', color: '#334155', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                          {email}
+                          {identityLabel}
                         </div>
                       </div>
                     </div>
@@ -879,7 +524,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
                       <div className="konto-avatar" style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(201,168,76,0.12)', border: '1.5px solid rgba(201,168,76,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C9A84C', fontFamily: 'var(--font-montserrat)', fontSize: '1.1rem', fontWeight: 700, flexShrink: 0 }}>{initials}</div>
                       <div>
                         <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.9rem', fontWeight: 700, color: '#e2e8f0' }}>{displayName}</div>
-                        <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', color: '#334155', marginTop: '3px' }}>{email}</div>
+                        <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.65rem', color: '#94a3b8', marginTop: '3px', overflowWrap: 'anywhere' }}>{identityLabel}</div>
                       </div>
                     </div>
 
@@ -972,29 +617,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
         </div>
 
         {/* â"€â"€ Per-subject sections â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
-        {SUBJECTS.map((subject) => (
-          <section key={subject.id} style={{ marginBottom: '60px' }}>
-            {/* Section header */}
-            <div style={{ marginBottom: '6px' }}>
-              <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.62rem', letterSpacing: '0.28em', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase' }}>
-                FAG
-              </div>
-            </div>
-            <h2 style={{
-              fontFamily: 'var(--font-montserrat)',
-              fontSize: 'clamp(1.1rem, 2vw, 1.45rem)',
-              fontWeight: 700, color: '#fff', letterSpacing: '0.05em', marginBottom: '24px',
-            }}>
-              {subject.name}
-            </h2>
-            {/* 3-col grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
-              {LEVELS.map((level) => (
-                <LevelCard key={level.num} subject={subject} level={level} />
-              ))}
-            </div>
-          </section>
-        ))}
+        <CurriculumCards />
 
       </div>
       </div>
@@ -1032,7 +655,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
               </div>
               <div style={{ minWidth: 0 }}>
                 <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.85rem', fontWeight: 700, color: '#e2e8f0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayName}</div>
-                <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', color: '#334155', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{email}</div>
+                <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', color: '#94a3b8', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{identityLabel}</div>
               </div>
             </div>
 
@@ -1070,11 +693,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
 
             {/* â"€â"€ Timeplan â"€â"€ */}
             <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)', margin: '8px 0' }} />
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '13px 20px', opacity: 0.42, cursor: 'default' }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)' }}>Timeplan</span>
-              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.5rem', letterSpacing: '0.12em', color: '#334155', marginLeft: 'auto', textTransform: 'uppercase' }}>Snart</span>
-            </div>
+            <Link href="/portal/klasse" onClick={() => setShowDrawer(false)} style={{display:'flex',alignItems:'center',gap:14,padding:'13px 20px',color:'#f8fafc',textDecoration:'none'}}>Min klasse</Link>
 
             {/* â"€â"€ Konto + Få støtte â"€â"€ */}
             <div style={{ height: '1px', background: 'rgba(255,255,255,0.07)', margin: '8px 0' }} />
@@ -1115,10 +734,7 @@ function PortalUI({ firstName, email, onSignOut, isLive, isAdmin }: { firstName:
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
           <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.04em' }}>Hjem</span>
         </button>
-        <button title="Kommer snart" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', background: 'none', border: 'none', cursor: 'not-allowed', color: 'rgba(255,255,255,0.32)', padding: '6px 20px' }}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', letterSpacing: '0.04em' }}>Kalender</span>
-        </button>
+        <Link href="/portal/klasse" style={{display:'flex',flexDirection:'column',alignItems:'center',gap:3,color:'#cbd5e1',padding:'6px 20px',textDecoration:'none',fontSize:'.72rem'}}>Min klasse</Link>
       </div>
     </div>
   )
@@ -1136,7 +752,7 @@ export default function StudentPage() {
 
   useEffect(() => {
     const supabase = createClient()
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!session) {
         router.replace('/login')
       } else {
@@ -1149,9 +765,10 @@ export default function StudentPage() {
           const prefix = (email ?? '').split('@')[0] || 'Student'
           setFirstName(prefix.charAt(0).toUpperCase() + prefix.slice(1))
         }
-        const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? '')
-          .split(',').map(e => e.trim().toLowerCase()).filter(Boolean)
-        setIsAdmin(adminEmails.includes((email ?? '').toLowerCase()))
+        const accessResponse = await fetch('/api/account', { cache: 'no-store' })
+        if (!accessResponse.ok) { router.replace('/login'); return }
+        const access = await accessResponse.json()
+        setIsAdmin(access.role === 'admin' || access.role === 'teacher')
         setChecking(false)
       }
     })
@@ -1198,4 +815,3 @@ export default function StudentPage() {
 
   return <PortalUI firstName={firstName} email={userEmail} onSignOut={handleSignOut} isLive={isLive} isAdmin={isAdmin} />
 }
-
